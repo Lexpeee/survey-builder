@@ -5,8 +5,14 @@ import {
   Grid,
   List, 
   ListItem, 
-  ListItemButton
+  ListItemButton,
+  ListItemContent, 
+  ListItemDecorator
 } from '@mui/joy'
+import { 
+  List as ListIcon,
+  LogOut as LogOutIcon
+} from 'lucide-react'
 import React from 'react'
 import { styled } from '@/stitches.config'
 
@@ -20,11 +26,25 @@ const HomePage = () => {
             <SidebarContent>
               <div>
                 <h1>Vey</h1>
-                <span>Your forms</span>
+                <List>
+                  <ListItem>
+                    <ListItemButton>
+                      <ListItemDecorator>
+                        <ListIcon/>
+                      </ListItemDecorator>
+                      <ListItemContent>Your forms</ListItemContent>
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemButton>
+                      <ListItemDecorator>
+                        <LogOutIcon/>
+                      </ListItemDecorator>
+                      <ListItemContent>Logout</ListItemContent>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
                 {/* <span>asdlaksjdfklsadjf</span> */}
-              </div>
-              <div>
-                <a href='#'>Sign out</a>
               </div>
             </SidebarContent>
           </Sidebar>
