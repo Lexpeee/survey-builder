@@ -10,60 +10,23 @@ import {
   ListItemDecorator
 } from '@mui/joy'
 import { 
+  Home as HomeIcon, 
+  Settings as SettingsIcon, 
   List as ListIcon,
   LogOut as LogOutIcon
 } from 'lucide-react'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { styled } from '@/stitches.config'
 
 const HomePage = () => {
+  const router = useRouter()
+  
   return (
     <>
-    {/* CONVERT THIS TO A LAYOUT */}
-      <Grid container>
-        <Grid xs={12} sm={2}>
-          <Sidebar>
-            <SidebarContent>
-              <div>
-                <h1>Vey</h1>
-                <List>
-                  <ListItem>
-                    <ListItemButton>
-                      <ListItemDecorator>
-                        <ListIcon/>
-                      </ListItemDecorator>
-                      <ListItemContent>Your forms</ListItemContent>
-                    </ListItemButton>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemButton>
-                      <ListItemDecorator>
-                        <LogOutIcon/>
-                      </ListItemDecorator>
-                      <ListItemContent>Logout</ListItemContent>
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-                {/* <span>asdlaksjdfklsadjf</span> */}
-              </div>
-            </SidebarContent>
-          </Sidebar>
-        </Grid>
-        <Grid xs={12} sm={10}>asdf</Grid>
-      </Grid>
+      Home page
     </>
   )
 }
 
 export default HomePage
-
-const Sidebar = styled(Card, {
-  height: '100vh'
-})
-
-const SidebarContent = styled(CardContent, {
-  display: 'flex',
-  justifyContent: 'space-between',
-  overflow: 'hidden',
-  overflowWrap: 'break-word'
-})
