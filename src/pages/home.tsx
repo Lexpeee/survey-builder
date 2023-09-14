@@ -2,7 +2,10 @@ import {
   Card, 
   CardContent, 
   Container,
-  Grid
+  Grid,
+  List, 
+  ListItem, 
+  ListItemButton
 } from '@mui/joy'
 import React from 'react'
 import { styled } from '@/stitches.config'
@@ -10,16 +13,19 @@ import { styled } from '@/stitches.config'
 const HomePage = () => {
   return (
     <>
+    {/* CONVERT THIS TO A LAYOUT */}
       <Grid container>
         <Grid xs={12} sm={2}>
           <Sidebar>
             <SidebarContent>
               <div>
                 <h1>Vey</h1>
-                <span>asdlaksjdfklsadjf</span>
-                <span>asdlaksjdfklsadjf</span>
+                <span>Your forms</span>
+                {/* <span>asdlaksjdfklsadjf</span> */}
               </div>
-              <div>asdfasf</div>
+              <div>
+                <a href='#'>Sign out</a>
+              </div>
             </SidebarContent>
           </Sidebar>
         </Grid>
