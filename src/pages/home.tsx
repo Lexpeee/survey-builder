@@ -1,30 +1,54 @@
+import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
+import ContentHeader from '@/components/global/ContentHeader'
+import { styled } from '@/stitches.config'
+import { Content } from '@/styles'
 import {
-  Card, 
-  CardContent, 
+  Card,
+  CardContent,
   Container,
   Grid,
-  List, 
-  ListItem, 
-  ListItemButton,
-  ListItemContent, 
-  ListItemDecorator
+  Typography
 } from '@mui/joy'
-import { 
-  Home as HomeIcon, 
-  Settings as SettingsIcon, 
-  List as ListIcon,
-  LogOut as LogOutIcon
-} from 'lucide-react'
 import { useRouter } from 'next/router'
 import React from 'react'
-import { styled } from '@/stitches.config'
 
 const HomePage = () => {
   const router = useRouter()
   
   return (
     <>
-      Home page
+      <ContentHeader 
+        header="Home"
+        actionButtons={[
+          {
+            name: 'Create Survey',
+            color: 'success',
+            variant: 'solid',
+            onClick: () => console.log('creating survey')
+          }
+        ]}
+      />
+      <Content>
+        <Container>
+
+          <Typography
+            level='title-lg'
+          >
+            Recently viewed surveys
+          </Typography>
+
+          <Grid 
+            container 
+            spacing={2} 
+          >
+            <Grid xs={3}>
+              <SurveyCardDisplay/>
+            </Grid>
+          </Grid>
+          
+        </Container>
+
+      </Content>
     </>
   )
 }
