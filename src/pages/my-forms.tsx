@@ -1,15 +1,16 @@
 import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
+import CreateSurveyModal from '@/components/Modal/CreateSurvey'
 import ContentHeader from '@/components/global/ContentHeader'
 import { Content } from '@/styles'
 import {
-  Container, 
+  Container,
   Grid
 } from '@mui/joy'
+import { useState } from 'react'
 
 const MyFormsPage = () => {
+  const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(true)
 
-
-  
   return (
     <>
       <ContentHeader
@@ -19,7 +20,7 @@ const MyFormsPage = () => {
             name: 'Create Survey',
             color: 'success',
             variant: 'solid',
-            onClick: () => console.log('creating survey')
+            onClick: () => setIsCreateSurveyModalOpen(true)
           }
         ]}
       />
@@ -51,8 +52,13 @@ const MyFormsPage = () => {
 
           </Grid>
         </Container>
-        
       </Content>
+
+      <CreateSurveyModal
+        isOpen={isCreateSurveyModalOpen}
+        onClose={() => setIsCreateSurveyModalOpen(false)}
+      />
+
     </>
   )
 }
