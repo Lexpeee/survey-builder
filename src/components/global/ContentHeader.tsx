@@ -39,6 +39,7 @@ export default ContentHeader
 export const StyledContent = styled('div', {
   display: 'flex',
   flexDirection: 'row',
+  alignItems: 'center',
   justifyContent: 'space-between',
   padding: 10,
   borderBottom: '1px solid rgb(205, 215, 225)'
