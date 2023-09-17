@@ -67,59 +67,61 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     }
   }, [isOpen])
 
-  return (
-    <Modal
-      keepMounted
-      open={isOpen}
-      onClose={onClose}
-    >
-      <ModalDialog
-        size={'md'}
-        variant={'outlined'}
-        minWidth={'80vw'}
+  if (isOpen) {
+    return (
+      <Modal
+        keepMounted
+        open={isOpen}
+        onClose={onClose}
       >
-        <ModalClose/>
-        <Typography level="h1">asdfasd</Typography>
-        <Grid container spacing={2}>
-
-          <Grid xs={12}>
-            <FormControl error={false}>
-              <FormLabel>Survey Name</FormLabel>
-              <Input />
-              <FormHelperText>Error show here</FormHelperText>
-            </FormControl>
+        <ModalDialog
+          size={'md'}
+          variant={'outlined'}
+          minWidth={'80vw'}
+        >
+          <ModalClose/>
+          <Typography level="h1">asdfasd</Typography>
+          <Grid container spacing={2}>
+  
+            <Grid xs={12}>
+              <FormControl error={false}>
+                <FormLabel>Survey Name</FormLabel>
+                <Input />
+                <FormHelperText>Error show here</FormHelperText>
+              </FormControl>
+            </Grid>
+  
+            <Grid md={6}>
+  
+              <Tabs defaultValue={"fields"}>
+                <TabList>
+                  <Tab value="fields">Fields ({fields.length})</Tab>
+                  <Tab value="logic">Logic</Tab>
+                  <Tab value="theme">Theme</Tab>
+                  <Tab value="options">Options</Tab>
+                </TabList>
+                <FieldWrapper>
+                  <TabPanel value="fields">
+                    <FieldsTab
+                      fields={fields}
+                      onHandleRemove={removeField}
+                      onHandleAdd={addField}
+                    />
+                  </TabPanel>
+                  <TabPanel value="logic">Logic</TabPanel>
+                  <TabPanel value="theme">Theme</TabPanel>
+                  <TabPanel value="options">Options</TabPanel>
+                </FieldWrapper>
+              </Tabs>
+              
+  
+            </Grid>
+            <Grid md={6}>asdf</Grid>
           </Grid>
-
-          <Grid md={6}>
-
-            <Tabs>
-              <TabList>
-                <Tab value="fields">Fields</Tab>
-                <Tab value="logic">Logic</Tab>
-                <Tab value="theme">Theme</Tab>
-                <Tab value="options">Options</Tab>
-              </TabList>
-              <FieldWrapper>
-                <TabPanel value="fields">
-                  <FieldsTab
-                    fields={fields}
-                    onHandleRemove={removeField}
-                    onHandleAdd={addField}
-                  />
-                </TabPanel>
-                <TabPanel value="logic">Logic</TabPanel>
-                <TabPanel value="theme">Theme</TabPanel>
-                <TabPanel value="options">Options</TabPanel>
-              </FieldWrapper>
-            </Tabs>
-            
-
-          </Grid>
-          <Grid md={6}>asdf</Grid>
-        </Grid>
-      </ModalDialog>
-    </Modal>
-  )
+        </ModalDialog>
+      </Modal>
+    )
+  }
 }
 
 export default CreateSurveyModal
