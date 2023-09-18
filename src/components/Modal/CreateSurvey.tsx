@@ -21,7 +21,7 @@ import {
 import { v4 as uuid } from 'uuid'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
-import { SurveyOptions } from './types'
+import { SurveyOptions } from '@/types/survey'
 import MainSurvey from '../Window/MainSurvey'
 
 type CreateSurveyModalProps = {
@@ -36,7 +36,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
 
   const initialSurveyOptions: SurveyOptions = {
     link: null, 
-    isPublished: true
+    isPublished: true,
+    finishButtonLabel: ''
   }
 
   // form states
