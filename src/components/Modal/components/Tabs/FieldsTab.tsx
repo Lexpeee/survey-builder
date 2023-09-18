@@ -11,6 +11,7 @@ import {
   Option,
   Select, 
   Switch, 
+  Textarea, 
   Typography
 } from '@mui/joy'
 import {
@@ -42,7 +43,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
     > 
       {sortedFields.map((field, index) => {
         return <Grid  key={index} xs={12}>
-          <Card>
+          <Card orientation="vertical">
             <CardContent 
               orientation='horizontal'
               sx={{
@@ -57,12 +58,20 @@ const FieldsTab: FC<FieldsTabProps> = ({
                   size="sm"
                   color="danger"
                   variant="soft"
-                  startDecorator={<TrashIcon/>}
                   onClick={() => onHandleRemove(field?.id)}
-                >Remove</Button>
+                ><TrashIcon size={16}/></Button>
               </ButtonGroup>
             </CardContent>
             <Divider inset='context'/>
+            <CardContent >
+              <FormControl>
+                <FormLabel>Question</FormLabel>
+                <Textarea 
+                  minRows={2}
+                  placeholder="Write your question here.."
+                />
+              </FormControl>
+            </CardContent>
             <CardContent orientation="horizontal">
               <FormControl error={false}>
                 <FormLabel>Form name</FormLabel>
