@@ -17,16 +17,21 @@ import {
 import {
   Trash as TrashIcon
 } from 'lucide-react'
-import { FC, useMemo } from 'react'
+import { 
+  FC, 
+  useMemo
+} from 'react'
 
 type FieldsTabProps = {
   fields: any,
+  onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
   onHandleAdd: () => void
 }
 
 const FieldsTab: FC<FieldsTabProps> = ({
   fields,
+  onHandleChange,
   onHandleRemove, 
   onHandleAdd
 }) => {
@@ -34,7 +39,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
   const sortedFields = useMemo(() => {
     return fields.sort((a,b) => a - b)
   }, [fields])
-  
+
   return (
     <Grid 
       container 
@@ -42,7 +47,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
       direction='column'
     > 
       {sortedFields.map((field, index) => {
-        return <Grid  key={index} xs={12}>
+        return <Grid key={index} xs={12}>
           <Card orientation="vertical">
             <CardContent 
               orientation='horizontal'
@@ -69,25 +74,45 @@ const FieldsTab: FC<FieldsTabProps> = ({
                 <Textarea 
                   minRows={2}
                   placeholder="Write your question here.."
+                  onChange={(e) => onHandleChange(index, {
+                    question: e?.target?.value
+                  })}
+                  value={field?.question}
                 />
               </FormControl>
             </CardContent>
             <CardContent orientation="horizontal">
               <FormControl error={false}>
                 <FormLabel>Form name</FormLabel>
-                <Input />
+                <Input 
+                  onChange={(e) => onHandleChange(index, {
+                    name: e?.target?.value
+                  })}
+                  value={field?.name}
+                />
               </FormControl>
               <Divider orientation="vertical"/>
               <FormControl error={false}>
-                <FormLabel>Form Label</FormLabel>
-                <Input />
+                <FormLabel>Form Placeholder</FormLabel>
+                <Input 
+                  onChange={(e) => onHandleChange(index, {
+                    placeholder: e?.target?.value
+                  })}
+                  value={field?.placeholder}
+                />
               </FormControl>
             </CardContent>
             <Divider/>
             <CardContent>
               <FormControl error={false}>
                 <FormLabel>Type</FormLabel>
-                <Select defaultValue="text">
+                <Select 
+                  defaultValue="text"
+                  onChange={(e) => onHandleChange(index, {
+                    type: (e?.target as HTMLInputElement)?.value
+                  })}
+                  value={field?.type}
+                >
                   <Option value="text">Text</Option>
                   <Option value="email">Email</Option>
                   <Option value="number">Number</Option>

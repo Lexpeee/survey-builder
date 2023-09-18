@@ -1,10 +1,11 @@
 import {
   Button,
-  Stack
+  Stack,
+  FormControl, 
+  Input, 
 } from '@mui/joy'
 import {
-  FC, 
-  useEffect, 
+  FC,
   useState,
   useMemo
 } from 'react'
@@ -36,10 +37,18 @@ const MainSurvey:FC<MainSurveyProps> = ({
 
   return (
     <Wrapper>
-      MainSurveyWindow
       <Stack>
         <div>
-          {selectedField?.question}
+          {selectedField?.question || <>Question {currentStep + 1}</>}
+        </div>
+        <div>
+          {selectedField?.type === 'text' && 
+            <FormControl>
+              <Input
+                placeholder={selectedField?.placeholder}
+              />
+            </FormControl>
+          }
         </div>
         <div>
           {fields.length > 0 && <>

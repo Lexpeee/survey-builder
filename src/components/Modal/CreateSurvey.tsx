@@ -46,7 +46,11 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   const initialSurveyOptions: SurveyOptions = {
     link: null, 
     isPublished: true,
-    finishButtonLabel: ''
+    finishButtonLabel: '',
+    theme: {
+      background: 'inherit',
+      foreground: 'inherit'
+    }
   }
 
   // form states
@@ -59,7 +63,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       order: fields.length + 1,
       question: '',
       name: "", 
-      label: `Field ${fields.length}`,
+      placeholder: `Field ${fields.length}`,
       type: 'text',
       defaultValue: '',
       options: [],
@@ -67,6 +71,19 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     }
     // TODO: add logic to check if there are names existing
     setFields(fields.concat(defaultData))
+  }
+
+  const handleChangeField = (index: number, data: any) => {
+    const newData = fields.slice().map((field, i) => {
+      if(index === i) {
+        return {
+          ...field, 
+          ...data
+        }
+      }
+      return field
+    })
+    setFields(newData)
   }
 
   const removeSurveyField = (id: string) => {
@@ -155,6 +172,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                   <TabPanel value="fields">
                     <FieldsTab
                       fields={fields}
+                      onHandleChange={handleChangeField}
                       onHandleRemove={removeSurveyField}
                       onHandleAdd={addSurveyField}
                     />
