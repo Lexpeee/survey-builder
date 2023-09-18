@@ -22,6 +22,7 @@ import { v4 as uuid } from 'uuid'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
 import { SurveyOptions } from './types'
+import MainSurvey from '../Window/MainSurvey'
 
 type CreateSurveyModalProps = {
   isOpen: boolean
@@ -35,7 +36,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
 
   const initialSurveyOptions: SurveyOptions = {
     link: null, 
-    isVisible: true
+    isPublished: true
   }
 
   // form states
@@ -46,6 +47,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     let defaultData = {
       id: uuid(),
       order: fields.length + 1,
+      question: '',
       name: "", 
       label: `Field ${fields.length}`,
       type: 'text',
@@ -134,7 +136,12 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
               
   
             </Grid>
-            <Grid md={6}>asdf</Grid>
+            <Grid md={6}>
+              <MainSurvey
+                fields={fields}
+                options={surveyOptions}
+              />
+            </Grid>
           </Grid>
         </ModalDialog>
       </Modal>
