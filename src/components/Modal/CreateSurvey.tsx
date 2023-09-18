@@ -1,5 +1,8 @@
 import { styled } from '@/stitches.config'
+import { SurveyOptions } from '@/types/survey'
 import {
+  Button,
+  Divider, 
   FormControl,
   FormHelperText,
   FormLabel,
@@ -7,22 +10,28 @@ import {
   Input,
   Modal,
   ModalClose,
-  ModalDialog, Tab,
+  ModalDialog,
+  Stack,
+  Tab,
   TabList,
   TabPanel,
   Tabs,
   Typography
 } from '@mui/joy'
+import { 
+  Eye as EyeIcon,
+  PenSquare as PenSquareIcon,
+  Save as SaveIcon
+} from 'lucide-react'
 import {
   FC,
   useEffect,
   useState
 } from 'react'
 import { v4 as uuid } from 'uuid'
+import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
-import { SurveyOptions } from '@/types/survey'
-import MainSurvey from '../Window/MainSurvey'
 
 type CreateSurveyModalProps = {
   isOpen: boolean
@@ -96,7 +105,33 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
           minWidth={'80vw'}
         >
           <ModalClose/>
-          <Typography level="h1">asdfasd</Typography>
+          <Header
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Typography level="h3">Create survey</Typography>
+            <Grid container spacing={1}>
+              <Grid>
+                <Button
+                  startDecorator={<EyeIcon/>}
+                  variant="outlined"
+                >Preview</Button>
+              </Grid>
+              <Grid>
+                <Button
+                  startDecorator={<SaveIcon/>}
+                  variant="outlined"
+                  color="neutral"
+                >Save</Button>
+              </Grid>
+              <Grid>
+                <Button
+                  startDecorator={<PenSquareIcon/>}
+                  color="success"
+                >Publish</Button>
+              </Grid>
+            </Grid>
+          </Header>
           <Grid container spacing={2}>
   
             <Grid xs={12}>
@@ -151,6 +186,10 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
 }
 
 export default CreateSurveyModal
+
+const Header = styled(Stack, {
+  marginRight: 30
+})
 
 const FieldWrapper = styled('div', {
   height: '60vh',
