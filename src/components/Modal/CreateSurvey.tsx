@@ -63,7 +63,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       order: fields.length + 1,
       question: '',
       name: "", 
-      placeholder: `Field ${fields.length}`,
+      placeholder: '',
       type: 'text',
       defaultValue: '',
       options: [],

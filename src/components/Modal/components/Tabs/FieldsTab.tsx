@@ -108,9 +108,11 @@ const FieldsTab: FC<FieldsTabProps> = ({
                 <FormLabel>Type</FormLabel>
                 <Select 
                   defaultValue="text"
-                  onChange={(e) => onHandleChange(index, {
-                    type: (e?.target as HTMLInputElement)?.value
-                  })}
+                  onChange={(e, value) => {
+                    onHandleChange(index, {
+                      type: value
+                    })
+                  }}
                   value={field?.type}
                 >
                   <Option value="text">Text</Option>

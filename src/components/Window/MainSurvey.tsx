@@ -37,15 +37,19 @@ const MainSurvey:FC<MainSurveyProps> = ({
 
   return (
     <Wrapper>
-      <Stack>
+      <Stack
+        spacing={1}
+      >
         <div>
           {selectedField?.question || <>Question {currentStep + 1}</>}
         </div>
         <div>
-          {selectedField?.type === 'text' && 
+          {
+          (selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
             <FormControl>
               <Input
                 placeholder={selectedField?.placeholder}
+                type={selectedField?.type}
               />
             </FormControl>
           }
@@ -70,6 +74,7 @@ const Wrapper = styled('div', {
   alignItems: 'center',
   justifyContent: 'center',
   height: '100%',
-  border: '1px solid black', // TODO: remove afterwards
+  border: '1px solid #ccc', // TODO: remove afterwards
+  borderRadius: 10,
   padding: 10,  
 })
