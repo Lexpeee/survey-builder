@@ -9,7 +9,7 @@ import {
 import { useState } from 'react'
 
 const MyFormsPage = () => {
-  const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(true)
+  const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(false)
 
   return (
     <>
