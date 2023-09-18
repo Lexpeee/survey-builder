@@ -16,7 +16,7 @@ import {
 import {
   Trash as TrashIcon
 } from 'lucide-react'
-import { FC } from 'react'
+import { FC, useMemo } from 'react'
 
 type FieldsTabProps = {
   fields: any,
@@ -29,13 +29,18 @@ const FieldsTab: FC<FieldsTabProps> = ({
   onHandleRemove, 
   onHandleAdd
 }) => {
+  
+  const sortedFields = useMemo(() => {
+    return fields.sort((a,b) => a - b)
+  }, [fields])
+  
   return (
     <Grid 
       container 
       spacing={1}
       direction='column'
     > 
-      {fields.map((field, index) => {
+      {sortedFields.map((field, index) => {
         return <Grid  key={index} xs={12}>
           <Card>
             <CardContent 
