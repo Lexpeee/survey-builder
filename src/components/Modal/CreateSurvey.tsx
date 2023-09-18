@@ -20,6 +20,8 @@ import {
 } from 'react'
 import { v4 as uuid } from 'uuid'
 import FieldsTab from './components/Tabs/FieldsTab'
+import OptionsTab from './components/Tabs/OptionsTab'
+import { SurveyOptions } from './types'
 
 type CreateSurveyModalProps = {
   isOpen: boolean
@@ -30,12 +32,17 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   isOpen, 
   onClose
 }) => {
-  const [step, setStep] = useState(0)
+
+  const initialSurveyOptions: SurveyOptions = {
+    link: null, 
+    isVisible: true
+  }
 
   // form states
   const [fields, setFields] = useState<any>([])
+  const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
 
-  const addField = () => {
+  const addSurveyField = () => {
     let defaultData = {
       id: uuid(),
       order: fields.length + 1,
@@ -50,8 +57,12 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     setFields(fields.concat(defaultData))
   }
 
-  const removeField = (id: string) => {
+  const removeSurveyField = (id: string) => {
     setFields(prevState => prevState.filter((v:any) => v?.id !== id))
+  }
+  
+  const onChangeSurveyOptions = (data) => {
+    console.log('change survey options')
   }
   
   /** Main submit method */
@@ -61,9 +72,11 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     console.log(data)
   }
 
+  /** Resets fields and items to their default values */
   useEffect(()=>{
     if (!isOpen) {
       setFields([])
+      setSurveyOptions(initialSurveyOptions)
     }
   }, [isOpen])
 
@@ -104,13 +117,18 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                   <TabPanel value="fields">
                     <FieldsTab
                       fields={fields}
-                      onHandleRemove={removeField}
-                      onHandleAdd={addField}
+                      onHandleRemove={removeSurveyField}
+                      onHandleAdd={addSurveyField}
                     />
                   </TabPanel>
                   <TabPanel value="logic">Logic</TabPanel>
                   <TabPanel value="theme">Theme</TabPanel>
-                  <TabPanel value="options">Options</TabPanel>
+                  <TabPanel value="options">
+                    <OptionsTab
+                      options={surveyOptions}
+                      onChangeOptions={onChangeSurveyOptions}
+                    />
+                  </TabPanel>
                 </FieldWrapper>
               </Tabs>
               
