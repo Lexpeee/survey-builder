@@ -32,6 +32,7 @@ import { v4 as uuid } from 'uuid'
 import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
+import ThemesTab from './components/Tabs/ThemesTab'
 
 type CreateSurveyModalProps = {
   isOpen: boolean
@@ -48,8 +49,9 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     isPublished: true,
     finishButtonLabel: '',
     theme: {
-      background: 'inherit',
-      foreground: 'inherit'
+      backgroundColor: 'inherit',
+      foregroundColor: 'inherit',
+      buttonColor: 'inherit',
     }
   }
 
@@ -91,7 +93,10 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
   
   const onChangeSurveyOptions = (data) => {
-    console.log('change survey options')
+    setSurveyOptions(prevState => ({ 
+      ...prevState, 
+      ...data
+    }))
   }
   
   /** Main submit method */
@@ -178,7 +183,12 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                     />
                   </TabPanel>
                   <TabPanel value="logic">Logic</TabPanel>
-                  <TabPanel value="theme">Theme</TabPanel>
+                  <TabPanel value="theme">
+                    <ThemesTab
+                      options={surveyOptions}
+                      onChangeOptions={onChangeSurveyOptions}
+                    />
+                  </TabPanel>
                   <TabPanel value="options">
                     <OptionsTab
                       options={surveyOptions}

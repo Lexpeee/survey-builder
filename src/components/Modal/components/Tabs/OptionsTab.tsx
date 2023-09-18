@@ -9,8 +9,8 @@ import {
   Input
 } from '@mui/joy'
 import { Copy as CopyIcon } from 'lucide-react'
-import { FC, useEffect } from 'react'
-import { SurveyOptions } from '../../types'
+import { FC } from 'react'
+import { SurveyOptions } from '@/types/survey'
 
 type OptionsTabProps = {
   options: SurveyOptions,
