@@ -10,6 +10,7 @@ import {
   Input, 
   Option,
   Select, 
+  Stack,
   Switch, 
   Textarea, 
   Typography
@@ -122,11 +123,18 @@ const FieldsTab: FC<FieldsTabProps> = ({
                   <Option value="radio">Radio</Option>
                 </Select>
               </FormControl>
-              <FormControl>
-                <Typography startDecorator={
-                  <Switch/>
-                }>Fullscreen</Typography>
-              </FormControl>
+              <Stack direction="row"  spacing={1}>
+                <FormControl>
+                  <Typography startDecorator={
+                    <Switch/>
+                  }>Required</Typography>
+                </FormControl>
+                <FormControl>
+                  <Typography startDecorator={
+                    <Switch/>
+                  }>Fullscreen</Typography>
+                </FormControl>
+              </Stack>
             </CardContent>
             {/* <Divider />
             <CardContent>

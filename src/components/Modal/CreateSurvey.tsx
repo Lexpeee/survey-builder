@@ -69,7 +69,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       type: 'text',
       defaultValue: '',
       options: [],
-      isFullScreen: true
+      isFullScreen: true,
+      isRequired: false
     }
     // TODO: add logic to check if there are names existing
     setFields(fields.concat(defaultData))
