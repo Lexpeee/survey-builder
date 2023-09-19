@@ -1,15 +1,20 @@
+import { styled } from '@/stitches.config'
 import {
   Button,
+  FormControl,
+  Input,
   Stack,
-  FormControl, 
-  Input, 
+  Typography,
 } from '@mui/joy'
 import {
+  ArrowLeft as ArrowLeftIcon,
+  ArrowRight as ArrowRightIcon,
+} from 'lucide-react'
+import {
   FC,
-  useState,
-  useMemo
+  useMemo,
+  useState
 } from 'react'
-import { styled } from '@/stitches.config'
 
 type MainSurveyProps = {
   fields: any
@@ -67,13 +72,56 @@ const MainSurvey:FC<MainSurveyProps> = ({
           </>}
         </div>
       </Stack>
+      <Footer>
+        <Stack direction="row" spacing={2} alignItems={'center'}>
+          <FooterItem>
+            {!isFirstStep && 
+              <Button 
+                size="sm" 
+                variant="soft" 
+                color="neutral"
+                onClick={() => setCurrentStep(prevState => prevState - 1)}
+              ><ArrowLeftIcon size={16}/></Button>
+            }
+          </FooterItem>
+          <Typography 
+            sx={{
+              color: options?.theme?.foregroundColor
+            }}
+          >
+            Step {currentStep + 1} of {fields?.length}
+          </Typography>
+          <FooterItem>
+            {!isLastStep && 
+              <Button 
+                size="sm" 
+                variant="soft" 
+                color="neutral"
+                onClick={() => setCurrentStep(prevState => prevState + 1)}
+              ><ArrowRightIcon size={16}/></Button>
+            }
+          </FooterItem>
+        </Stack>
+      </Footer>
     </Wrapper>
   )
 }
 
 export default MainSurvey
 
+const Footer = styled('div', {
+  position: 'absolute',
+  right: 0,
+  bottom: 0,
+  margin: 10
+})
+
+const FooterItem = styled('div', {
+  minWidth: 50
+})
+
 const Wrapper = styled('div', {
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
