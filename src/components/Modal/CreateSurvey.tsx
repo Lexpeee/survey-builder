@@ -1,5 +1,5 @@
 import { styled } from '@/stitches.config'
-import { SurveyOptions } from '@/types/survey'
+import { SurveyFields, SurveyOptions } from '@/types/survey'
 import {
   Button,
   Divider, 
@@ -56,11 +56,11 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 
   // form states
-  const [fields, setFields] = useState<any>([])
+  const [fields, setFields] = useState<SurveyFields[]>([])
   const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
 
   const addSurveyField = () => {
-    let defaultData = {
+    let defaultData:SurveyFields = {
       id: uuid(),
       order: fields.length + 1,
       question: '',
