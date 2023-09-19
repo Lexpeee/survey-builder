@@ -61,9 +61,9 @@ const MainSurvey:FC<MainSurveyProps> = ({
         </div>
         <div>
           {fields.length > 0 && <>
-            {!isFirstStep && <Button style={{ background: options?.theme?.buttonColor && options?.theme?.buttonColor }} onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}
-            {!isLastStep && <Button style={{ background: options?.theme?.buttonColor && options?.theme?.buttonColor }} onClick={() => setCurrentStep(prevState => prevState + 1)}>Next</Button>}
-            {isLastStep && <Button style={{ background: options?.theme?.buttonColor && options?.theme?.buttonColor }} onClick={() => console.log("wala na finish na")}>Finish</Button>}
+            {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}
+            {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)}>Next</Button>}
+            {isLastStep && <Button onClick={() => console.log("wala na finish na")}>Finish</Button>}
           </>}
         </div>
       </Stack>
