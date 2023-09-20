@@ -6,6 +6,7 @@ import {
   Chip,
   Divider,
   FormControl, 
+  FormHelperText, 
   FormLabel,
   Input, 
   Option,
@@ -51,7 +52,6 @@ const FieldItem:FC<FieldItemProps> = ({
   const handleAddChoice = (index: number) => {
     if (choicesInput) {
       setChoices(choices.concat(choicesInput))
-      
       setChoicesInput('')
     }
   }
@@ -64,7 +64,7 @@ const FieldItem:FC<FieldItemProps> = ({
     const choiceTypes = ['radio', 'checkbox']
     return choiceTypes.includes(type)
   }, [type])
-
+  
   useEffect(()=>{
     if (!typeHasChoices) {
       setChoices([])
@@ -99,41 +99,77 @@ const FieldItem:FC<FieldItemProps> = ({
         </ButtonGroup>
       </CardContent>
       <Divider inset='context'/>
+
       <CardContent >
         <FormControl>
-          <FormLabel>Question</FormLabel>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+          >
+            <FormLabel>{type === 'message' ? "Message" : "Question" }</FormLabel>
+            <Switch
+              checked={field?.isAnswerRequired}
+              onChange={() => onHandleChange(index, {
+                isAnswerRequired: !field?.isAnswerRequired
+              })}
+              startDecorator={"Field has answers"}
+            />
+          </Stack>
           <Textarea 
             minRows={2}
-            placeholder="Write your question here.."
+            placeholder={`Write your ${type === "message" ? 'message' : 'question' } here`}
             onChange={(e) => onHandleChange(index, {
               question: e?.target?.value
             })}
             value={field?.question}
           />
         </FormControl>
+
+        {field?.isAnswerRequired && 
+          <FormControl
+            error={(field?.isAnswerRequired && !field?.answer)}
+          >
+            <FormLabel>Answer</FormLabel>
+            <Input
+              value={field?.answer}
+              onChange={(e) => onHandleChange(index, {
+                answer: e?.target?.value
+              })}
+            />
+            {field?.isAnswerRequired && !field?.answer && 
+              <FormHelperText>This field is required</FormHelperText>
+            }
+          </FormControl>
+        }
       </CardContent>
-      <CardContent orientation="horizontal">
-        <FormControl error={false}>
-          <FormLabel>Form name</FormLabel>
-          <Input 
-            onChange={(e) => onHandleChange(index, {
-              name: e?.target?.value
-            })}
-            value={field?.name}
-          />
-        </FormControl>
-        <Divider orientation="vertical"/>
-        <FormControl error={false}>
-          <FormLabel>Form Placeholder</FormLabel>
-          <Input 
-            onChange={(e) => onHandleChange(index, {
-              placeholder: e?.target?.value
-            })}
-            value={field?.placeholder}
-          />
-        </FormControl>
-      </CardContent>
+
+      {type !== 'message' && 
+        <>
+          <CardContent orientation="horizontal">
+            <FormControl error={false}>
+              <FormLabel>Form name</FormLabel>
+              <Input 
+                onChange={(e) => onHandleChange(index, {
+                  name: e?.target?.value
+                })}
+                value={field?.name}
+              />
+            </FormControl>
+            <Divider orientation="vertical"/>
+            <FormControl error={false}>
+              <FormLabel>Form Placeholder</FormLabel>
+              <Input 
+                onChange={(e) => onHandleChange(index, {
+                  placeholder: e?.target?.value
+                })}
+                value={field?.placeholder}
+              />
+            </FormControl>
+          </CardContent>
+        </>
+      }
       <Divider/>
+
       <CardContent>
         <FormControl error={false}>
           <FormLabel>Type</FormLabel>
@@ -146,6 +182,7 @@ const FieldItem:FC<FieldItemProps> = ({
             }}
             value={field?.type}
           >
+            <Option value="message">Message</Option>
             <Option value="text">Text</Option>
             <Option value="email">Email</Option>
             <Option value="number">Number</Option>

@@ -12,12 +12,14 @@ export type SurveyOptions = {
 export type SurveyFields = {
   id: string
   order: number
-  question: string 
-  name: string
-  placeholder: string
+  question: string // this can also contain a message for a survey if type is set to message
+  answer?: string
+  name?: string
+  placeholder?: string
   type: string
   defaultValue?: string
   options?: string[] | number[]
+  isAnswerRequired?: boolean
   isFullScreen?: boolean
   isRequired?: boolean
 }
