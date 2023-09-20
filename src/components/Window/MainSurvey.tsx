@@ -72,37 +72,39 @@ const MainSurvey:FC<MainSurveyProps> = ({
           </>}
         </div>
       </Stack>
-      <Footer>
-        <Stack direction="row" spacing={2} alignItems={'center'}>
-          <FooterItem>
-            {!isFirstStep && 
-              <Button 
-                size="sm" 
-                variant="soft" 
-                color="neutral"
-                onClick={() => setCurrentStep(prevState => prevState - 1)}
-              ><ArrowLeftIcon size={16}/></Button>
-            }
-          </FooterItem>
-          <Typography 
-            sx={{
-              color: options?.theme?.foregroundColor
-            }}
-          >
-            Step {currentStep + 1} of {fields?.length}
-          </Typography>
-          <FooterItem>
-            {!isLastStep && 
-              <Button 
-                size="sm" 
-                variant="soft" 
-                color="neutral"
-                onClick={() => setCurrentStep(prevState => prevState + 1)}
-              ><ArrowRightIcon size={16}/></Button>
-            }
-          </FooterItem>
-        </Stack>
-      </Footer>
+      {fields.length !== 0 && 
+        <Footer>
+          <Stack direction="row" spacing={2} alignItems={'center'}>
+            <FooterItem>
+              {!isFirstStep && 
+                <Button 
+                  size="sm" 
+                  variant="soft" 
+                  color="neutral"
+                  onClick={() => setCurrentStep(prevState => prevState - 1)}
+                ><ArrowLeftIcon size={16}/></Button>
+              }
+            </FooterItem>
+            <Typography 
+              sx={{
+                color: options?.theme?.foregroundColor
+              }}
+            >
+              Step {currentStep + 1} of {fields?.length}
+            </Typography>
+            <FooterItem>
+              {!isLastStep && 
+                <Button 
+                  size="sm" 
+                  variant="soft" 
+                  color="neutral"
+                  onClick={() => setCurrentStep(prevState => prevState + 1)}
+                ><ArrowRightIcon size={16}/></Button>
+              }
+            </FooterItem>
+          </Stack>
+        </Footer>
+      }
     </Wrapper>
   )
 }
