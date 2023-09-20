@@ -49,9 +49,9 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     isPublished: true,
     finishButtonLabel: '',
     theme: {
-      backgroundColor: 'inherit',
-      foregroundColor: 'inherit',
-      buttonColor: 'inherit',
+      backgroundColor: 'default',
+      foregroundColor: 'default',
+      buttonColor: 'default',
     }
   }
 
