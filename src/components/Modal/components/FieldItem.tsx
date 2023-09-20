@@ -64,6 +64,10 @@ const FieldItem:FC<FieldItemProps> = ({
     const choiceTypes = ['radio', 'checkbox']
     return choiceTypes.includes(type)
   }, [type])
+
+  const typeHasNoFields = useMemo(() => {
+    return (type === 'welcome' || type === 'message' || type === 'end')
+  }, [type])
   
   useEffect(()=>{
     if (!typeHasChoices) {
@@ -89,14 +93,37 @@ const FieldItem:FC<FieldItemProps> = ({
         }}
       >
         <Typography level="title-sm">{index + 1}: Field</Typography>
-        <ButtonGroup>
-          <Button 
-            size="sm"
-            color="danger"
-            variant="soft"
-            onClick={() => onHandleRemove(field?.id)}
-          ><TrashIcon size={16}/></Button>
-        </ButtonGroup>
+        <Stack direction="row" spacing={1}>
+          <FormControl error={false}>
+            <Select 
+              defaultValue="text"
+              onChange={(e, value) => {
+                onHandleChange(index, {
+                  type: value
+                })
+              }}
+              value={field?.type}
+            >
+              <Option value="welcome">Welcome Message</Option>
+              <Option value="message">Message</Option>
+              <Option value="end">End Message</Option>
+              <Divider/>
+              <Option value="text">Text Field</Option>
+              <Option value="email">Email</Option>
+              <Option value="number">Number</Option>
+              <Option value="checkbox">Checkbox</Option>
+              <Option value="radio">Radio</Option>
+            </Select>
+          </FormControl>
+          <ButtonGroup>
+            <Button 
+              size="sm"
+              color="danger"
+              variant="soft"
+              onClick={() => onHandleRemove(field?.id)}
+            ><TrashIcon size={16}/></Button>
+          </ButtonGroup>
+        </Stack>
       </CardContent>
       <Divider inset='context'/>
 
@@ -106,7 +133,7 @@ const FieldItem:FC<FieldItemProps> = ({
             direction="row"
             justifyContent="space-between"
           >
-            <FormLabel>{type === 'message' ? "Message" : "Question" }</FormLabel>
+            <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
             <Switch
               checked={field?.isAnswerRequired}
               onChange={() => onHandleChange(index, {
@@ -117,7 +144,7 @@ const FieldItem:FC<FieldItemProps> = ({
           </Stack>
           <Textarea 
             minRows={2}
-            placeholder={`Write your ${type === "message" ? 'message' : 'question' } here`}
+            placeholder={`Write your ${typeHasNoFields ? 'message' : 'question' } here`}
             onChange={(e) => onHandleChange(index, {
               question: e?.target?.value
             })}
@@ -143,7 +170,7 @@ const FieldItem:FC<FieldItemProps> = ({
         }
       </CardContent>
 
-      {type !== 'message' && 
+      {!typeHasNoFields && 
         <>
           <CardContent orientation="horizontal">
             <FormControl error={false}>
@@ -170,29 +197,10 @@ const FieldItem:FC<FieldItemProps> = ({
       }
       <Divider/>
 
-      <CardContent>
-        <FormControl error={false}>
-          <FormLabel>Type</FormLabel>
-          <Select 
-            defaultValue="text"
-            onChange={(e, value) => {
-              onHandleChange(index, {
-                type: value
-              })
-            }}
-            value={field?.type}
-          >
-            <Option value="message">Message</Option>
-            <Option value="text">Text</Option>
-            <Option value="email">Email</Option>
-            <Option value="number">Number</Option>
-            <Option value="checkbox">Checkbox</Option>
-            <Option value="radio">Radio</Option>
-          </Select>
-        </FormControl>
-        {typeHasChoices && 
-          <Card>
-            <CardContent>
+      {typeHasChoices && 
+        <>
+          <CardContent>
+            <Stack spacing={1}>
               <FormControl>
                 <FormLabel>Options</FormLabel>
                 <Input 
@@ -211,27 +219,26 @@ const FieldItem:FC<FieldItemProps> = ({
                   }}
                 />
               </FormControl>
-            </CardContent>
-            <CardContent>
               <Stack direction='row'>
                 {choices.map((choice, i) => <StyledChip key={i} onClick={() => handleRemoveChoice(i)} endDecorator={<CloseIcon size={16} />}>{choice}</StyledChip>)}
               </Stack>
-            </CardContent>
-          </Card>
-        }
-        <Stack direction="row" spacing={1}>
-          <FormControl>
-            <Typography startDecorator={
-              <Switch/>
-            }>Required</Typography>
-          </FormControl>
-          <FormControl>
-            <Typography startDecorator={
-              <Switch/>
-            }>Fullscreen</Typography>
-          </FormControl>
-        </Stack>
-      </CardContent>
+            </Stack>
+          </CardContent>
+          <Divider/>
+        </>
+      }
+      <Stack direction="row" spacing={1}>
+        <FormControl>
+          <Typography startDecorator={
+            <Switch/>
+          }>Required</Typography>
+        </FormControl>
+        <FormControl>
+          <Typography startDecorator={
+            <Switch/>
+          }>Fullscreen</Typography>
+        </FormControl>
+      </Stack>
     </Card>
   )
 }
