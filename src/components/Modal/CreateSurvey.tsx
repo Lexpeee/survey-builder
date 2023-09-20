@@ -102,10 +102,17 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   
   /** Main submit method */
   const handleSubmitForm = () => {
-    let data = {}
+    let data = {
+      fields,
+      options: surveyOptions
+    }
 
     console.log(data)
   }
+
+  useEffect(()=>{
+    console.log("echo out fields",fields)
+  }, [fields])
 
   /** Resets fields and items to their default values */
   useEffect(()=>{
@@ -145,6 +152,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                   startDecorator={<SaveIcon/>}
                   variant="outlined"
                   color="neutral"
+                  onClick={handleSubmitForm}
                 >Save</Button>
               </Grid>
               <Grid>

@@ -1,27 +1,12 @@
 import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardContent,
-  Divider,
-  FormControl, 
-  FormLabel,
-  Grid,
-  Input, 
-  Option,
-  Select, 
-  Stack,
-  Switch, 
-  Textarea, 
-  Typography
+  Button, 
+  Grid
 } from '@mui/joy'
 import {
-  Trash as TrashIcon
-} from 'lucide-react'
-import { 
   FC, 
   useMemo
 } from 'react'
+import FieldItem from '../FieldItem'
 
 type FieldsTabProps = {
   fields: any,
@@ -49,98 +34,13 @@ const FieldsTab: FC<FieldsTabProps> = ({
     > 
       {sortedFields.map((field, index) => {
         return <Grid key={index} xs={12}>
-          <Card orientation="vertical">
-            <CardContent 
-              orientation='horizontal'
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-              }}
-            >
-              <Typography level="title-sm">{index + 1}: Field</Typography>
-              <ButtonGroup>
-                <Button 
-                  size="sm"
-                  color="danger"
-                  variant="soft"
-                  onClick={() => onHandleRemove(field?.id)}
-                ><TrashIcon size={16}/></Button>
-              </ButtonGroup>
-            </CardContent>
-            <Divider inset='context'/>
-            <CardContent >
-              <FormControl>
-                <FormLabel>Question</FormLabel>
-                <Textarea 
-                  minRows={2}
-                  placeholder="Write your question here.."
-                  onChange={(e) => onHandleChange(index, {
-                    question: e?.target?.value
-                  })}
-                  value={field?.question}
-                />
-              </FormControl>
-            </CardContent>
-            <CardContent orientation="horizontal">
-              <FormControl error={false}>
-                <FormLabel>Form name</FormLabel>
-                <Input 
-                  onChange={(e) => onHandleChange(index, {
-                    name: e?.target?.value
-                  })}
-                  value={field?.name}
-                />
-              </FormControl>
-              <Divider orientation="vertical"/>
-              <FormControl error={false}>
-                <FormLabel>Form Placeholder</FormLabel>
-                <Input 
-                  onChange={(e) => onHandleChange(index, {
-                    placeholder: e?.target?.value
-                  })}
-                  value={field?.placeholder}
-                />
-              </FormControl>
-            </CardContent>
-            <Divider/>
-            <CardContent>
-              <FormControl error={false}>
-                <FormLabel>Type</FormLabel>
-                <Select 
-                  defaultValue="text"
-                  onChange={(e, value) => {
-                    onHandleChange(index, {
-                      type: value
-                    })
-                  }}
-                  value={field?.type}
-                >
-                  <Option value="text">Text</Option>
-                  <Option value="email">Email</Option>
-                  <Option value="number">Number</Option>
-                  <Option value="checkbox">Checkbox</Option>
-                  <Option value="radio">Radio</Option>
-                </Select>
-              </FormControl>
-              <Stack direction="row"  spacing={1}>
-                <FormControl>
-                  <Typography startDecorator={
-                    <Switch/>
-                  }>Required</Typography>
-                </FormControl>
-                <FormControl>
-                  <Typography startDecorator={
-                    <Switch/>
-                  }>Fullscreen</Typography>
-                </FormControl>
-              </Stack>
-            </CardContent>
-            {/* <Divider />
-            <CardContent>
-              <Typography>asdf</Typography>
-            </CardContent> */}
-          </Card>
+          <FieldItem
+            type={field?.type}
+            field={field}
+            index={index}
+            onHandleChange={onHandleChange}
+            onHandleRemove={onHandleRemove}
+          />
         </Grid>
       })}
 
