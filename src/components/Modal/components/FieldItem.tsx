@@ -193,7 +193,9 @@ const FieldItem:FC<FieldItemProps> = ({
         {typeHasChoices && 
           <Card>
             <CardContent>
-              <FormControl>
+              <FormControl 
+                error={(field?.type === 'checkbox' || field?.type === 'radio') && choices.length < 2}
+              >
                 <FormLabel>Options</FormLabel>
                 <Input 
                   value={choicesInput}
@@ -210,6 +212,9 @@ const FieldItem:FC<FieldItemProps> = ({
                     }
                   }}
                 />
+                {
+                  (field?.type === 'checkbox' || field?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
+                }
               </FormControl>
             </CardContent>
             <CardContent>

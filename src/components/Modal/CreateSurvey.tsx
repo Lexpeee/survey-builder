@@ -112,10 +112,6 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     console.log(data)
   }
 
-  useEffect(()=>{
-    console.log("echo out fields",fields)
-  }, [fields])
-
   /** Resets fields and items to their default values */
   useEffect(()=>{
     if (!isOpen) {

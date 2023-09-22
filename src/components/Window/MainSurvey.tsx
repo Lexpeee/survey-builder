@@ -1,6 +1,8 @@
 import { styled } from '@/stitches.config'
 import {
   Button,
+  Radio,
+  Checkbox,
   FormControl,
   Input,
   Stack,
@@ -54,6 +56,7 @@ const MainSurvey:FC<MainSurveyProps> = ({
           {selectedField?.question || <>Question {currentStep + 1}</>}
         </div>
         <div>
+
           {
           (selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
             <FormControl>
@@ -63,6 +66,31 @@ const MainSurvey:FC<MainSurveyProps> = ({
               />
             </FormControl>
           }
+
+          {selectedField?.type === 'checkbox' && <>
+            <Stack 
+              direction="column"
+              spacing={2}
+            >
+              {selectedField?.options.map(option => {
+                return <Checkbox value={option} label={option}/>
+              })}
+            </Stack>
+            </>
+          }
+
+          {selectedField?.type === 'radio' && <>
+            <Stack 
+              direction="column"
+              spacing={2}
+            >
+              {selectedField?.options.map(option => {
+                return <Radio name={selectedField?.name || `radio-form-${selectedField?.id}`} value={option} label={option}/>
+              })}
+            </Stack>
+            </>
+          }
+
         </div>
         <div>
           {fields.length > 0 && <>
