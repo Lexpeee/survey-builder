@@ -246,9 +246,11 @@ const FieldItem:FC<FieldItemProps> = ({
                   (field?.type === 'checkbox' || field?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
                 }
               </FormControl>
+              {/* TODO: Wrap these, so that choices won't exceed in width */}
               <Stack direction='row'>
                 {choices.map((choice, i) => <StyledChip key={i} onClick={() => handleRemoveChoice(i)} endDecorator={<CloseIcon size={16} />}>{choice}</StyledChip>)}
               </Stack>
+              {/* TODO: Others please specify */}
             </Stack>
           </CardContent>
         </>

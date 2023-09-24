@@ -37,7 +37,7 @@ import ThemesTab from './components/Tabs/ThemesTab'
 import { useDebounce, useDebouncedCallback } from 'use-debounce'
 import { shallow } from 'zustand/shallow'
 
-const SAMPLE_UUID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
+const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
 
 const PRE_POPULATED_FIELDS = [
     {
@@ -129,7 +129,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       defaultValue: '',
       options: [],
       isFullScreen: true,
-      isRequired: false,
+      isRequired: true,
       isAnswerRequired: false,
       isFieldLocked: false
     }
@@ -164,8 +164,15 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   /** Main submit method */
   const handleSubmitForm = () => {
     let data = {
+      id: uuid(),
+      name: surveyName, 
+      userId: SAMPLE_USER_ID,
       fields,
-      options: surveyOptions
+      options: surveyOptions,
+      displayImages: [
+        "https://ik.imagekit.io/ychxbfg73/sample-images/jordan-mcgee-l3TwAWTVIQg-unsplash_vnXi71Poy.jpg?updatedAt=1695001101839"
+      ],
+      isVisible: true
     }
 
     console.log(data)
