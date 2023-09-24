@@ -18,15 +18,17 @@ import {
   useState
 } from 'react'
 
+import { useDebounce } from 'use-debounce'
+
 type MainSurveyProps = {
   fields: any
   options: any
 }
 
-const MainSurvey:FC<MainSurveyProps> = ({
-  fields,
-  options
-}) => {
+const MainSurvey:FC<MainSurveyProps> = (p) => {
+
+  const [fields] = useDebounce(p?.fields, 1000)
+  const [options] = useDebounce(p?.options, 1000)
 
   const [currentStep, setCurrentStep] = useState(0)
 
