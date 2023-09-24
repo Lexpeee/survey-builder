@@ -1,5 +1,6 @@
 import { styled } from '@/stitches.config'
 import {
+  Container,
   Button,
   Radio,
   Checkbox,
@@ -51,57 +52,72 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         color: options?.theme?.foregroundColor 
       }}
     >
-      <Stack
-        spacing={1}
-      >
-        <div>
-          {selectedField?.question || <>Question {currentStep + 1}</>}
-        </div>
-        <div>
+      <Container>
+        <Stack
+          spacing={1}
+        >
+          {
+            selectedField?.type === 'welcome' && <>
+              <h1>
+                {selectedField?.question || <>Question {currentStep + 1}</>}
+              </h1>
+            </>
+          }
 
           {
-          (selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
-            <FormControl>
-              <Input
-                placeholder={selectedField?.placeholder}
-                type={selectedField?.type}
-              />
-            </FormControl>
-          }
-
-          {selectedField?.type === 'checkbox' && <>
-            <Stack 
-              direction="column"
-              spacing={2}
-            >
-              {selectedField?.options.map(option => {
-                return <Checkbox value={option} label={option}/>
-              })}
-            </Stack>
+            selectedField?.type !== 'welcome' && 
+            <>
+              {selectedField?.question || <>Question {currentStep + 1}</>}
             </>
-          }
 
-          {selectedField?.type === 'radio' && <>
-            <Stack 
-              direction="column"
-              spacing={2}
-            >
-              {selectedField?.options.map(option => {
-                return <Radio name={selectedField?.name || `radio-form-${selectedField?.id}`} value={option} label={option}/>
-              })}
-            </Stack>
-            </>
           }
+          <div>
 
-        </div>
-        <div>
-          {fields.length > 0 && <>
-            {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}
-            {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)}>Next</Button>}
-            {isLastStep && <Button onClick={() => console.log("wala na finish na")}>Finish</Button>}
-          </>}
-        </div>
-      </Stack>
+            {
+            (selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
+              <FormControl>
+                <Input
+                  placeholder={selectedField?.placeholder}
+                  type={selectedField?.type}
+                />
+              </FormControl>
+            }
+
+            {selectedField?.type === 'checkbox' && <>
+              <Stack 
+                direction="column"
+                spacing={2}
+              >
+                {selectedField?.options.map(option => {
+                  return <Checkbox value={option} label={option}/>
+                })}
+              </Stack>
+              </>
+            }
+
+            {selectedField?.type === 'radio' && <>
+              <Stack 
+                direction="column"
+                spacing={2}
+              >
+                {selectedField?.options.map(option => {
+                  return <Radio name={selectedField?.name || `radio-form-${selectedField?.id}`} value={option} label={option}/>
+                })}
+              </Stack>
+              </>
+            }
+
+          </div>
+          <div>
+            {fields.length > 0 && <>
+              {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}
+              {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)}>Next</Button>}
+              {isLastStep && <Button onClick={() => console.log("wala na finish na")}>Finish</Button>}
+            </>}
+          </div>
+        </Stack>
+      </Container>
+
       {fields.length !== 0 && 
         <Footer>
           <Stack direction="row" spacing={2} alignItems={'center'}>
