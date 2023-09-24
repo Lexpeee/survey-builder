@@ -32,6 +32,10 @@ const FieldsTab: FC<FieldsTabProps> = ({
     return fields.sort((a,b) => a - b)
   }, [fields])
 
+  /**
+   * TODO: add another header to change view
+   */
+  
   return (
     <Wrapper>
       <Grid 

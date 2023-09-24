@@ -72,6 +72,7 @@ const FieldItem:FC<FieldItemProps> = ({
     return (type === 'welcome' || type === 'message' || type === 'end')
   }, [type])
   
+  /** Automatically removes added choices upon field type change */
   useEffect(()=>{
     if (!typeHasChoices) {
       setChoices([])
@@ -84,7 +85,7 @@ const FieldItem:FC<FieldItemProps> = ({
       options: choices
     })
   }, [choices])
-
+  
   return (
     <StyledCard orientation="vertical">
       <CardContent 
@@ -221,6 +222,7 @@ const FieldItem:FC<FieldItemProps> = ({
       {typeHasChoices && 
         <>
           <Divider/>
+          {/* TODO: add has others field */}
           <CardContent>
             <Stack spacing={1}>
               <FormControl>

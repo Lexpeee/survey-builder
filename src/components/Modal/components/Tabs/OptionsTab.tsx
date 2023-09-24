@@ -18,6 +18,13 @@ type OptionsTabProps = {
 }
 
 const OptionsTab: FC<OptionsTabProps> = () => {
+
+  /**
+   * TODO: some tasks
+   * - Add submit function and custom submit funcitons, can be redirection, or just copy paste, or open email
+   * - Also add shareable links in the main component as well
+   * - Custom finish button
+   */
   
   return (
     <List>
