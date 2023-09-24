@@ -1,8 +1,7 @@
 import { styled } from '@/stitches.config'
 import { SurveyFields, SurveyOptions } from '@/types/survey'
 import {
-  Button,
-  Divider, 
+  Button, 
   FormControl,
   FormHelperText,
   FormLabel,
@@ -18,7 +17,7 @@ import {
   Tabs,
   Typography
 } from '@mui/joy'
-import { 
+import {
   Eye as EyeIcon,
   PenSquare as PenSquareIcon,
   Save as SaveIcon
@@ -34,8 +33,6 @@ import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
 import ThemesTab from './components/Tabs/ThemesTab'
 
-import { useDebounce, useDebouncedCallback } from 'use-debounce'
-import { shallow } from 'zustand/shallow'
 
 const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
 

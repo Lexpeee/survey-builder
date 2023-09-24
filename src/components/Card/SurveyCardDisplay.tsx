@@ -12,7 +12,7 @@ import { FC } from 'react'
 
 type SurveyCardDisplayProps = {
   isDraft?: boolean,
-  survey?: Survey
+  survey: Survey
 }
 
 const SurveyCardDisplay:FC<SurveyCardDisplayProps> = ({

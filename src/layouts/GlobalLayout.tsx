@@ -1,17 +1,16 @@
 import {
-  Card, 
+  Card,
   CardContent, 
-  Container,
   Grid,
-  List, 
-  ListItem, 
+  List,
+  ListItem,
   ListItemButton,
-  ListItemContent, 
+  ListItemContent,
   ListItemDecorator
 } from '@mui/joy'
-import { 
-  Home as HomeIcon, 
-  Settings as SettingsIcon, 
+import {
+  Home as HomeIcon,
+  Settings as SettingsIcon,
   List as ListIcon,
   LogOut as LogOutIcon
 } from 'lucide-react'

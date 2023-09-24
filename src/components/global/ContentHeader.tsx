@@ -1,4 +1,8 @@
-import { Button, ColorPaletteProp, VariantPropOverrides } from '@mui/joy'
+import { 
+  Button, 
+  ColorPaletteProp, 
+  VariantPropOverrides 
+} from '@mui/joy'
 import { styled } from '@/stitches.config'
 import { FC } from 'react'
 

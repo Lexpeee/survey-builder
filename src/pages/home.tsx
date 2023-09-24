@@ -1,16 +1,10 @@
-import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
 import ContentHeader from '@/components/global/ContentHeader'
-import { styled } from '@/stitches.config'
 import { Content } from '@/styles'
 import {
-  Card,
-  CardContent,
-  Container,
-  Grid,
+  Container, 
   Typography
 } from '@mui/joy'
 import { useRouter } from 'next/router'
-import React from 'react'
 
 const HomePage = () => {
   const router = useRouter()

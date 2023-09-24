@@ -1,5 +1,6 @@
 import {
-  FC, useState
+  FC, 
+  useState
 } from 'react'
 import { SurveyOptions } from '@/types/survey'
 import {
