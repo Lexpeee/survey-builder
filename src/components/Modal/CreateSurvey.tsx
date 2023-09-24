@@ -34,11 +34,68 @@ import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
 import ThemesTab from './components/Tabs/ThemesTab'
 
+import { useDebounce, useDebouncedCallback } from 'use-debounce'
+import { shallow } from 'zustand/shallow'
+
+const SAMPLE_UUID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
+
+const PRE_POPULATED_FIELDS = [
+    {
+        "id": "cd158975-e6f8-4c6e-b4f2-da34e4a4ccc4",
+        "order": 1,
+        "question": "Welcome to your Survey!",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "welcome",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": true
+    },
+    {
+        "id": "fdd7f6be-29bd-4f14-85ea-7950cf77c7bc",
+        "order": 2,
+        "question": "Your first input",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "text",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": false
+    },
+    {
+        "id": "12f3fa68-46a4-4224-a6d0-1ef099f4f4d5",
+        "order": 3,
+        "question": "Thank you for submitting your form!",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "end",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": true
+    }
+]
+
 type CreateSurveyModalProps = {
   isOpen: boolean
   onClose: () => void
 }
 
+/** 
+ * Main modal to create survey
+ * @component
+ */
 const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   isOpen, 
   onClose
@@ -56,7 +113,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 
   // form states
-  const [fields, setFields] = useState<SurveyFields[]>([])
+  const [surveyName, setSurveyName] = useState('')
+  const [fields, setFields] = useState<SurveyFields[]>(PRE_POPULATED_FIELDS)
   const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
 
   const addSurveyField = () => {
@@ -72,7 +130,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       options: [],
       isFullScreen: true,
       isRequired: false,
-      isAnswerRequired: false
+      isAnswerRequired: false,
+      isFieldLocked: false
     }
     // TODO: add logic to check if there are names existing
     setFields(fields.concat(defaultData))
@@ -115,7 +174,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   /** Resets fields and items to their default values */
   useEffect(()=>{
     if (!isOpen) {
-      setFields([])
+      setSurveyName('')
+      setFields(PRE_POPULATED_FIELDS)
       setSurveyOptions(initialSurveyOptions)
     }
   }, [isOpen])
@@ -164,10 +224,15 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
           <Grid container spacing={2}>
   
             <Grid xs={12}>
-              <FormControl error={false}>
+              <FormControl error={!surveyName}>
                 <FormLabel>Survey Name</FormLabel>
-                <Input />
-                <FormHelperText>Error show here</FormHelperText>
+                <Input 
+                  value={surveyName}
+                  onChange={(e) => setSurveyName(e?.target?.value)}
+                />
+                {!surveyName && 
+                  <FormHelperText>Name is required</FormHelperText>
+                }
               </FormControl>
             </Grid>
   

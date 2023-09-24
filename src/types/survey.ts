@@ -19,9 +19,11 @@ export type SurveyFields = {
   type: string
   defaultValue?: string
   options?: string[] | number[]
+  // TODOI: wrap options below to fieldOptions property
   isAnswerRequired?: boolean
   isFullScreen?: boolean
   isRequired?: boolean
+  isFieldLocked?: boolean
 }
 
 export type Survey = {

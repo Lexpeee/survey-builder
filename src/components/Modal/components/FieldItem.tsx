@@ -20,7 +20,9 @@ import { styled } from '@/stitches.config'
 import {
   Trash as TrashIcon,
   Send as SendIcon,
-  X as CloseIcon
+  X as CloseIcon,
+  Lock as LockIcon, 
+  Unlock as UnlockIcon
 } from 'lucide-react'
 import { 
   FC, 
@@ -45,7 +47,8 @@ const FieldItem:FC<FieldItemProps> = ({
   onHandleChange,
   onHandleRemove 
 }) => {
-  
+
+  const [isFieldLocked, setIsFieldLocked] = useState(field?.isFieldLocked)
   const [choicesInput, setChoicesInput] = useState<string>('')
   const [choices, setChoices] = useState<string[]>([])
 
@@ -83,7 +86,7 @@ const FieldItem:FC<FieldItemProps> = ({
   }, [choices])
 
   return (
-    <Card orientation="vertical">
+    <StyledCard orientation="vertical">
       <CardContent 
         orientation='horizontal'
         sx={{
@@ -94,6 +97,22 @@ const FieldItem:FC<FieldItemProps> = ({
       >
         <Typography level="title-sm">{index + 1}: Field</Typography>
         <Stack direction="row" spacing={1}>
+          <FormControl>
+            <Button
+              size={'md'}
+              color="neutral"
+              variant={!isFieldLocked ? "outlined" : "solid" }
+              onClick={() => {
+                setIsFieldLocked(prevState => !prevState)
+              }}
+            >
+              {isFieldLocked ? 
+                <LockIcon size={18}/>
+              :
+                <UnlockIcon size={18}/>
+              }
+            </Button>
+          </FormControl>
           <FormControl error={false}>
             <Select 
               defaultValue="text"
@@ -128,20 +147,23 @@ const FieldItem:FC<FieldItemProps> = ({
       <Divider inset='context'/>
 
       <CardContent >
+
         <FormControl>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-          >
-            <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
-            <Switch
-              checked={field?.isAnswerRequired}
-              onChange={() => onHandleChange(index, {
-                isAnswerRequired: !field?.isAnswerRequired
-              })}
-              startDecorator={"Field has answers"}
-            />
-          </Stack>
+          {!typeHasNoFields && 
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+            >
+              <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
+              <Switch
+                checked={field?.isAnswerRequired}
+                onChange={() => onHandleChange(index, {
+                  isAnswerRequired: !field?.isAnswerRequired
+                })}
+                startDecorator={"Field has answers"}
+              />
+            </Stack>
+          }
           <Textarea 
             minRows={2}
             placeholder={`Write your ${typeHasNoFields ? 'message' : 'question' } here`}
@@ -195,10 +217,10 @@ const FieldItem:FC<FieldItemProps> = ({
           </CardContent>
         </>
       }
-      <Divider/>
 
       {typeHasChoices && 
         <>
+          <Divider/>
           <CardContent>
             <Stack spacing={1}>
               <FormControl>
@@ -227,26 +249,43 @@ const FieldItem:FC<FieldItemProps> = ({
               </Stack>
             </Stack>
           </CardContent>
-          <Divider/>
         </>
       }
-      <Stack direction="row" spacing={1}>
-        <FormControl>
-          <Typography startDecorator={
-            <Switch/>
-          }>Required</Typography>
-        </FormControl>
-        <FormControl>
-          <Typography startDecorator={
-            <Switch/>
-          }>Fullscreen</Typography>
-        </FormControl>
-      </Stack>
-    </Card>
+
+      {!typeHasNoFields && 
+        <>
+          <Divider/>
+          <Stack direction="row" spacing={1}>
+            {
+              !typeHasNoFields && 
+                <FormControl>
+                  <Typography startDecorator={
+                    <Switch/>
+                  }>Required</Typography>
+                </FormControl>
+            }
+            {/* TODO: enable when there's actual use  */}
+            {/* <FormControl>
+              <Typography startDecorator={
+                <Switch/>
+              }>Fullscreen</Typography>
+            </FormControl> */}
+          </Stack>
+        </>
+      }
+    </StyledCard>
   )
 }
 
 export default FieldItem
+
+const StyledCard = styled(Card, {
+  cursor: 'pointer',
+  '&:hover': {
+    filter: 'drop-shadow(0 0 0.75rem #333333)',
+    transitionDuration: '500ms',
+  }
+})
 
 const StyledChip = styled(Chip, {
   cursor: 'pointer'
