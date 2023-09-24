@@ -11,6 +11,7 @@ import {
   FC, 
   useMemo
 } from 'react'
+import { styled } from '@/stitches.config'
 import FieldItem from '../FieldItem'
 
 type FieldsTabProps = {
@@ -32,49 +33,56 @@ const FieldsTab: FC<FieldsTabProps> = ({
   }, [fields])
 
   return (
-    <Grid 
-      container 
-      spacing={1}
-      direction='column'
-    > 
-      {sortedFields.map((field, index) => {
-        return <Grid key={index} xs={12}>
-          <FieldItem
-            type={field?.type}
-            field={field}
-            index={index}
-            onHandleChange={onHandleChange}
-            onHandleRemove={onHandleRemove}
-          />
-        </Grid>
-      })}
+    <Wrapper>
+      <Grid 
+        container 
+        spacing={1}
+        direction='column'
+      > 
+        {sortedFields.map((field, index) => {
+          return <Grid key={index} xs={12}>
+            <FieldItem
+              type={field?.type}
+              field={field}
+              index={index}
+              onHandleChange={onHandleChange}
+              onHandleRemove={onHandleRemove}
+            />
+          </Grid>
+        })}
 
-      <Grid xs={12}>
-        <ButtonGroup>
-          <Button 
-            fullWidth
-            variant="soft"
-            color="neutral"
-            onClick={onHandleAdd}
-          >
-            Add {fields.length > 1 && 'another'} quick field
-          </Button>         
-          <Tooltip
-            title="Coming soon"
-            placement="top"
-          >
-            <Button
+        <Grid xs={12}>
+          <ButtonGroup>
+            <Button 
+              fullWidth
               variant="soft"
               color="neutral"
+              onClick={onHandleAdd}
             >
-              <ChevronDownIcon/>
-            </Button>
-          </Tooltip>
-        </ButtonGroup>
-      </Grid>
+              Add {fields.length > 1 && 'another'} quick field
+            </Button>         
+            <Tooltip
+              title="Coming soon"
+              placement="top"
+            >
+              <Button
+                variant="soft"
+                color="neutral"
+              >
+                <ChevronDownIcon/>
+              </Button>
+            </Tooltip>
+          </ButtonGroup>
+        </Grid>
 
-    </Grid>
+      </Grid>
+    </Wrapper>
   )
 }
 
 export default FieldsTab
+
+const Wrapper = styled('div', {
+  background: '#dddddd',
+  padding: '30px 50px',
+})
