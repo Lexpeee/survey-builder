@@ -1,4 +1,5 @@
 import { styled } from '@/stitches.config'
+import { Survey } from '@/types/survey'
 import {
   AspectRatio,
   Card,
@@ -10,11 +11,13 @@ import Image from 'next/image'
 import { FC } from 'react'
 
 type SurveyCardDisplayProps = {
-  isDraft?: boolean
+  isDraft?: boolean,
+  survey?: Survey
 }
 
 const SurveyCardDisplay:FC<SurveyCardDisplayProps> = ({
-  isDraft
+  isDraft,
+  survey
 }) => {
   return (
     <StyledCard>
@@ -32,8 +35,11 @@ const SurveyCardDisplay:FC<SurveyCardDisplayProps> = ({
         <Typography
           level='h4'
         >
-          Survey 1
+          {survey?.name}
         </Typography>
+        {/* 
+          TODO: Add survey description to the options tab
+         */}
         <Typography
           level='body-sm'
         >

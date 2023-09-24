@@ -1,16 +1,25 @@
 import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
 import CreateSurveyModal from '@/components/Modal/CreateSurvey'
 import ContentHeader from '@/components/global/ContentHeader'
+import { useSurveyStore } from '@/store'
 import { Content } from '@/styles'
 import {
   Container,
   Grid
 } from '@mui/joy'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { shallow } from 'zustand/shallow'
 
 const MyFormsPage = () => {
   const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(false)
 
+  /** @ts-ignore */
+  const surveys = useSurveyStore((draft) => draft.surveys, shallow)
+
+  useEffect(()=>{
+    console.log(surveys)
+  }, [surveys])
+  
   return (
     <>
       <ContentHeader
@@ -31,24 +40,13 @@ const MyFormsPage = () => {
             spacing={2} 
           >
 
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
+            {surveys?.map(survey => 
+              <Grid xs={3}>
+                <SurveyCardDisplay
+                  survey={survey}
+                />
+              </Grid>
+            )}
 
           </Grid>
         </Container>
