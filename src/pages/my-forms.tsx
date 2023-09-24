@@ -13,7 +13,6 @@ import { shallow } from 'zustand/shallow'
 const MyFormsPage = () => {
   const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(false)
 
-  /** @ts-ignore */
   const surveys = useSurveyStore((draft) => draft.surveys, shallow)
 
   useEffect(()=>{

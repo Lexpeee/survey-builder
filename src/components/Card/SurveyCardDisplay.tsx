@@ -23,7 +23,7 @@ const SurveyCardDisplay:FC<SurveyCardDisplayProps> = ({
     <StyledCard>
       <CardContent>
         <AspectRatio >
-          <Image src="/assets/placeholders/image.png" alt="image" width={200} height={120}/>
+          <Image src={survey.displayImages[0]} alt="image" width={200} height={120}/>
         </AspectRatio>
         <DraftBadge>
           {isDraft && 

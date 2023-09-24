@@ -30,21 +30,7 @@ const HomePage = () => {
       />
       <Content>
         <Container>
-
-          <Typography
-            level='title-lg'
-          >
-            Recently viewed surveys
-          </Typography>
-
-          <Grid 
-            container 
-            spacing={2} 
-          >
-            <Grid xs={3}>
-              <SurveyCardDisplay/>
-            </Grid>
-          </Grid>
+          <Typography level="h1">Hi there! Welcome to the survey form!</Typography>
           
         </Container>
 
