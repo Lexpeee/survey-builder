@@ -82,17 +82,27 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         >
           {
             selectedField?.type === 'welcome' && <>
-              <h1>
+              <Typography 
+                level='h1'
+                sx={{
+                  color: options?.theme?.foregroundColor
+                }}
+              >
                 {selectedField?.question || <>Question {currentStep + 1}</>}
-              </h1>
+              </Typography>
             </>
           }
 
           {
             selectedField?.type !== 'welcome' && 
-            <>
+            <Typography 
+              level='title-md'
+              sx={{
+                color: options?.theme?.foregroundColor
+              }}
+            >
               {selectedField?.question || <>Question {currentStep + 1}</>}
-            </>
+            </Typography>
 
           }
           <div>
@@ -113,7 +123,13 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
                 spacing={2}
               >
                 {selectedField?.options.map(option => {
-                  return <Checkbox value={option} label={option}/>
+                  return <Checkbox 
+                    value={option} 
+                    label={option}
+                    sx={{
+                      color: options?.theme?.foregroundColor
+                    }}
+                  />
                 })}
               </Stack>
               </>
@@ -129,8 +145,8 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
                     name={selectedField?.name || `radio-form-${selectedField?.id}`} 
                     value={option} 
                     label={option}
-                    style={{
-                      color: options?.theme?.foreground
+                    sx={{
+                      color: options?.theme?.foregroundColor
                     }}
                   />
                 })}
@@ -139,6 +155,12 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
             }
 
           </div>
+          {/* 
+            TODO: 
+              - add back button options 
+              - show steps 
+              - choices direciton
+           */}
           <div>
             {fields?.length > 0 && <>
               {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}

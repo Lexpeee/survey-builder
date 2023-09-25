@@ -7,7 +7,7 @@ export const SAMPLE_FORMS = [
 			{
 				"id": "cd158975-e6f8-4c6e-b4f2-da34e4a4ccc4",
 				"order": 1,
-				"question": "Welcome to your Survey!",
+				"question": "Thank you for taking the time to take on your survey! We hope to receive feedbacks from you just by answering this form. ",
 				"name": "",
 				"answer": "",
 				"placeholder": "",
