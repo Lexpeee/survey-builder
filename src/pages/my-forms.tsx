@@ -62,14 +62,16 @@ const MyFormsPage = () => {
         </Container>
       </Content>
 
-      <CreateSurveyModal
-        selectedSurvey={selectedSurvey}
-        isOpen={isCreateSurveyModalOpen}
-        onClose={() => {
-          setSelectedSurvey({})
-          setIsCreateSurveyModalOpen(false)
-        }}
-      />
+      {isCreateSurveyModalOpen && 
+        <CreateSurveyModal
+          selectedSurvey={selectedSurvey}
+          isOpen={isCreateSurveyModalOpen}
+          onClose={() => {
+            setSelectedSurvey({})
+            setIsCreateSurveyModalOpen(false)
+          }}
+        />
+      }
 
     </>
   )

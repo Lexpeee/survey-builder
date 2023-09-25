@@ -2,7 +2,10 @@ import {
   Button, 
   ButtonGroup,
   Grid,
-  Tooltip
+  Tooltip,
+  Stack, 
+  CircularProgress, 
+  Typography
 } from '@mui/joy'
 import {
   ChevronDown as ChevronDownIcon
@@ -16,6 +19,7 @@ import FieldItem from '../FieldItem'
 
 type FieldsTabProps = {
   fields: any,
+  isLoading: boolean
   onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
   onHandleAdd: () => void
@@ -23,6 +27,7 @@ type FieldsTabProps = {
 
 const FieldsTab: FC<FieldsTabProps> = ({
   fields,
+  isLoading, 
   onHandleChange,
   onHandleRemove, 
   onHandleAdd
@@ -35,6 +40,31 @@ const FieldsTab: FC<FieldsTabProps> = ({
   /**
    * TODO: add another header to change view
    */
+  
+
+  if (isLoading) {
+    return(
+      <Wrapper>
+        <Grid 
+          container
+          spacing={1}
+          direction={'column'}
+        >
+          <Grid xs={12}>  
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
+          >
+            <CircularProgress/>
+            <Typography level={'h3'}>Loading</Typography>
+          </Stack>
+          </Grid>
+        </Grid> 
+      </Wrapper> 
+    )
+  }
   
   return (
     <Wrapper>

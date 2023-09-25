@@ -1,5 +1,5 @@
 import { styled } from '@/stitches.config'
-import { SurveyFields, SurveyOptions } from '@/types/survey'
+import { Survey, SurveyFields, SurveyOptions } from '@/types/survey'
 import {
   Button, 
   FormControl,
@@ -25,9 +25,11 @@ import {
 import {
   FC,
   useEffect,
-  useState
+  useState,
+  useMemo
 } from 'react'
 import { v4 as uuid } from 'uuid'
+import { isEmpty} from 'lodash'
 import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
@@ -85,6 +87,7 @@ const PRE_POPULATED_FIELDS = [
 ]
 
 type CreateSurveyModalProps = {
+  selectedSurvey?: Survey | null,
   isOpen: boolean
   onClose: () => void
 }
@@ -94,9 +97,11 @@ type CreateSurveyModalProps = {
  * @component
  */
 const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
+  selectedSurvey = null, 
   isOpen, 
   onClose
 }) => {
+  const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
 
   const initialSurveyOptions: SurveyOptions = {
     link: null, 
@@ -110,6 +115,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 
   // form states
+  const [isLoading, setIsLoading] = useState(true)
   const [surveyName, setSurveyName] = useState('')
   const [fields, setFields] = useState<SurveyFields[]>(PRE_POPULATED_FIELDS)
   const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
@@ -117,7 +123,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   const addSurveyField = () => {
     let defaultData:SurveyFields = {
       id: uuid(),
-      order: fields.length + 1,
+      order: fields?.length + 1,
       question: '',
       name: "", 
       answer: '',
@@ -131,11 +137,11 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       isFieldLocked: false
     }
     // TODO: add logic to check if there are names existing
-    setFields(fields.concat(defaultData))
+    setFields(fields?.concat(defaultData))
   }
 
   const handleChangeField = (index: number, data: any) => {
-    const newData = fields.slice().map((field, i) => {
+    const newData = fields?.slice().map((field, i) => {
       if(index === i) {
         return {
           ...field, 
@@ -175,14 +181,18 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     console.log(data)
   }
 
-  /** Resets fields and items to their default values */
+  useEffect(() => {
+    console.log('sniet', fields)
+  }, [fields])
+  
+
   useEffect(()=>{
-    if (!isOpen) {
-      setSurveyName('')
-      setFields(PRE_POPULATED_FIELDS)
-      setSurveyOptions(initialSurveyOptions)
-    }
-  }, [isOpen])
+    setIsLoading(true)
+    setSurveyName(selectedSurvey?.name || '')
+    setFields(selectedSurvey?.fields || PRE_POPULATED_FIELDS)
+    setSurveyOptions(selectedSurvey?.options || initialSurveyOptions)
+    setIsLoading(false)
+  }, [selectedSurvey])
 
   if (isOpen) {
     return (
@@ -244,7 +254,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   
               <Tabs defaultValue={"fields"}>
                 <TabList>
-                  <Tab value="fields">Fields ({fields.length})</Tab>
+                  <Tab value="fields">Fields ({fields?.length})</Tab>
                   <Tab value="logic">Logic</Tab>
                   <Tab value="theme">Theme</Tab>
                   <Tab value="options">Options</Tab>
@@ -253,6 +263,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                   <TabPanel value="fields">
                     <FieldsTab
                       fields={fields}
+                      isLoading={isLoading}
                       onHandleChange={handleChangeField}
                       onHandleRemove={removeSurveyField}
                       onHandleAdd={addSurveyField}
@@ -278,6 +289,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
             </Grid>
             <Grid md={6}>
               <MainSurvey
+                isLoading={isLoading}
                 fields={fields}
                 options={surveyOptions}
               />

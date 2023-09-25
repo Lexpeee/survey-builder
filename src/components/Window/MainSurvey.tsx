@@ -8,6 +8,7 @@ import {
   Input,
   Stack,
   Typography,
+  CircularProgress
 } from '@mui/joy'
 import {
   ArrowLeft as ArrowLeftIcon,
@@ -53,7 +54,15 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         color: options?.theme?.foregroundColor 
       }}
     >
-      <Container>Loading</Container>
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <CircularProgress/>
+        <Typography level={'h3'}>Loading</Typography>
+      </Stack>
     </Wrapper>
   }
   

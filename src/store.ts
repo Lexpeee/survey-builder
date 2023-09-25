@@ -3,7 +3,7 @@ import { SAMPLE_FORMS } from './helpers/constants'
 
 export const useSurveyStore = create(set => ({
   surveys: SAMPLE_FORMS,
-  selectedSurvey: {},
+  selectedSurvey: null,
   setSelectedSurvey: (data) => set(() => ({selectedSurvey: data})),
   setSurveys: (data) => set(() => ({surveys: data}))
 }))

@@ -35,7 +35,7 @@ import { SurveyFields } from '@/types/survey'
 type FieldItemProps = {
   type: string
   index: number
-  field: SurveyFields,
+  field: SurveyFields
   onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
 }
@@ -84,7 +84,7 @@ const FieldItem:FC<FieldItemProps> = ({
     onHandleChange(index, {
       options: choices
     })
-  }, [choices])
+  }, [choices])  
   
   return (
     <StyledCard orientation="vertical">
