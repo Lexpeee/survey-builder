@@ -22,6 +22,7 @@ import {
 import { useDebounce } from 'use-debounce'
 
 type MainSurveyProps = {
+  isLoading?: boolean
   fields: any
   options: any
 }
@@ -34,7 +35,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
   const [currentStep, setCurrentStep] = useState(0)
 
   const selectedField = useMemo(()=>{
-    return fields[currentStep]
+    return fields?.[currentStep]
   }, [fields, currentStep])
   
   const isFirstStep = useMemo(() => {
@@ -42,9 +43,20 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
   }, [fields, currentStep])
   
   const isLastStep = useMemo(() => {
-    return currentStep === (fields.length - 1)
+    return currentStep === (fields?.length - 1)
   }, [fields, currentStep])
 
+  if (p?.isLoading) {
+    return <Wrapper
+      css={{
+        background: options?.theme?.backgroundColor,
+        color: options?.theme?.foregroundColor 
+      }}
+    >
+      <Container>Loading</Container>
+    </Wrapper>
+  }
+  
   return (
     <Wrapper
       css={{
@@ -109,7 +121,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
 
           </div>
           <div>
-            {fields.length > 0 && <>
+            {fields?.length > 0 && <>
               {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)}>Back</Button>}
               {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)}>Next</Button>}
               {isLastStep && <Button onClick={() => console.log("wala na finish na")}>Finish</Button>}
@@ -118,7 +130,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         </Stack>
       </Container>
 
-      {fields.length !== 0 && 
+      {fields?.length !== 0 && 
         <Footer>
           <Stack direction="row" spacing={2} alignItems={'center'}>
             <FooterItem>

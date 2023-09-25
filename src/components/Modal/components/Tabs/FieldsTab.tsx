@@ -29,7 +29,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
 }) => {
   
   const sortedFields = useMemo(() => {
-    return fields.sort((a,b) => a - b)
+    return fields?.sort((a,b) => a - b)
   }, [fields])
 
   /**
@@ -43,7 +43,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
         spacing={1}
         direction='column'
       > 
-        {sortedFields.map((field, index) => {
+        {sortedFields?.map((field, index) => {
           return <Grid key={index} xs={12}>
             <FieldItem
               type={field?.type}
@@ -63,7 +63,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
               color="neutral"
               onClick={onHandleAdd}
             >
-              Add {fields.length > 1 && 'another'} quick field
+              Add {fields?.length > 1 && 'another'} quick field
             </Button>         
             <Tooltip
               title="Coming soon"

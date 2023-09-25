@@ -13,11 +13,20 @@ import { shallow } from 'zustand/shallow'
 const MyFormsPage = () => {
   const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(false)
 
-  const surveys = useSurveyStore((draft) => draft.surveys, shallow)
+  const {
+    surveys,
+    selectedSurvey, 
+    setSelectedSurvey
+  } = useSurveyStore((draft) => ({
+    surveys: draft.surveys,
+    selectedSurvey: draft.selectedSurvey,
+    setSelectedSurvey: draft.setSelectedSurvey,
+  }), shallow)
 
-  useEffect(()=>{
-    console.log(surveys)
-  }, [surveys])
+  const handleSelectSurvey = (survey) => {
+    setSelectedSurvey(survey)
+    setIsCreateSurveyModalOpen(true)
+  }
   
   return (
     <>
@@ -40,7 +49,9 @@ const MyFormsPage = () => {
           >
 
             {surveys?.map(survey => 
-              <Grid xs={3}>
+              <Grid xs={3}
+                onClick={() => handleSelectSurvey(survey)}
+              >
                 <SurveyCardDisplay
                   survey={survey}
                 />
@@ -52,8 +63,12 @@ const MyFormsPage = () => {
       </Content>
 
       <CreateSurveyModal
+        selectedSurvey={selectedSurvey}
         isOpen={isCreateSurveyModalOpen}
-        onClose={() => setIsCreateSurveyModalOpen(false)}
+        onClose={() => {
+          setSelectedSurvey({})
+          setIsCreateSurveyModalOpen(false)
+        }}
       />
 
     </>
