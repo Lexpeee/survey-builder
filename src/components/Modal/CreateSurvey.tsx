@@ -1,7 +1,7 @@
 import { styled } from '@/stitches.config'
 import { Survey, SurveyFields, SurveyOptions } from '@/types/survey'
 import {
-  Button, 
+  Button,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -29,7 +29,6 @@ import {
   useMemo
 } from 'react'
 import { v4 as uuid } from 'uuid'
-import { isEmpty} from 'lodash'
 import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
@@ -163,6 +162,10 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
       ...data
     }))
   }
+
+  const handlePreviewSurvey = () => {
+    window.open(window.location.origin + `/survey/${selectedSurvey?.id}?preview=true`, '_blank')
+  }
   
   /** Main submit method */
   const handleSubmitForm = () => {
@@ -180,11 +183,6 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
 
     console.log(data)
   }
-
-  useEffect(() => {
-    console.log('sniet', fields)
-  }, [fields])
-  
 
   useEffect(()=>{
     setIsLoading(true)
@@ -217,6 +215,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                 <Button
                   startDecorator={<EyeIcon/>}
                   variant="outlined"
+                  onClick={handlePreviewSurvey}
                 >Preview</Button>
               </Grid>
               <Grid>

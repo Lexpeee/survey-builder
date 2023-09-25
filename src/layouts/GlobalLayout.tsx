@@ -22,7 +22,7 @@ import { FC } from 'react'
 
 const GlobalLayout: FC<any> = ({children}) => {
   const router = useRouter()
-  
+
   return (
     <>
     {/* CONVERT THIS TO A LAYOUT */}

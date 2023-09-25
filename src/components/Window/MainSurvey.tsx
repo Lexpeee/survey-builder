@@ -23,9 +23,10 @@ import {
 import { useDebounce } from 'use-debounce'
 
 type MainSurveyProps = {
-  isLoading?: boolean
   fields: any
   options: any
+  isActual?: boolean
+  isLoading?: boolean
 }
 
 const MainSurvey:FC<MainSurveyProps> = (p) => {
@@ -49,6 +50,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
 
   if (p?.isLoading) {
     return <Wrapper
+      isActual={p?.isActual}
       css={{
         background: options?.theme?.backgroundColor,
         color: options?.theme?.foregroundColor 
@@ -68,6 +70,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
   
   return (
     <Wrapper
+      isActual={p?.isActual}
       css={{
         background: options?.theme?.backgroundColor,
         color: options?.theme?.foregroundColor 
@@ -122,7 +125,14 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
                 spacing={2}
               >
                 {selectedField?.options.map(option => {
-                  return <Radio name={selectedField?.name || `radio-form-${selectedField?.id}`} value={option} label={option}/>
+                  return <Radio 
+                    name={selectedField?.name || `radio-form-${selectedField?.id}`} 
+                    value={option} 
+                    label={option}
+                    style={{
+                      color: options?.theme?.foreground
+                    }}
+                  />
                 })}
               </Stack>
               </>
@@ -139,7 +149,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         </Stack>
       </Container>
 
-      {fields?.length !== 0 && 
+      {fields?.length !== 0 && !p?.isActual && 
         <Footer>
           <Stack direction="row" spacing={2} alignItems={'center'}>
             <FooterItem>
@@ -190,13 +200,18 @@ const FooterItem = styled('div', {
 })
 
 const Wrapper = styled('div', {
+  variants: {
+    isActual: {
+      true: {
+        height: '100vh !important',
+      }
+    }
+  },
   position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   height: '100%',
-  border: '1px solid #ccc', // TODO: remove afterwards
-  borderRadius: 10,
   padding: 10,  
 })
