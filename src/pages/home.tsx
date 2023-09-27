@@ -6,6 +6,7 @@ import {
   Stack
 } from '@mui/joy'
 import Image from 'next/image'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 const HomePage = () => {
@@ -13,6 +14,9 @@ const HomePage = () => {
   
   return (
     <>
+      <Head>
+        <title>Home | Proform</title>
+      </Head>
       <ContentHeader 
         header="Home"
         actionButtons={[

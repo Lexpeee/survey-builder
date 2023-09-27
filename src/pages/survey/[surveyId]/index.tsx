@@ -6,6 +6,7 @@ import MainSurvey from '@/components/Window/MainSurvey'
 import { useSurveyStore } from '@/store'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import { styled } from '@/stitches.config'
 
 const SurveyPage = () => {
@@ -31,6 +32,10 @@ const SurveyPage = () => {
   if (selectedSurvey) {
     return (
       <>
+      <Head>
+        <title>{selectedSurvey?.name} | Proform </title>
+      </Head>
+
       {preview && 
         <HeaderPreview>
           <Stack 

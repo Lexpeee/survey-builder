@@ -8,11 +8,15 @@ import {
   ListItemContent,
   Typography
 } from '@mui/joy'
+import Head from 'next/head'
 import React from 'react'
 
 const SettingsPage = () => {
   return (
     <>
+      <Head>
+        <title>Settings | Proform</title>
+      </Head>
       <ContentHeader
         header="Settings"
       />

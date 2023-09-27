@@ -7,6 +7,7 @@ import {
   Container,
   Grid
 } from '@mui/joy'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { shallow } from 'zustand/shallow'
 
@@ -30,6 +31,9 @@ const MyFormsPage = () => {
   
   return (
     <>
+      <Head>
+        <title>My forms | Proform</title>
+      </Head>
       <ContentHeader
         header="Your forms"
         actionButtons={[
