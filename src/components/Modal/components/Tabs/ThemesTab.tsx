@@ -1,6 +1,7 @@
 import {
   FC, 
-  useState
+  useState,
+  useEffect
 } from 'react'
 import { SurveyOptions } from '@/types/survey'
 import {
@@ -23,6 +24,10 @@ const ThemesTab: FC<ThemesTabProps> = ({
   onChangeOptions
 }) => {
   
+  const [backgroundColor, setBackgroundColor] = useState(options?.theme?.backgroundColor)
+  const [foregroundColor, setForegroundColor] = useState(options?.theme?.foregroundColor)
+  const [buttonColor, setButtonColor] = useState(options?.theme?.foregroundColor)
+  
   const handleChangeTheme = () => {
     onChangeOptions({
       theme: {
@@ -33,12 +38,16 @@ const ThemesTab: FC<ThemesTabProps> = ({
     })
   }
   
-  const [backgroundColor, setBackgroundColor] = useState(options?.theme?.backgroundColor)
-  const [foregroundColor, setForegroundColor] = useState(options?.theme?.foregroundColor)
-  const [buttonColor, setButtonColor] = useState(options?.theme?.foregroundColor)
-  
   const [selectedColorOption, setSelectedColorOption] = useState('')
   const [isColorPickerModalOpen, setIsColorPickerModalOpen] = useState(false)
+  
+  useEffect(()=>{
+    handleChangeTheme()
+  }, [
+    backgroundColor, 
+    foregroundColor, 
+    buttonColor
+  ])
   
   return (
     <Stack 
@@ -126,6 +135,7 @@ const ThemesTab: FC<ThemesTabProps> = ({
         open={isColorPickerModalOpen}
         onClose={() => setIsColorPickerModalOpen(false)}
       >
+        {/* TODO: chore - try refactoring, map every theme and set to it's color */}
         <ModalDialog>
             <Typography level="h4">Select {selectedColorOption} color</Typography>
           <Stack direction="row" spacing={1}>
@@ -134,27 +144,30 @@ const ThemesTab: FC<ThemesTabProps> = ({
             {selectedColorOption === 'button' && <ColorBox css={{background: buttonColor}}/>}
             <Typography level="body-sm">{selectedColorOption}</Typography>
           </Stack>
-          <Stack>
+          <Stack
+            spacing={1}
+          >
+            <Button
+              variant='outlined'
+              color="neutral"
+              onClick={() => {
+                selectedColorOption === 'background' && setBackgroundColor('default')
+                selectedColorOption === 'foreground' && setForegroundColor('default')
+                selectedColorOption === 'button' && setButtonColor('default')
+                handleChangeTheme()
+                setIsColorPickerModalOpen(false)
+              }}
+            >
+              Reset to default color
+            </Button>
             <SwatchesPicker
               onChangeComplete={({hex}) => {
                 selectedColorOption === 'background' && setBackgroundColor(hex)
                 selectedColorOption === 'foreground' && setForegroundColor(hex)
                 selectedColorOption === 'button' && setButtonColor(hex)
+                setIsColorPickerModalOpen(false)
               }}
             />
-          </Stack>
-          <Stack
-            direction="row"
-          >
-            <Button 
-              fullWidth
-              color="primary"
-              variant="solid"
-              onClick={() => {
-                setIsColorPickerModalOpen(false)
-                handleChangeTheme()
-              }}
-            >Select</Button>
           </Stack>
         </ModalDialog>
       </Modal>
