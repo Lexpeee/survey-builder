@@ -24,7 +24,7 @@ import {
   Send as SendIcon,
   X as CloseIcon,
   Lock as LockIcon, 
-  Unlock as UnlockIcon
+  Unlock as UnlockIcon,
 } from 'lucide-react'
 import { 
   FC, 
