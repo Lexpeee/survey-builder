@@ -12,7 +12,9 @@ import {
 } from 'lucide-react'
 import {
   FC, 
-  useMemo
+  useEffect, 
+  useMemo,
+  useState
 } from 'react'
 import { styled } from '@/stitches.config'
 import FieldItem from '../FieldItem'
@@ -36,6 +38,8 @@ const FieldsTab: FC<FieldsTabProps> = ({
   const sortedFields = useMemo(() => {
     return fields?.sort((a,b) => a - b)
   }, [fields])
+
+  const [fieldErrors, setFieldErrors] = useState([])
 
   /**
    * TODO: add another header to change view
@@ -74,11 +78,28 @@ const FieldsTab: FC<FieldsTabProps> = ({
         direction='column'
       > 
         {sortedFields?.map((field, index) => {
+          const {
+            name, 
+            question,
+            type
+          } = field
+          const typeHasNoFields = (type === 'welcome' || type === 'message' || type === 'end')
+
+          // TODO: use for furute validations 
+          const fieldHasError = (
+            (!typeHasNoFields && !name) || 
+            !question ||
+            (field?.isAnswerRequired && !field?.answer) || 
+            (!typeHasNoFields && !field?.name)
+          )
+
           return <Grid key={index} xs={12}>
-            <FieldItem
+            <FieldItem  
               type={field?.type}
               field={field}
               index={index}
+              typeHasNoFields={typeHasNoFields}
+              handleSetFieldError={() => setFieldErrors(prevState => prevState.concat(index))}
               onHandleChange={onHandleChange}
               onHandleRemove={onHandleRemove}
             />

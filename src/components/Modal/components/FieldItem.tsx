@@ -13,11 +13,13 @@ import {
   Select, 
   Stack,
   Switch, 
+  Tooltip, 
   Textarea, 
   Typography
 } from '@mui/joy'
 import { styled } from '@/stitches.config'
 import {
+  Info as InfoIcon,
   Trash as TrashIcon,
   Send as SendIcon,
   X as CloseIcon,
@@ -36,6 +38,8 @@ type FieldItemProps = {
   type: string
   index: number
   field: SurveyFields
+  typeHasNoFields: boolean
+  handleSetFieldError: () => void
   onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
 }
@@ -44,6 +48,8 @@ const FieldItem:FC<FieldItemProps> = ({
   type,
   field, 
   index,
+  typeHasNoFields,
+  handleSetFieldError,
   onHandleChange,
   onHandleRemove 
 }) => {
@@ -68,9 +74,6 @@ const FieldItem:FC<FieldItemProps> = ({
     return choiceTypes.includes(type)
   }, [type])
 
-  const typeHasNoFields = useMemo(() => {
-    return (type === 'welcome' || type === 'message' || type === 'end')
-  }, [type])
   
   /** Automatically removes added choices upon field type change */
   useEffect(()=>{
@@ -85,7 +88,7 @@ const FieldItem:FC<FieldItemProps> = ({
       options: choices
     })
   }, [choices])  
-  
+
   return (
     <StyledCard orientation="vertical">
       <CardContent 
@@ -165,6 +168,10 @@ const FieldItem:FC<FieldItemProps> = ({
               />
             </Stack>
           }
+        </FormControl>
+        <FormControl
+          error={!field?.question}
+        >
           <Textarea 
             minRows={2}
             placeholder={`Write your ${typeHasNoFields ? 'message' : 'question' } here`}
@@ -173,6 +180,9 @@ const FieldItem:FC<FieldItemProps> = ({
             })}
             value={field?.question}
           />
+          {!field?.question && 
+            <FormHelperText>Question is required</FormHelperText>
+          }
         </FormControl>
 
         {field?.isAnswerRequired && 
@@ -187,7 +197,7 @@ const FieldItem:FC<FieldItemProps> = ({
               })}
             />
             {field?.isAnswerRequired && !field?.answer && 
-              <FormHelperText>This field is required</FormHelperText>
+              <FormHelperText>Answer is required</FormHelperText>
             }
           </FormControl>
         }
@@ -196,25 +206,44 @@ const FieldItem:FC<FieldItemProps> = ({
       {!typeHasNoFields && 
         <>
           <CardContent orientation="horizontal">
-            <FormControl error={false}>
-              <FormLabel>Form name</FormLabel>
-              <Input 
-                onChange={(e) => onHandleChange(index, {
-                  name: e?.target?.value
-                })}
-                value={field?.name}
-              />
-            </FormControl>
-            <Divider orientation="vertical"/>
-            <FormControl error={false}>
-              <FormLabel>Form Placeholder</FormLabel>
-              <Input 
-                onChange={(e) => onHandleChange(index, {
-                  placeholder: e?.target?.value
-                })}
-                value={field?.placeholder}
-              />
-            </FormControl>
+            <Stack
+              direction="row"
+              spacing={2}
+              divider={
+                <Divider orientation="vertical"/>
+              }
+            >
+              <FormControl error={!typeHasNoFields && !field?.name}>
+                <FormLabel>
+                  Field name 
+                  <Tooltip
+                    title="Field name serves as a label for this field"
+                    arrow
+                    placement="top"
+                  >
+                    <InfoIcon size={14}/>
+                  </Tooltip>
+                </FormLabel>
+                <Input 
+                  onChange={(e) => onHandleChange(index, {
+                    name: e?.target?.value
+                  })}
+                  value={field?.name}
+                />
+                {!typeHasNoFields && !field?.name && 
+                  <FormHelperText>Name is required</FormHelperText>
+                }
+              </FormControl>
+              <FormControl error={false}>
+                <FormLabel>Form Placeholder</FormLabel>
+                <Input 
+                  onChange={(e) => onHandleChange(index, {
+                    placeholder: e?.target?.value
+                  })}
+                  value={field?.placeholder}
+                />
+              </FormControl>
+            </Stack>
           </CardContent>
         </>
       }
