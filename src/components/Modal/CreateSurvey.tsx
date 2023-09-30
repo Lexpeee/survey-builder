@@ -33,6 +33,7 @@ import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
 import ThemesTab from './components/Tabs/ThemesTab'
+import useSurvey from '@/hooks/useSurvey'
 
 
 const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
@@ -100,6 +101,8 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   isOpen, 
   onClose
 }) => {
+  const { saveSurvey } = useSurvey()
+  
   const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
 
   const initialSurveyOptions: SurveyOptions = {
@@ -140,6 +143,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 
   const handleChangeField = (index: number, data: any) => {
+    // TODO: add on change surveys event
     const newData = fields?.slice().map((field, i) => {
       if(index === i) {
         return {
@@ -153,10 +157,12 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 
   const removeSurveyField = (id: string) => {
+    // TODO: add on change surveys event
     setFields(prevState => prevState.filter((v:any) => v?.id !== id))
   }
   
   const onChangeSurveyOptions = (data) => {
+    // TODO: add on change surveys event
     setSurveyOptions(prevState => ({ 
       ...prevState, 
       ...data
@@ -168,20 +174,27 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
   
   /** Main submit method */
-  const handleSubmitForm = () => {
-    let data = {
-      id: uuid(),
-      name: surveyName, 
-      userId: SAMPLE_USER_ID,
-      fields,
-      options: surveyOptions,
-      displayImages: [
-        "https://ik.imagekit.io/ychxbfg73/sample-images/jordan-mcgee-l3TwAWTVIQg-unsplash_vnXi71Poy.jpg?updatedAt=1695001101839"
-      ],
-      isVisible: true
+  const handleSubmitForm = async () => {
+    try {
+      let data = {
+        id: uuid(),
+        name: surveyName, 
+        userId: SAMPLE_USER_ID,
+        fields,
+        options: surveyOptions,
+        displayImages: [
+          "https://ik.imagekit.io/ychxbfg73/sample-images/jordan-mcgee-l3TwAWTVIQg-unsplash_vnXi71Poy.jpg?updatedAt=1695001101839"
+        ],
+        isVisible: true
+      }
+  
+      await saveSurvey(data)
+      
+    } catch (err) {
+      console.error(err)
+    } finally {
+      onClose()
     }
-
-    console.log(data)
   }
 
   useEffect(()=>{
