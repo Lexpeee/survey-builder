@@ -193,7 +193,9 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     } catch (err) {
       console.error(err)
     } finally {
-      onClose()
+      if (!isEdit) {
+        onClose()
+      }
     }
   }
 
