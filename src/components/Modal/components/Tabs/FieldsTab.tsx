@@ -25,6 +25,7 @@ type FieldsTabProps = {
   onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
   onHandleAdd: () => void
+  onHandleSetFieldError: (fieldIndex: number, hasError: boolean) => void
 }
 
 const FieldsTab: FC<FieldsTabProps> = ({
@@ -32,14 +33,14 @@ const FieldsTab: FC<FieldsTabProps> = ({
   isLoading, 
   onHandleChange,
   onHandleRemove, 
-  onHandleAdd
+  onHandleAdd,
+  onHandleSetFieldError
 }) => {
   
   const sortedFields = useMemo(() => {
-    return fields?.sort((a,b) => a - b)
+    const newFields = fields?.sort((a,b) => a - b)
+    return newFields
   }, [fields])
-
-  const [fieldErrors, setFieldErrors] = useState([])
 
   /**
    * TODO: add another header to change view
@@ -85,21 +86,13 @@ const FieldsTab: FC<FieldsTabProps> = ({
           } = field
           const typeHasNoFields = (type === 'welcome' || type === 'message' || type === 'end')
 
-          // TODO: use for furute validations 
-          const fieldHasError = (
-            (!typeHasNoFields && !name) || 
-            !question ||
-            (field?.isAnswerRequired && !field?.answer) || 
-            (!typeHasNoFields && !field?.name)
-          )
-
           return <Grid key={index} xs={12}>
             <FieldItem  
               type={field?.type}
               field={field}
               index={index}
               typeHasNoFields={typeHasNoFields}
-              handleSetFieldError={() => setFieldErrors(prevState => prevState.concat(index))}
+              onHandleSetFieldError={onHandleSetFieldError}
               onHandleChange={onHandleChange}
               onHandleRemove={onHandleRemove}
             />

@@ -39,7 +39,7 @@ type FieldItemProps = {
   index: number
   field: SurveyFields
   typeHasNoFields: boolean
-  handleSetFieldError: () => void
+  onHandleSetFieldError: (fieldIndex: number, hasError: boolean) => void
   onHandleChange: (index: number, data: any) => void
   onHandleRemove: (id: string) => void
 }
@@ -49,7 +49,7 @@ const FieldItem:FC<FieldItemProps> = ({
   field, 
   index,
   typeHasNoFields,
-  handleSetFieldError,
+  onHandleSetFieldError,
   onHandleChange,
   onHandleRemove 
 }) => {
@@ -88,6 +88,24 @@ const FieldItem:FC<FieldItemProps> = ({
       options: choices
     })
   }, [choices])  
+
+  /** 
+   * Detects any errors in the field and sends it to the parent component 
+   */
+  useEffect(() => {
+    const { name, question, isAnswerRequired, answer } = field
+  
+    const hasFieldError = Boolean(
+      (!typeHasNoFields && !name) || 
+      !question ||
+      (isAnswerRequired && !answer) || 
+      (field?.type === 'checkbox' || field?.type === 'radio') && choices.length < 2
+    )
+
+    onHandleSetFieldError(index, hasFieldError)
+
+  }, [field])
+  
 
   return (
     <StyledCard orientation="vertical">

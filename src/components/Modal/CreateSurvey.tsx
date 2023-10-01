@@ -119,10 +119,15 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   // form states
   const [isLoading, setIsLoading] = useState(true)
   const [surveyName, setSurveyName] = useState('')
-  const [fields, setFields] = useState<SurveyFields[]>(PRE_POPULATED_FIELDS)
+  const [fields, setFields] = useState<SurveyFields[]>([])
+  // TODO: 11 - revert next line upon change
+  // const [fields, setFields] = useState<SurveyFields[]>(PRE_POPULATED_FIELDS)
   const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
 
-  const addSurveyField = () => {
+  // error states
+  const [fieldErrors, setFieldErrors] = useState<Number[]>([])
+
+  const handleAddSurveyField = () => {
     let defaultData:SurveyFields = {
       id: uuid(),
       order: fields?.length + 1,
@@ -156,17 +161,27 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     setFields(newData)
   }
 
-  const removeSurveyField = (id: string) => {
-    // TODO: add on change surveys event
+  const handleRemoveSurveyField = (id: string) => {
+    const index = fields.findIndex((item) => item?.id === id)
+    setFieldErrors(fieldErrors.filter((v) => v !== index))
     setFields(prevState => prevState.filter((v:any) => v?.id !== id))
+    // TODO: add on change surveys event
   }
   
-  const onChangeSurveyOptions = (data) => {
+  const handleChangeSurveyOptions = (data) => {
     // TODO: add on change surveys event
     setSurveyOptions(prevState => ({ 
       ...prevState, 
       ...data
     }))
+  }
+
+  const handleSetFieldErrors = (index: number, hasError: boolean) => {
+    const errorExists = fieldErrors?.includes(index)
+    if (hasError && errorExists) {
+      return
+    }
+    setFieldErrors(hasError ? fieldErrors.concat(index) : fieldErrors.filter(v => v !== index))
   }
 
   const handlePreviewSurvey = () => {
@@ -187,7 +202,6 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
         ],
         isVisible: true
       }
-  
       await saveSurvey(data)
       
     } catch (err) {
@@ -206,6 +220,13 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
     setSurveyOptions(selectedSurvey?.options || initialSurveyOptions)
     setIsLoading(false)
   }, [selectedSurvey])
+  
+  const isSaveDisabled = useMemo(() => {
+    const hasError = !surveyName || 
+    fields.length < 1 || 
+    fieldErrors.length > 0
+    return hasError
+  }, [fields, fieldErrors, surveyName])
 
   if (isOpen) {
     return (
@@ -235,6 +256,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
               </Grid>
               <Grid>
                 <Button
+                  disabled={isSaveDisabled}
                   startDecorator={<SaveIcon/>}
                   variant="outlined"
                   color="neutral"
@@ -279,21 +301,22 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
                       fields={fields}
                       isLoading={isLoading}
                       onHandleChange={handleChangeField}
-                      onHandleRemove={removeSurveyField}
-                      onHandleAdd={addSurveyField}
+                      onHandleRemove={handleRemoveSurveyField}
+                      onHandleAdd={handleAddSurveyField}
+                      onHandleSetFieldError={handleSetFieldErrors}
                     />
                   </TabPanel>
                   <TabPanel value="logic">Logic</TabPanel>
                   <TabPanel value="theme">
                     <ThemesTab
                       options={surveyOptions}
-                      onChangeOptions={onChangeSurveyOptions}
+                      onChangeOptions={handleChangeSurveyOptions}
                     />
                   </TabPanel>
                   <TabPanel value="options">
                     <OptionsTab
                       options={surveyOptions}
-                      onChangeOptions={onChangeSurveyOptions}
+                      onChangeOptions={handleChangeSurveyOptions}
                     />
                   </TabPanel>
                 </FieldWrapper>
