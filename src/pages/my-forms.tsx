@@ -1,5 +1,5 @@
 import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
-import CreateSurveyModal from '@/components/Modal/CreateSurvey'
+import CreateEditSurveyModal from '@/components/Modal/CreateEditSurvey'
 import ContentHeader from '@/components/global/ContentHeader'
 import useSurvey from '@/hooks/useSurvey'
 import { Content } from '@/styles'
@@ -11,12 +11,12 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 
 const MyFormsPage = () => {
-  const [isCreateSurveyModalOpen, setIsCreateSurveyModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { surveys, selectSurvey, selectedSurvey } = useSurvey()
 
   const handleSelectSurvey = (survey) => {
     selectSurvey(survey)
-    setIsCreateSurveyModalOpen(true)
+    setIsModalOpen(true)
   }
 
   return (
@@ -31,7 +31,7 @@ const MyFormsPage = () => {
             name: 'Create Survey',
             color: 'success',
             variant: 'solid',
-            onClick: () => setIsCreateSurveyModalOpen(true)
+            onClick: () => setIsModalOpen(true)
           }
         ]}
       />
@@ -56,13 +56,13 @@ const MyFormsPage = () => {
         </Container>
       </Content>
 
-      {isCreateSurveyModalOpen && 
-        <CreateSurveyModal
+      {isModalOpen && 
+        <CreateEditSurveyModal
           selectedSurvey={selectedSurvey}
-          isOpen={isCreateSurveyModalOpen}
+          isOpen={isModalOpen}
           onClose={() => {
             selectSurvey()
-            setIsCreateSurveyModalOpen(false)
+            setIsModalOpen(false)
           }}
         />
       }

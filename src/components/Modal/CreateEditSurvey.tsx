@@ -86,7 +86,7 @@ const PRE_POPULATED_FIELDS = [
     }
 ]
 
-type CreateSurveyModalProps = {
+type CreateEditSurveyProps = {
   selectedSurvey?: Survey | null,
   isOpen: boolean
   onClose: () => void
@@ -96,7 +96,7 @@ type CreateSurveyModalProps = {
  * Main modal to create survey
  * @component
  */
-const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
+const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   selectedSurvey = null, 
   isOpen, 
   onClose
@@ -338,7 +338,7 @@ const CreateSurveyModal: FC<CreateSurveyModalProps> = ({
   }
 }
 
-export default CreateSurveyModal
+export default CreateEditSurvey
 
 const Header = styled(Stack, {
   marginRight: 30
