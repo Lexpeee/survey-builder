@@ -162,6 +162,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
               - choices direciton
            */}
           <div>
+            {/* TODO: refactor styling of buttons, probably wrap in an attribute and use stitches */}
             {fields?.length > 0 && <>
               {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Back</Button>}
               {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Next</Button>}

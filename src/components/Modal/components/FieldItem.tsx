@@ -108,7 +108,10 @@ const FieldItem:FC<FieldItemProps> = ({
   
 
   return (
-    <StyledCard orientation="vertical">
+    <StyledCard 
+      orientation="vertical"
+      isLocked={isFieldLocked}
+    >
       <CardContent 
         orientation='horizontal'
         sx={{
@@ -335,6 +338,17 @@ const StyledCard = styled(Card, {
   '&:hover': {
     filter: 'drop-shadow(0 0 0.75rem #333333)',
     transitionDuration: '500ms',
+  },
+  variants: {
+    isLocked: {
+      true: {
+        borderStyle: 'dashed',
+        borderWidth: 3,
+        '&:hover': {
+          filter: 'none'
+        }
+      }
+    }
   }
 })
 
