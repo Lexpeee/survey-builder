@@ -140,7 +140,7 @@ export const SAMPLE_FORMS = [
 				"isFullScreen": true,
 				"isRequired": false,
 				"isAnswerRequired": false,
-				"isFieldLocked": false
+				"isFieldLocked": true
 			}
 		],
 		"options": {
@@ -335,7 +335,7 @@ export const SAMPLE_FORMS = [
 				"isFullScreen": true,
 				"isRequired": true,
 				"isAnswerRequired": false,
-				"isFieldLocked": false
+				"isFieldLocked": true
 			}
 		],
 		"options": {
