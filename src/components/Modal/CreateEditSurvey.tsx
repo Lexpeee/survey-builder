@@ -120,12 +120,19 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   const [isLoading, setIsLoading] = useState(true)
   const [surveyName, setSurveyName] = useState('')
   const [fields, setFields] = useState<SurveyFields[]>([])
-  // TODO: 11 - revert next line upon change
-  // const [fields, setFields] = useState<SurveyFields[]>(PRE_POPULATED_FIELDS)
   const [surveyOptions, setSurveyOptions] = useState(initialSurveyOptions)
 
   // error states
+  const [formErrors, setFormErrors] = useState([])
   const [fieldErrors, setFieldErrors] = useState<Number[]>([])
+
+  /**
+   * TODO: Form errors
+   * - check same field names
+   *  - validate end and welcome fields
+   * 
+   * for the errors, consider adding an overlay to the preview? 
+   */
 
   const handleAddSurveyField = () => {
     let defaultData:SurveyFields = {
@@ -143,8 +150,25 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
       isAnswerRequired: false,
       isFieldLocked: false
     }
+    // TODO: add welcome and end field type validation
+
+    const tempFields = fields.reverse().slice()
+    tempFields.every((field, i) => {
+      if (!field?.isFieldLocked) {
+        setFields(prevState => (
+          [
+            ...prevState.slice(0, i).concat(defaultData),
+            ...prevState.slice(i)
+          ].reverse().map((field, index) => ({
+            ...field, 
+            order: index + 1
+          }))
+        ))
+      }
+      return true
+    })
+
     // TODO: add logic to check if there are names existing
-    setFields(fields?.concat(defaultData))
   }
 
   const handleChangeField = (index: number, data: any) => {
