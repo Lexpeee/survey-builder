@@ -165,6 +165,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
             order: index + 1
           }))
         ))
+        return false
       }
       return true
     })
