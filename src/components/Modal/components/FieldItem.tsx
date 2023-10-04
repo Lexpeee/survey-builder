@@ -15,7 +15,8 @@ import {
   Switch, 
   Tooltip, 
   Textarea, 
-  Typography
+  Typography,
+  Skeleton
 } from '@mui/joy'
 import { styled } from '@/stitches.config'
 import {
@@ -33,8 +34,10 @@ import {
   useMemo
 } from 'react'
 import { SurveyFields } from '@/types/survey'
+import { PLACEHOLDER_TEXT } from '@/helpers/enums'
 
 type FieldItemProps = {
+  isLoading?: boolean
   type: string
   index: number
   field: SurveyFields
@@ -45,6 +48,7 @@ type FieldItemProps = {
 }
 
 const FieldItem:FC<FieldItemProps> = ({
+  isLoading, 
   type,
   field, 
   index,
@@ -54,7 +58,9 @@ const FieldItem:FC<FieldItemProps> = ({
   onHandleRemove 
 }) => {
 
-  const [isFieldLocked, setIsFieldLocked] = useState(field?.isFieldLocked)
+  const [selectedField, setSelectedField] = useState<Partial<SurveyFields>>({})
+
+  const [isFieldLocked, setIsFieldLocked] = useState(selectedField?.isFieldLocked)
   const [choicesInput, setChoicesInput] = useState<string>('')
   const [choices, setChoices] = useState<string[]>([])
 
@@ -74,6 +80,11 @@ const FieldItem:FC<FieldItemProps> = ({
     return choiceTypes.includes(type)
   }, [type])
 
+  
+  useEffect(()=>{
+    setSelectedField(field)
+    setIsFieldLocked(field?.isFieldLocked)
+  }, [field])
   
   /** Automatically removes added choices upon field type change */
   useEffect(()=>{
@@ -106,7 +117,46 @@ const FieldItem:FC<FieldItemProps> = ({
 
   }, [field])
   
-
+  // TODO: add animation for new fields
+  
+  if (isLoading) {
+    return(
+      <StyledCard
+        orientation="vertical"
+      > 
+        <CardContent
+          orientation='horizontal'
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}
+        >
+          <Typography level="title-sm">
+            <Skeleton loading>{PLACEHOLDER_TEXT?.S}</Skeleton>
+          </Typography>
+        </CardContent>
+        <Divider inset="context"/>
+        <CardContent>
+          <Stack 
+            direction="column"
+            spacing={1}
+          >
+            <Typography level="title-sm">
+              <Skeleton loading>{PLACEHOLDER_TEXT?.M}</Skeleton>
+            </Typography>
+            <Typography level="title-sm">
+              <Skeleton loading>{PLACEHOLDER_TEXT?.XL}</Skeleton>
+            </Typography>
+            <Typography level="title-sm">
+              <Skeleton loading>{PLACEHOLDER_TEXT?.L}</Skeleton>
+            </Typography>
+          </Stack>
+        </CardContent>
+      </StyledCard>
+    )
+  }
+  
   return (
     <StyledCard 
       orientation="vertical"
@@ -181,9 +231,9 @@ const FieldItem:FC<FieldItemProps> = ({
             >
               <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
               <Switch
-                checked={field?.isAnswerRequired}
+                checked={selectedField?.isAnswerRequired}
                 onChange={() => onHandleChange(index, {
-                  isAnswerRequired: !field?.isAnswerRequired
+                  isAnswerRequired: !selectedField?.isAnswerRequired
                 })}
                 startDecorator={"Field has answers"}
               />
@@ -191,7 +241,7 @@ const FieldItem:FC<FieldItemProps> = ({
           }
         </FormControl>
         <FormControl
-          error={!field?.question}
+          error={!selectedField?.question}
         >
           <Textarea 
             minRows={2}
@@ -201,23 +251,23 @@ const FieldItem:FC<FieldItemProps> = ({
             })}
             value={field?.question}
           />
-          {!field?.question && 
+          {!selectedField?.question && 
             <FormHelperText>Question is required</FormHelperText>
           }
         </FormControl>
 
-        {field?.isAnswerRequired && 
+        {selectedField?.isAnswerRequired && 
           <FormControl
-            error={(field?.isAnswerRequired && !field?.answer)}
+            error={(selectedField?.isAnswerRequired && !selectedField?.answer)}
           >
             <FormLabel>Answer</FormLabel>
             <Input
-              value={field?.answer}
+              value={selectedField?.answer}
               onChange={(e) => onHandleChange(index, {
                 answer: e?.target?.value
               })}
             />
-            {field?.isAnswerRequired && !field?.answer && 
+            {selectedField?.isAnswerRequired && !selectedField?.answer && 
               <FormHelperText>Answer is required</FormHelperText>
             }
           </FormControl>
@@ -234,7 +284,7 @@ const FieldItem:FC<FieldItemProps> = ({
                 <Divider orientation="vertical"/>
               }
             >
-              <FormControl error={!typeHasNoFields && !field?.name}>
+              <FormControl error={!typeHasNoFields && !selectedField?.name}>
                 <FormLabel>
                   Field name 
                   <Tooltip
@@ -249,9 +299,9 @@ const FieldItem:FC<FieldItemProps> = ({
                   onChange={(e) => onHandleChange(index, {
                     name: e?.target?.value
                   })}
-                  value={field?.name}
+                  value={selectedField?.name}
                 />
-                {!typeHasNoFields && !field?.name && 
+                {!typeHasNoFields && !selectedField?.name && 
                   <FormHelperText>Name is required</FormHelperText>
                 }
               </FormControl>
@@ -261,7 +311,7 @@ const FieldItem:FC<FieldItemProps> = ({
                   onChange={(e) => onHandleChange(index, {
                     placeholder: e?.target?.value
                   })}
-                  value={field?.placeholder}
+                  value={selectedField?.placeholder}
                 />
               </FormControl>
             </Stack>
@@ -293,7 +343,7 @@ const FieldItem:FC<FieldItemProps> = ({
                   }}
                 />
                 {
-                  (field?.type === 'checkbox' || field?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
+                  (selectedField?.type === 'checkbox' || selectedField?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
                 }
               </FormControl>
               {/* TODO: Wrap these, so that choices won't exceed in width */}

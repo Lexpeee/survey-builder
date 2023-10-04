@@ -135,6 +135,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
    */
 
   const handleAddSurveyField = () => {
+    setIsLoading(true)
     let defaultData:SurveyFields = {
       id: uuid(),
       order: fields?.length + 1,
@@ -152,14 +153,14 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     }
     // TODO: add welcome and end field type validation
 
-    const tempFields = fields.reverse().slice()
+    const tempFields = fields.concat()
     tempFields.every((field, i) => {
       if (!field?.isFieldLocked) {
         setFields(prevState => (
           [
             ...prevState.slice(0, i).concat(defaultData),
             ...prevState.slice(i)
-          ].reverse().map((field, index) => ({
+          ].map((field, index) => ({
             ...field, 
             order: index + 1
           }))
@@ -167,6 +168,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
       }
       return true
     })
+    setIsLoading(false)
 
     // TODO: add logic to check if there are names existing
   }
@@ -235,8 +237,8 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
         onClose()
       }
     }
-  }
-
+  }  
+  
   useEffect(()=>{
     setIsLoading(true)
     setSurveyName(selectedSurvey?.name || '')
