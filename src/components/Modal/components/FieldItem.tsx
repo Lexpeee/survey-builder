@@ -58,7 +58,9 @@ const FieldItem:FC<FieldItemProps> = ({
   onHandleRemove 
 }) => {
 
-  const [selectedField, setSelectedField] = useState<Partial<SurveyFields>>({})
+  const selectedField = useMemo(()=>{
+    return field
+  },[field])
 
   const [isFieldLocked, setIsFieldLocked] = useState(selectedField?.isFieldLocked)
   const [choicesInput, setChoicesInput] = useState<string>('')
@@ -80,9 +82,7 @@ const FieldItem:FC<FieldItemProps> = ({
     return choiceTypes.includes(type)
   }, [type])
 
-  
   useEffect(()=>{
-    setSelectedField(field)
     setIsFieldLocked(field?.isFieldLocked)
   }, [field])
   

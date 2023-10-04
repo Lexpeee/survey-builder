@@ -154,21 +154,31 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     // TODO: add welcome and end field type validation
 
     const tempFields = fields.concat()
-    tempFields.every((field, i) => {
-      if (!field?.isFieldLocked) {
-        setFields(prevState => (
-          [
-            ...prevState.slice(0, i).concat(defaultData),
-            ...prevState.slice(i)
-          ].map((field, index) => ({
-            ...field, 
-            order: index + 1
-          }))
-        ))
-        return false
-      }
-      return true
-    })
+    const unlockedFields = fields.filter(field => !field?.isFieldLocked)
+    if (tempFields.length > 0) {
+      tempFields.every((field, i) => {
+        if (unlockedFields.length > 0) {
+          if (!field?.isFieldLocked) {
+            setFields(prevState => (
+              [
+                ...prevState.slice(0, i).concat(defaultData),
+                ...prevState.slice(i)
+              ].map((field, index) => ({
+                ...field, 
+                order: index + 1
+              }))
+            ))
+            return false
+          } 
+        } else {
+          setFields(fields.concat(defaultData))
+        }
+        return true
+      })
+
+    } else { 
+      setFields(fields.concat(defaultData))
+    }
     setIsLoading(false)
 
     // TODO: add logic to check if there are names existing
