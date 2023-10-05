@@ -17,8 +17,13 @@ import {
 import {
   FC,
   useMemo,
-  useState
+  useState,
+  useEffect
 } from 'react'
+import {
+  useForm, 
+  Controller
+} from 'react-hook-form'
 
 import { useDebounce } from 'use-debounce'
 
@@ -30,6 +35,13 @@ type MainSurveyProps = {
 }
 
 const MainSurvey:FC<MainSurveyProps> = (p) => {
+
+  const {
+    handleSubmit,
+    control,
+    setValue, 
+    getValues
+  } = useForm()
 
   const [fields] = useDebounce(p?.fields, 1000)
   const [options] = useDebounce(p?.options, 1000)
@@ -47,6 +59,20 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
   const isLastStep = useMemo(() => {
     return currentStep === (fields?.length - 1)
   }, [fields, currentStep])
+
+  const submit = (formData) => {
+    try {
+      let data = {
+        answers: formData
+      }
+      
+      console.log(data)
+      // TODO: add afterlogic for data submission
+      
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   if (p?.isLoading) {
     return <Wrapper
@@ -67,7 +93,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
       </Stack>
     </Wrapper>
   }
-  
+
   return (
     <Wrapper
       isActual={p?.isActual}
@@ -76,101 +102,140 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         color: options?.theme?.foregroundColor 
       }}
     >
-      <Container>
-        <Stack
-          spacing={1}
-        >
-          {
-            selectedField?.type === 'welcome' && <>
+      <form onSubmit={handleSubmit(submit)}>
+        <Container>
+          <Stack
+            spacing={1}
+          >
+            {
+              selectedField?.type === 'welcome' && <>
+                <Typography 
+                  level='h1'
+                  sx={{
+                    color: options?.theme?.foregroundColor
+                  }}
+                >
+                  {selectedField?.question || <>Question {currentStep + 1}</>}
+                </Typography>
+              </>
+            }
+
+            {
+              selectedField?.type !== 'welcome' && 
               <Typography 
-                level='h1'
+                level='title-md'
                 sx={{
                   color: options?.theme?.foregroundColor
                 }}
               >
                 {selectedField?.question || <>Question {currentStep + 1}</>}
               </Typography>
-            </>
-          }
 
-          {
-            selectedField?.type !== 'welcome' && 
-            <Typography 
-              level='title-md'
-              sx={{
-                color: options?.theme?.foregroundColor
-              }}
-            >
-              {selectedField?.question || <>Question {currentStep + 1}</>}
-            </Typography>
+            }
+            <div>
 
-          }
-          <div>
-
-            {
-            (selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
-              <FormControl>
-                <Input
-                  placeholder={selectedField?.placeholder}
-                  type={selectedField?.type}
+              {/* INPUT FIELD */}
+              {(selectedField?.type === 'text' || selectedField?.type === 'email' || selectedField?.type === 'number') && 
+                <Controller
+                  name={selectedField?.name}
+                  control={control}
+                  render={({ field: { name, value, onChange, onBlur } }) => (
+                    <FormControl>
+                      <Input
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        placeholder={selectedField?.placeholder}
+                        type={selectedField?.type}
+                      />
+                    </FormControl>
+                  )}
                 />
-              </FormControl>
-            }
+              }
 
-            {selectedField?.type === 'checkbox' && <>
+              {/* CHECKBOX FIELD */}
+              {selectedField?.type === 'checkbox' && <>
               <Stack 
                 direction="column"
                 spacing={2}
               >
                 {selectedField?.options.map(option => {
-                  return <Checkbox 
-                    value={option} 
-                    label={option}
-                    sx={{
-                      color: options?.theme?.foregroundColor
-                    }}
+                  const isOptionSelected = getValues(selectedField?.name)?.includes(option)
+                  return <Controller
+                    name={selectedField?.name}
+                    control={control}
+                    defaultValue={[]}
+                    render={({ field: { name, onBlur} }) => (
+                      <Checkbox 
+                        name={name}
+                        label={option}
+                        value={option}
+                        checked={isOptionSelected}
+                        onChange={() => {
+                          const value = getValues(selectedField?.name)
+                          setValue(selectedField?.name, !isOptionSelected ? value?.concat(option) : value?.filter(v => v !== option))
+                        }}
+                        onBlur={onBlur}
+                        sx={{
+                          color: options?.theme?.foregroundColor
+                        }}
+                      />
+                    )}
                   />
                 })}
               </Stack>
-              </>
-            }
+                </>
+              }
 
-            {selectedField?.type === 'radio' && <>
-              <Stack 
-                direction="column"
-                spacing={2}
-              >
-                {selectedField?.options.map(option => {
-                  return <Radio 
-                    name={selectedField?.name || `radio-form-${selectedField?.id}`} 
-                    value={option} 
-                    label={option}
-                    sx={{
-                      color: options?.theme?.foregroundColor
-                    }}
-                  />
-                })}
-              </Stack>
-              </>
-            }
+              {/* RADIO FIELD */}
+              {selectedField?.type === 'radio' && <>
+                <Controller
+                  name={selectedField?.name}
+                  control={control}
+                  render={({ field: { name, value, onChange, onBlur  } }) => (
+                    <Stack 
+                      direction="column"
+                      spacing={2}
+                    >
+                      {selectedField?.options.map(option => {
+                        return <Radio 
+                          // name={selectedField?.name || `radio-form-${selectedField?.id}`} 
+                          checked={value === option}
+                          name={name}
+                          value={option} 
+                          label={option}
+                          onChange={onChange}
+                          onBlur={onBlur}
+                          sx={{
+                            color: options?.theme?.foregroundColor
+                          }}
+                        />
+                      })}
+                    </Stack>
+                  )}
+                />
+                </>
+              }
 
-          </div>
-          {/* 
-            TODO: 
-              - add back button options 
-              - show steps 
-              - choices direciton
-           */}
-          <div>
-            {/* TODO: refactor styling of buttons, probably wrap in an attribute and use stitches */}
-            {fields?.length > 0 && <>
-              {!isFirstStep && <Button onClick={() => setCurrentStep(prevState => prevState - 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Back</Button>}
-              {!isLastStep && <Button onClick={() => setCurrentStep(prevState => prevState + 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Next</Button>}
-              {isLastStep && <Button onClick={() => console.log("wala na finish na")} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Finish</Button>}
-            </>}
-          </div>
-        </Stack>
-      </Container>
+            </div>
+            {/* 
+              TODO: 
+                - add back button options 
+                - show steps 
+                - choices direciton
+            */}
+            <div>
+              {/* TODO: refactor styling of buttons, probably wrap in an attribute and use stitches */}
+              {fields?.length > 0 && <>
+                {!isFirstStep && <Button type="button" onClick={() => setCurrentStep(prevState => prevState - 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Back</Button>}
+                {!isLastStep && <Button type="button" onClick={() => setCurrentStep(prevState => prevState + 1)} style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Next</Button>}
+                {isLastStep && <Button type="submit" style={{ background: options?.theme?.buttonColor !== 'default' ? options?.theme?.buttonColor : 'var(--joy-palette-primary-500, #0B6BCB)'}}>Finish</Button>}
+              </>}
+            </div>
+          </Stack>
+        </Container>
+      </form>
 
       {fields?.length !== 0 && !p?.isActual && 
         <Footer>

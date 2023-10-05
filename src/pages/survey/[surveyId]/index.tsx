@@ -19,7 +19,6 @@ const SurveyPage = () => {
   
   const selectedSurvey = useMemo(() => {
     const survey = surveys.filter(v => v?.id === surveyId)[0]
-    console.log(router)
     return survey
   }, [router])
   
