@@ -37,6 +37,7 @@ import { SurveyFields } from '@/types/survey'
 import { PLACEHOLDER_TEXT } from '@/helpers/enums'
 
 type FieldItemProps = {
+  view?: 'default' | 'mini'
   isLoading?: boolean
   type: string
   index: number
@@ -48,6 +49,7 @@ type FieldItemProps = {
 }
 
 const FieldItem:FC<FieldItemProps> = ({
+  view, 
   isLoading, 
   type,
   field, 
@@ -219,164 +221,166 @@ const FieldItem:FC<FieldItemProps> = ({
           </ButtonGroup>
         </Stack>
       </CardContent>
-      <Divider inset='context'/>
 
-      <CardContent >
+      {view  === "default" && <>
+        <Divider inset='context'/>
 
-        <FormControl>
-          {!typeHasNoFields && 
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-            >
-              <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
-              <Switch
-                checked={selectedField?.isAnswerRequired}
-                onChange={() => onHandleChange(index, {
-                  isAnswerRequired: !selectedField?.isAnswerRequired
-                })}
-                startDecorator={"Field has answers"}
-              />
-            </Stack>
-          }
-        </FormControl>
-        <FormControl
-          error={!selectedField?.question}
-        >
-          <Textarea 
-            minRows={2}
-            placeholder={`Write your ${typeHasNoFields ? 'message' : 'question' } here`}
-            onChange={(e) => onHandleChange(index, {
-              question: e?.target?.value
-            })}
-            value={field?.question}
-          />
-          {!selectedField?.question && 
-            <FormHelperText>Question is required</FormHelperText>
-          }
-        </FormControl>
-
-        {selectedField?.isAnswerRequired && 
-          <FormControl
-            error={(selectedField?.isAnswerRequired && !selectedField?.answer)}
-          >
-            <FormLabel>Answer</FormLabel>
-            <Input
-              value={selectedField?.answer}
-              onChange={(e) => onHandleChange(index, {
-                answer: e?.target?.value
-              })}
-            />
-            {selectedField?.isAnswerRequired && !selectedField?.answer && 
-              <FormHelperText>Answer is required</FormHelperText>
+        <CardContent >
+          <FormControl>
+            {!typeHasNoFields && 
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+              >
+                <FormLabel>{typeHasNoFields ? "Message" : "Question" }</FormLabel>
+                <Switch
+                  checked={selectedField?.isAnswerRequired}
+                  onChange={() => onHandleChange(index, {
+                    isAnswerRequired: !selectedField?.isAnswerRequired
+                  })}
+                  startDecorator={"Field has answers"}
+                />
+              </Stack>
             }
           </FormControl>
-        }
-      </CardContent>
-
-      {!typeHasNoFields && 
-        <>
-          <CardContent orientation="horizontal">
-            <Stack
-              direction="row"
-              spacing={2}
-              divider={
-                <Divider orientation="vertical"/>
-              }
-            >
-              <FormControl error={!typeHasNoFields && !selectedField?.name}>
-                <FormLabel>
-                  Field name 
-                  <Tooltip
-                    title="Field name serves as a label for this field"
-                    arrow
-                    placement="top"
-                  >
-                    <InfoIcon size={14}/>
-                  </Tooltip>
-                </FormLabel>
-                <Input 
-                  onChange={(e) => onHandleChange(index, {
-                    name: e?.target?.value
-                  })}
-                  value={selectedField?.name}
-                />
-                {!typeHasNoFields && !selectedField?.name && 
-                  <FormHelperText>Name is required</FormHelperText>
-                }
-              </FormControl>
-              <FormControl error={false}>
-                <FormLabel>Form Placeholder</FormLabel>
-                <Input 
-                  onChange={(e) => onHandleChange(index, {
-                    placeholder: e?.target?.value
-                  })}
-                  value={selectedField?.placeholder}
-                />
-              </FormControl>
-            </Stack>
-          </CardContent>
-        </>
-      }
-
-      {typeHasChoices && 
-        <>
-          <Divider/>
-          {/* TODO: add has others field */}
-          <CardContent>
-            <Stack spacing={1}>
-              <FormControl>
-                <FormLabel>Options</FormLabel>
-                <Input 
-                  value={choicesInput}
-                  onChange={e => setChoicesInput(e?.target?.value)}
-                  endDecorator={
-                    <Button
-                      onClick={() => handleAddChoice(index)}
-                    ><SendIcon size={18}/></Button>
-                  }
-                  onKeyDown={(e) => {
-                    if (e?.key === 'Enter') {
-                      e?.preventDefault()
-                      handleAddChoice(index)
-                    }
-                  }}
-                />
-                {
-                  (selectedField?.type === 'checkbox' || selectedField?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
-                }
-              </FormControl>
-              {/* TODO: Wrap these, so that choices won't exceed in width */}
-              <Stack direction='row'>
-                {choices.map((choice, i) => <StyledChip key={i} onClick={() => handleRemoveChoice(i)} endDecorator={<CloseIcon size={16} />}>{choice}</StyledChip>)}
-              </Stack>
-              {/* TODO: Others please specify */}
-            </Stack>
-          </CardContent>
-        </>
-      }
-
-      {!typeHasNoFields && 
-        <>
-          <Divider/>
-          <Stack direction="row" spacing={1}>
-            {
-              !typeHasNoFields && 
-                <FormControl>
-                  <Typography startDecorator={
-                    <Switch/>
-                  }>Required</Typography>
-                </FormControl>
+          <FormControl
+            error={!selectedField?.question}
+          >
+            <Textarea 
+              minRows={2}
+              placeholder={`Write your ${typeHasNoFields ? 'message' : 'question' } here`}
+              onChange={(e) => onHandleChange(index, {
+                question: e?.target?.value
+              })}
+              value={field?.question}
+            />
+            {!selectedField?.question && 
+              <FormHelperText>Question is required</FormHelperText>
             }
-            {/* TODO: enable when there's actual use  */}
-            {/* <FormControl>
-              <Typography startDecorator={
-                <Switch/>
-              }>Fullscreen</Typography>
-            </FormControl> */}
-          </Stack>
-        </>
-      }
+          </FormControl>
+
+          {selectedField?.isAnswerRequired && 
+            <FormControl
+              error={(selectedField?.isAnswerRequired && !selectedField?.answer)}
+            >
+              <FormLabel>Answer</FormLabel>
+              <Input
+                value={selectedField?.answer}
+                onChange={(e) => onHandleChange(index, {
+                  answer: e?.target?.value
+                })}
+              />
+              {selectedField?.isAnswerRequired && !selectedField?.answer && 
+                <FormHelperText>Answer is required</FormHelperText>
+              }
+            </FormControl>
+          }
+        </CardContent>
+
+        {!typeHasNoFields && 
+          <>
+            <CardContent orientation="horizontal">
+              <Stack
+                direction="row"
+                spacing={2}
+                divider={
+                  <Divider orientation="vertical"/>
+                }
+              >
+                <FormControl error={!typeHasNoFields && !selectedField?.name}>
+                  <FormLabel>
+                    Field name 
+                    <Tooltip
+                      title="Field name serves as a label for this field"
+                      arrow
+                      placement="top"
+                    >
+                      <InfoIcon size={14}/>
+                    </Tooltip>
+                  </FormLabel>
+                  <Input 
+                    onChange={(e) => onHandleChange(index, {
+                      name: e?.target?.value
+                    })}
+                    value={selectedField?.name}
+                  />
+                  {!typeHasNoFields && !selectedField?.name && 
+                    <FormHelperText>Name is required</FormHelperText>
+                  }
+                </FormControl>
+                <FormControl error={false}>
+                  <FormLabel>Form Placeholder</FormLabel>
+                  <Input 
+                    onChange={(e) => onHandleChange(index, {
+                      placeholder: e?.target?.value
+                    })}
+                    value={selectedField?.placeholder}
+                  />
+                </FormControl>
+              </Stack>
+            </CardContent>
+          </>
+        }
+
+        {typeHasChoices && 
+          <>
+            <Divider/>
+            {/* TODO: add has others field */}
+            <CardContent>
+              <Stack spacing={1}>
+                <FormControl>
+                  <FormLabel>Options</FormLabel>
+                  <Input 
+                    value={choicesInput}
+                    onChange={e => setChoicesInput(e?.target?.value)}
+                    endDecorator={
+                      <Button
+                        onClick={() => handleAddChoice(index)}
+                      ><SendIcon size={18}/></Button>
+                    }
+                    onKeyDown={(e) => {
+                      if (e?.key === 'Enter') {
+                        e?.preventDefault()
+                        handleAddChoice(index)
+                      }
+                    }}
+                  />
+                  {
+                    (selectedField?.type === 'checkbox' || selectedField?.type === 'radio') && choices.length < 2 && <FormHelperText>You must include at least 2 options</FormHelperText>
+                  }
+                </FormControl>
+                {/* TODO: Wrap these, so that choices won't exceed in width */}
+                <Stack direction='row'>
+                  {choices.map((choice, i) => <StyledChip key={i} onClick={() => handleRemoveChoice(i)} endDecorator={<CloseIcon size={16} />}>{choice}</StyledChip>)}
+                </Stack>
+                {/* TODO: Others please specify */}
+              </Stack>
+            </CardContent>
+          </>
+        }
+
+        {!typeHasNoFields && 
+          <>
+            <Divider/>
+            <Stack direction="row" spacing={1}>
+              {
+                !typeHasNoFields && 
+                  <FormControl>
+                    <Typography startDecorator={
+                      <Switch/>
+                    }>Required</Typography>
+                  </FormControl>
+              }
+              {/* TODO: enable when there's actual use  */}
+              {/* <FormControl>
+                <Typography startDecorator={
+                  <Switch/>
+                }>Fullscreen</Typography>
+              </FormControl> */}
+            </Stack>
+          </>
+        }
+      </>}
     </StyledCard>
   )
 }

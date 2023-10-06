@@ -50,132 +50,138 @@ const ThemesTab: FC<ThemesTabProps> = ({
   ])
   
   return (
-    <Stack 
-      direction="column"
-      spacing={1}
-    >
+    <Wrapper>
       <Stack 
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
+        direction="column"
+        spacing={1}
       >
-        <Typography>Background color</Typography>
-        <Button
-          variant="outlined"
-          size="sm"
-          color="neutral"
-          startDecorator={
-            <ColorBox
-              css={{
-                background: options?.theme?.backgroundColor
-              }}
-            />
-          }
-          onClick={() => {
-            setSelectedColorOption('background')
-            setIsColorPickerModalOpen(true)
-          }}
+        <Stack 
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          {options?.theme?.backgroundColor}
-        </Button>
-      </Stack>
-      <Stack 
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Typography>Text color</Typography>
-        <Button
-          variant="outlined"
-          size="sm"
-          color="neutral"
-          startDecorator={
-            <ColorBox
-              css={{
-                background: options?.theme?.foregroundColor
-              }}
-            />
-          }
-          onClick={() => {
-            setSelectedColorOption('foreground')
-            setIsColorPickerModalOpen(true)
-          }}
-        >
-          {options?.theme?.foregroundColor}
-        </Button>
-      </Stack>
-      <Stack 
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Typography>Button color</Typography>
-        <Button
-          variant="outlined"
-          size="sm"
-          color="neutral"
-          startDecorator={
-            <ColorBox
-              css={{
-                background: options?.theme?.buttonColor
-              }}
-            />
-          }
-          onClick={() => {
-            setSelectedColorOption('button')
-            setIsColorPickerModalOpen(true)
-          }}
-        >
-          {options?.theme?.buttonColor}
-        </Button>
-      </Stack>
-
-      <Modal
-        keepMounted
-        open={isColorPickerModalOpen}
-        onClose={() => setIsColorPickerModalOpen(false)}
-      >
-        {/* TODO: chore - try refactoring, map every theme and set to it's color */}
-        <ModalDialog>
-            <Typography level="h4">Select {selectedColorOption} color</Typography>
-          <Stack direction="row" spacing={1}>
-            {selectedColorOption === 'background' && <ColorBox css={{background: backgroundColor}}/>}
-            {selectedColorOption === 'foreground' && <ColorBox css={{background: foregroundColor}}/>}
-            {selectedColorOption === 'button' && <ColorBox css={{background: buttonColor}}/>}
-            <Typography level="body-sm">{selectedColorOption}</Typography>
-          </Stack>
-          <Stack
-            spacing={1}
+          <Typography>Background color</Typography>
+          <Button
+            variant="outlined"
+            size="sm"
+            color="neutral"
+            startDecorator={
+              <ColorBox
+                css={{
+                  background: options?.theme?.backgroundColor
+                }}
+              />
+            }
+            onClick={() => {
+              setSelectedColorOption('background')
+              setIsColorPickerModalOpen(true)
+            }}
           >
-            <Button
-              variant='outlined'
-              color="neutral"
-              onClick={() => {
-                selectedColorOption === 'background' && setBackgroundColor('default')
-                selectedColorOption === 'foreground' && setForegroundColor('default')
-                selectedColorOption === 'button' && setButtonColor('default')
-                handleChangeTheme()
-                setIsColorPickerModalOpen(false)
-              }}
+            {options?.theme?.backgroundColor}
+          </Button>
+        </Stack>
+        <Stack 
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography>Text color</Typography>
+          <Button
+            variant="outlined"
+            size="sm"
+            color="neutral"
+            startDecorator={
+              <ColorBox
+                css={{
+                  background: options?.theme?.foregroundColor
+                }}
+              />
+            }
+            onClick={() => {
+              setSelectedColorOption('foreground')
+              setIsColorPickerModalOpen(true)
+            }}
+          >
+            {options?.theme?.foregroundColor}
+          </Button>
+        </Stack>
+        <Stack 
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography>Button color</Typography>
+          <Button
+            variant="outlined"
+            size="sm"
+            color="neutral"
+            startDecorator={
+              <ColorBox
+                css={{
+                  background: options?.theme?.buttonColor
+                }}
+              />
+            }
+            onClick={() => {
+              setSelectedColorOption('button')
+              setIsColorPickerModalOpen(true)
+            }}
+          >
+            {options?.theme?.buttonColor}
+          </Button>
+        </Stack>
+
+        <Modal
+          keepMounted
+          open={isColorPickerModalOpen}
+          onClose={() => setIsColorPickerModalOpen(false)}
+        >
+          {/* TODO: chore - try refactoring, map every theme and set to it's color */}
+          <ModalDialog>
+              <Typography level="h4">Select {selectedColorOption} color</Typography>
+            <Stack direction="row" spacing={1}>
+              {selectedColorOption === 'background' && <ColorBox css={{background: backgroundColor}}/>}
+              {selectedColorOption === 'foreground' && <ColorBox css={{background: foregroundColor}}/>}
+              {selectedColorOption === 'button' && <ColorBox css={{background: buttonColor}}/>}
+              <Typography level="body-sm">{selectedColorOption}</Typography>
+            </Stack>
+            <Stack
+              spacing={1}
             >
-              Reset to default color
-            </Button>
-            <SwatchesPicker
-              onChangeComplete={({hex}) => {
-                selectedColorOption === 'background' && setBackgroundColor(hex)
-                selectedColorOption === 'foreground' && setForegroundColor(hex)
-                selectedColorOption === 'button' && setButtonColor(hex)
-                setIsColorPickerModalOpen(false)
-              }}
-            />
-          </Stack>
-        </ModalDialog>
-      </Modal>
-    </Stack>
+              <Button
+                variant='outlined'
+                color="neutral"
+                onClick={() => {
+                  selectedColorOption === 'background' && setBackgroundColor('default')
+                  selectedColorOption === 'foreground' && setForegroundColor('default')
+                  selectedColorOption === 'button' && setButtonColor('default')
+                  handleChangeTheme()
+                  setIsColorPickerModalOpen(false)
+                }}
+              >
+                Reset to default color
+              </Button>
+              <SwatchesPicker
+                onChangeComplete={({hex}) => {
+                  selectedColorOption === 'background' && setBackgroundColor(hex)
+                  selectedColorOption === 'foreground' && setForegroundColor(hex)
+                  selectedColorOption === 'button' && setButtonColor(hex)
+                  setIsColorPickerModalOpen(false)
+                }}
+              />
+            </Stack>
+          </ModalDialog>
+        </Modal>
+      </Stack>
+    </Wrapper>
   )
 }
 
 export default ThemesTab
+
+const Wrapper = styled('div', {
+  padding: 16
+})
 
 const ColorBox = styled('div', {
   height: 14,

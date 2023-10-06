@@ -11,6 +11,7 @@ import {
 import { Copy as CopyIcon } from 'lucide-react'
 import { FC } from 'react'
 import { SurveyOptions } from '@/types/survey'
+import { styled } from '@/stitches.config'
 
 type OptionsTabProps = {
   options: SurveyOptions,
@@ -27,28 +28,34 @@ const OptionsTab: FC<OptionsTabProps> = () => {
    */
   
   return (
-    <List>
-      <Typography level="body-xs">Settings</Typography>
-      <ListItem
-        endAction={<FormControl>
-          <Switch/>
-        </FormControl>}
-      >
-        Publish Survey
-      </ListItem>
-      <Typography level="body-xs">Share</Typography>
-      <ListItem>
-        <Input
-          sx={{ width: '100%'}}
-          value={`${window.location?.origin}/survey/sample-slug`}
-          disabled
-          endDecorator={
-            <CopyIcon/>
-          }
-        />
-      </ListItem>
-    </List>
+    <Wrapper>
+      <List>
+        <Typography level="body-xs">Settings</Typography>
+        <ListItem
+          endAction={<FormControl>
+            <Switch/>
+          </FormControl>}
+        >
+          Publish Survey
+        </ListItem>
+        <Typography level="body-xs">Share</Typography>
+        <ListItem>
+          <Input
+            sx={{ width: '100%'}}
+            value={`${window.location?.origin}/survey/sample-slug`}
+            disabled
+            endDecorator={
+              <CopyIcon/>
+            }
+          />
+        </ListItem>
+      </List>
+    </Wrapper>
   )
 }
 
 export default OptionsTab
+
+const Wrapper = styled('div', {
+  padding: 16
+})

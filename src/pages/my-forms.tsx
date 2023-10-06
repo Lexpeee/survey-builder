@@ -1,5 +1,6 @@
 import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
 import CreateEditSurveyModal from '@/components/Modal/CreateEditSurvey'
+import { FieldsContextProvider } from '@/components/Modal/context/Fields'
 import ContentHeader from '@/components/global/ContentHeader'
 import useSurvey from '@/hooks/useSurvey'
 import { Content } from '@/styles'
@@ -57,14 +58,16 @@ const MyFormsPage = () => {
       </Content>
 
       {isModalOpen && 
-        <CreateEditSurveyModal
-          selectedSurvey={selectedSurvey}
-          isOpen={isModalOpen}
-          onClose={() => {
-            selectSurvey()
-            setIsModalOpen(false)
-          }}
-        />
+        <FieldsContextProvider>
+          <CreateEditSurveyModal
+            selectedSurvey={selectedSurvey}
+            isOpen={isModalOpen}
+            onClose={() => {
+              selectSurvey()
+              setIsModalOpen(false)
+            }}
+          />
+        </FieldsContextProvider>
       }
 
     </>

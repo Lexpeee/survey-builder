@@ -1,3 +1,4 @@
+import useSurvey from '@/hooks/useSurvey'
 import { styled } from '@/stitches.config'
 import { Survey, SurveyFields, SurveyOptions } from '@/types/survey'
 import {
@@ -20,20 +21,22 @@ import {
 import {
   Eye as EyeIcon,
   PenSquare as PenSquareIcon,
-  Save as SaveIcon
+  Save as SaveIcon,
+  Rows as RowsIcon, 
+  AlignJustify as AlignJustifyIcon
 } from 'lucide-react'
 import {
   FC,
   useEffect,
-  useState,
-  useMemo
+  useMemo,
+  useState
 } from 'react'
 import { v4 as uuid } from 'uuid'
 import MainSurvey from '../Window/MainSurvey'
 import FieldsTab from './components/Tabs/FieldsTab'
 import OptionsTab from './components/Tabs/OptionsTab'
 import ThemesTab from './components/Tabs/ThemesTab'
-import useSurvey from '@/hooks/useSurvey'
+import { useFieldDispatch, useFieldState } from './context/Fields'
 
 
 const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
@@ -101,6 +104,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   isOpen, 
   onClose
 }) => {
+  const fieldDispatch = useFieldDispatch()
   const { saveSurvey } = useSurvey()
   
   const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
@@ -332,8 +336,45 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                   <Tab value="theme">Theme</Tab>
                   <Tab value="options">Options</Tab>
                 </TabList>
-                <FieldWrapper>
-                  <TabPanel value="fields">
+                <TabWrapper>
+                  <StyledTabPanel value="fields">
+                    <FieldsHeader>
+                      <Grid container>
+                        <Grid xs={6}>
+                          <Stack
+                            alignContent={'center'}
+                          >
+                            <Typography level="body-md">Select View</Typography>
+                          </Stack>
+                        </Grid>
+                        <Grid 
+                          xs={6}
+                          textAlign={'right'}
+                          spacing={2}
+                        >
+                          <Button
+                            onClick={() => {
+                              fieldDispatch({
+                                type: 'CHANGE_VIEW',
+                                payload: 'default'
+                              })
+                            }}
+                          >
+                            <RowsIcon size={16}/>
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              fieldDispatch({
+                                type: 'CHANGE_VIEW',
+                                payload: 'mini'
+                              })
+                            }}
+                          >
+                            <AlignJustifyIcon size={16}/>
+                          </Button>
+                        </Grid>
+                      </Grid>
+                    </FieldsHeader>
                     <FieldsTab
                       fields={fields}
                       isLoading={isLoading}
@@ -342,21 +383,23 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                       onHandleAdd={handleAddSurveyField}
                       onHandleSetFieldError={handleSetFieldErrors}
                     />
-                  </TabPanel>
-                  <TabPanel value="logic">Logic</TabPanel>
-                  <TabPanel value="theme">
+                  </StyledTabPanel>
+                  <StyledTabPanel value="logic">
+                    Coming soon
+                  </StyledTabPanel>
+                  <StyledTabPanel value="theme">
                     <ThemesTab
                       options={surveyOptions}
                       onChangeOptions={handleChangeSurveyOptions}
                     />
-                  </TabPanel>
-                  <TabPanel value="options">
+                  </StyledTabPanel>
+                  <StyledTabPanel value="options">
                     <OptionsTab
                       options={surveyOptions}
                       onChangeOptions={handleChangeSurveyOptions}
                     />
-                  </TabPanel>
-                </FieldWrapper>
+                  </StyledTabPanel>
+                </TabWrapper>
               </Tabs>
               
   
@@ -377,12 +420,26 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 
 export default CreateEditSurvey
 
+const StyledTabPanel = styled(TabPanel, {
+  padding: 0
+})
+
 const Header = styled(Stack, {
   marginRight: 30
 })
 
-const FieldWrapper = styled('div', {
+const TabWrapper = styled('div', {
   height: '60vh',
   overflow: 'hidden',
-  overflowY: 'auto'
+  overflowY: 'auto',
+  position: 'relative'
+})
+
+const FieldsHeader = styled('div', {
+  padding: 10,
+  borderBottom: '1px solid #dddddd',
+  width: '100%',
+  top: 0,
+  zIndex: 10,
+  position: 'sticky'
 })

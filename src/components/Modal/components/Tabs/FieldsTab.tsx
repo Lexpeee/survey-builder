@@ -18,6 +18,7 @@ import {
 } from 'react'
 import { styled } from '@/stitches.config'
 import FieldItem from '../FieldItem'
+import { useFieldState } from '../../context/Fields'
 
 type FieldsTabProps = {
   fields: any,
@@ -36,9 +37,10 @@ const FieldsTab: FC<FieldsTabProps> = ({
   onHandleAdd,
   onHandleSetFieldError
 }) => {
+
+  const { view: fieldView } = useFieldState()
   
   const sortedFields = useMemo(() => {
-
     const newFields = fields?.sort((a,b) => a - b)
     return newFields
   }, [fields])
@@ -67,6 +69,7 @@ const FieldsTab: FC<FieldsTabProps> = ({
 
               return <Grid key={index} xs={12}>
                 <FieldItem  
+                  view={fieldView}
                   type={field?.type}
                   field={field}
                   index={index}
@@ -115,6 +118,5 @@ const FieldsTab: FC<FieldsTabProps> = ({
 export default FieldsTab
 
 const Wrapper = styled('div', {
-  background: '#dddddd',
   padding: '30px 50px',
 })
