@@ -16,6 +16,7 @@ import {
   TabList,
   TabPanel,
   Tabs,
+  Tooltip, 
   Typography
 } from '@mui/joy'
 import {
@@ -104,6 +105,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   isOpen, 
   onClose
 }) => {
+  const { view: fieldView } = useFieldState()
   const fieldDispatch = useFieldDispatch()
   const { saveSurvey } = useSurvey()
   
@@ -352,26 +354,32 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                           textAlign={'right'}
                           spacing={2}
                         >
-                          <Button
-                            onClick={() => {
-                              fieldDispatch({
-                                type: 'CHANGE_VIEW',
-                                payload: 'default'
-                              })
-                            }}
-                          >
-                            <RowsIcon size={16}/>
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              fieldDispatch({
-                                type: 'CHANGE_VIEW',
-                                payload: 'mini'
-                              })
-                            }}
-                          >
-                            <AlignJustifyIcon size={16}/>
-                          </Button>
+                          <Tooltip title="Default View" placement="top">
+                            <Button
+                              disabled={fieldView === "default"}
+                              onClick={() => {
+                                fieldDispatch({
+                                  type: 'CHANGE_VIEW',
+                                  payload: 'default'
+                                })
+                              }}
+                            >
+                              <RowsIcon size={16}/>
+                            </Button>
+                          </Tooltip>
+                          <Tooltip title="Mini View" placement="top">
+                            <Button
+                              disabled={fieldView === "mini"}
+                              onClick={() => {
+                                fieldDispatch({
+                                  type: 'CHANGE_VIEW',
+                                  payload: 'mini'
+                                })
+                              }}
+                            >
+                              <AlignJustifyIcon size={16}/>
+                            </Button>
+                          </Tooltip>
                         </Grid>
                       </Grid>
                     </FieldsHeader>
