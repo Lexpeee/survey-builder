@@ -2,32 +2,32 @@ const SURVEY_ENDPOINTS = [
   {
     name: 'getSurveys',
     request: 'GET',
-    url: 'api/v1/surveys',
+    url: '/surveys',
   },
   {
     name: 'getSurveysById',
     request: 'GET',
-    url: 'api/v1/surveys/:surveyId',
+    url: '/surveys/:surveyId',
   },
   {
     name: 'getSurveysByUser',
     request: 'GET',
-    url: 'api/v1/surveys/user/:userId',
+    url: '/surveys/user/:userId',
   },
   {
     name: 'createSurvey',
     request: 'POST',
-    url: 'api/v1/surveys/',
+    url: '/surveys/',
   },
   {
     name: 'updateSurvey',
     request: 'POST',
-    url: 'api/v1/surveys/:surveyId',
+    url: '/surveys/:surveyId',
   },
   {
     name: 'removeSurvey',
     request: 'POST',
-    url: 'api/v1/surveys/:surveyId',
+    url: '/surveys/:surveyId',
   }
 ]
 
@@ -35,12 +35,12 @@ const SURVEY_FIELDS_ENDPOINTS = [
   {
     name: 'getSurveyFields',
     request: 'GET',
-    url: 'api/v1/surveys/:surveyId/fields',
+    url: '/surveys/:surveyId/fields',
   },
   {
     name: 'addSurveyFields',
     request: 'POST',
-    url: 'api/v1/surveys/:surveyId/fields',
+    url: '/surveys/:surveyId/fields',
   }
 ]
 

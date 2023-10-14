@@ -354,3 +354,53 @@ export const SAMPLE_FORMS = [
 		"isVisible": true
 	}
 ]
+
+export const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
+
+export const PRE_POPULATED_FIELDS = [
+    {
+        "id": "cd158975-e6f8-4c6e-b4f2-da34e4a4ccc4",
+        "order": 1,
+        "question": "Welcome to your Survey!",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "welcome",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": true
+    },
+    {
+        "id": "fdd7f6be-29bd-4f14-85ea-7950cf77c7bc",
+        "order": 2,
+        "question": "Your first input",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "text",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": false
+    },
+    {
+        "id": "12f3fa68-46a4-4224-a6d0-1ef099f4f4d5",
+        "order": 3,
+        "question": "Thank you for submitting your form!",
+        "name": "",
+        "answer": "",
+        "placeholder": "",
+        "type": "end",
+        "defaultValue": "",
+        "options": [],
+        "isFullScreen": true,
+        "isRequired": false,
+        "isAnswerRequired": false,
+        "isFieldLocked": true
+    }
+]

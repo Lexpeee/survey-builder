@@ -3,7 +3,7 @@ import axios from 'axios'
 import { find, forEach, includes, isNil, replace, size, words } from 'lodash'
 import { useEffect, useState } from 'react'
 
-const BASE_URL = "http://localhost:5001/api/v1"
+const BASE_URL = "http://localhost:5400/api/v1"
 
 const instance = axios.create({
   baseURL: BASE_URL,
