@@ -21,10 +21,10 @@ const useSurvey = () => {
   } = useApi('getSurveysByUser')
 
   const [surveys, setSurveys] = useState([])
-  const [selectedSurvey, setSelectedSurvey] = useState({})
+  const [selectedSurvey, setSelectedSurvey] = useState(null)
 
   const clearSelectedSurvey = () => {
-    setSelectedSurvey({})
+    setSelectedSurvey(null)
   }
 
   const storeSurveys = (data) => {

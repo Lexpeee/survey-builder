@@ -2,6 +2,7 @@ import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
 import CreateEditSurveyModal from '@/components/Modal/CreateEditSurvey'
 import { FieldsContextProvider } from '@/components/Modal/context/Fields'
 import ContentHeader from '@/components/global/ContentHeader'
+import { SAMPLE_USER_ID } from '@/helpers/constants'
 import useSurvey from '@/hooks/useSurvey'
 import { Content } from '@/styles'
 import {
@@ -12,14 +13,24 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 
 const MyFormsPage = () => {
+  
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { surveys, selectSurvey, selectedSurvey } = useSurvey()
+  const { 
+    surveys, 
+    getUserSurveys,
+    selectSurvey, 
+    selectedSurvey
+  } = useSurvey()
 
   const handleSelectSurvey = (survey) => {
     selectSurvey(survey)
     setIsModalOpen(true)
   }
 
+  useEffect(()=>{
+    getUserSurveys(SAMPLE_USER_ID)
+  }, [SAMPLE_USER_ID])
+  
   return (
     <>
       <Head>
