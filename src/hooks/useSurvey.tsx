@@ -7,10 +7,8 @@ const SURVEY_STORAGE = 'user-surveys'
 const useSurvey = () => {
 
   const {
-    data: createdSurvey,
     isLoading: isCreatingSurvey,
-    fetch: createSurvey,
-    error: createSurveyError,
+    fetch: createSurvey
   } = useApi('createSurvey')
 
   const {
@@ -73,6 +71,7 @@ const useSurvey = () => {
 
   return ({
     isCreatingSurvey,
+    isLoadingUserSurveys, 
     surveys, 
     getUserSurveys,
     selectSurvey,

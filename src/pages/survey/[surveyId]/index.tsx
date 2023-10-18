@@ -3,30 +3,45 @@ import {
   Button
 } from '@mui/joy'
 import MainSurvey from '@/components/Window/MainSurvey'
-import { useSurveyStore } from '@/store'
-import { useMemo } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { styled } from '@/stitches.config'
+import useApi from '@/hooks/useApi'
 
 const SurveyPage = () => {
+  const {
+    data: selectedSurvey,
+    fetch: getSurvey,
+  } = useApi('getSurveysById')
+  
   const router = useRouter()
   const { surveyId, preview } = router.query
   
-  const { surveys } =  useSurveyStore((draft) => ({
-    surveys: draft.surveys
-  }))
-  
-  const selectedSurvey = useMemo(() => {
-    const survey = surveys.filter(v => v?.id === surveyId)[0]
-    return survey
-  }, [router])
   
   if (!selectedSurvey) {
     <>
       Error displaying survey
     </>
   }
+
+  const getSelectedSurvey = async () => {
+    try {
+      await getSurvey({
+        params: {
+          surveyId: surveyId
+        }
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  useEffect(()=>{
+    if (surveyId) {
+      getSelectedSurvey()
+    }
+  }, [surveyId])
   
   if (selectedSurvey) {
     return (
