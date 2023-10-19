@@ -21,7 +21,7 @@ const SURVEY_ENDPOINTS = [
   },
   {
     name: 'updateSurvey',
-    request: 'POST',
+    request: 'PATCH',
     url: '/surveys/:surveyId',
   },
   {

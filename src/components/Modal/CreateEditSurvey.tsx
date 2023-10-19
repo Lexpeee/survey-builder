@@ -40,6 +40,7 @@ import ThemesTab from './components/Tabs/ThemesTab'
 import { useFieldDispatch, useFieldState } from './context/Fields'
 
 import { SAMPLE_USER_ID, PRE_POPULATED_FIELDS } from '@/helpers/constants'
+import useApi from '@/hooks/useApi'
 
 type CreateEditSurveyProps = {
   selectedSurvey?: Survey | null,
@@ -56,6 +57,14 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   isOpen, 
   onClose
 }) => {
+  
+  const {
+    data: updatedSurvey,
+    isLoading: isSurveyUpdating,
+    fetch: updateSurvey,
+    error: hasUpdateSurveyError
+  } = useApi('updateSurvey')
+  
   const { view: fieldView } = useFieldState()
   const fieldDispatch = useFieldDispatch()
   const { saveSurvey, isCreatingSurvey } = useSurvey()
@@ -196,8 +205,19 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
         ],
         isVisible: true
       }
-      await saveSurvey(data)
+
       // TODO: replace this alert to a dialog
+      if (isEdit) {
+        await updateSurvey({
+          params: {
+            surveyId: selectedSurvey?.id
+          },
+          data
+        })
+        window.alert("Survey updated")
+        return
+      }
+      await saveSurvey(data)
       window.alert("Survey Created")
     } catch (err) {
       console.error(err)
@@ -225,7 +245,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     const hasError = !surveyName || 
     isCreatingSurvey || 
     fields.length < 1 || 
-    fieldErrors.length > 0
+    fieldErrors.length > 0 || isSurveyUpdating
     return hasError
   }, [fields, fieldErrors, surveyName])
 

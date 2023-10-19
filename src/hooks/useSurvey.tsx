@@ -15,7 +15,6 @@ const useSurvey = () => {
     data: userSurveys,
     isLoading: isLoadingUserSurveys,
     fetch: fetchUserSurveys,
-    error,
   } = useApi('getSurveysByUser')
 
   const [surveys, setSurveys] = useState([])
