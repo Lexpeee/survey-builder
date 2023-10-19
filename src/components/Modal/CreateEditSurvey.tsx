@@ -248,13 +248,15 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
           >
             <Typography level="h3">Create survey</Typography>
             <Grid container spacing={1}>
-              <Grid>
-                <Button
-                  startDecorator={<EyeIcon/>}
-                  variant="outlined"
-                  onClick={handlePreviewSurvey}
-                >Preview</Button>
-              </Grid>
+              {isEdit && 
+                <Grid>
+                  <Button
+                    startDecorator={<EyeIcon/>}
+                    variant="outlined"
+                    onClick={handlePreviewSurvey}
+                  >Preview</Button>
+                </Grid>
+              }
               <Grid>
                 <Button
                   loading={isCreatingSurvey}
