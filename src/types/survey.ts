@@ -2,6 +2,7 @@ export type SurveyOptions = {
   link: string | null
   isPublished: boolean
   finishButtonLabel: string
+  isLoginRequired: boolean
   theme?: {
     backgroundColor?: string
     foregroundColor?: string
