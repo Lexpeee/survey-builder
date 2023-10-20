@@ -384,6 +384,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                   </StyledTabPanel>
                   <StyledTabPanel value="options">
                     <OptionsTab
+                      survey={selectedSurvey}
                       options={surveyOptions}
                       onChangeOptions={handleChangeSurveyOptions}
                     />

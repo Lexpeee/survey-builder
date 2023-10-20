@@ -10,15 +10,20 @@ import {
 } from '@mui/joy'
 import { Copy as CopyIcon } from 'lucide-react'
 import { FC } from 'react'
-import { SurveyOptions } from '@/types/survey'
+import { Survey, SurveyOptions } from '@/types/survey'
 import { styled } from '@/stitches.config'
 
 type OptionsTabProps = {
+  survey?: Survey
   options: SurveyOptions,
   onChangeOptions:  (data) => void
 }
 
-const OptionsTab: FC<OptionsTabProps> = () => {
+const OptionsTab: FC<OptionsTabProps> = ({
+  survey, 
+  options, 
+  onChangeOptions
+}) => {
 
   /**
    * TODO: some tasks
@@ -26,10 +31,33 @@ const OptionsTab: FC<OptionsTabProps> = () => {
    * - Also add shareable links in the main component as well
    * - Custom finish button
    */
+
+  const SURVEY_LINK = `${window.location?.origin}/survey/${survey?.slug}`
   
   return (
     <Wrapper>
       <List>
+        <Typography level="body-xs">Share</Typography>
+        <ListItem>
+          <Input
+            sx={{ width: '100%'}}
+            value={SURVEY_LINK}
+            readOnly
+            endDecorator={
+              <Button
+                color="neutral"
+                onClick={() => {
+                  navigator?.clipboard?.writeText(SURVEY_LINK);
+                  window.alert("Link copied to clipboard!")
+                }}
+              >
+                <CopyIcon 
+                  size={14}
+                />
+              </Button>
+            }
+          />
+        </ListItem>
         <Typography level="body-xs">Settings</Typography>
         <ListItem
           endAction={<FormControl>
@@ -37,17 +65,6 @@ const OptionsTab: FC<OptionsTabProps> = () => {
           </FormControl>}
         >
           Publish Survey
-        </ListItem>
-        <Typography level="body-xs">Share</Typography>
-        <ListItem>
-          <Input
-            sx={{ width: '100%'}}
-            value={`${window.location?.origin}/survey/sample-slug`}
-            disabled
-            endDecorator={
-              <CopyIcon/>
-            }
-          />
         </ListItem>
       </List>
     </Wrapper>

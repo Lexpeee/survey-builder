@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
   
   const isAbsolutePage = useMemo(() => {
     return (
-      router.route === '/survey/[surveyId]'
+      router.route === '/survey/[surveyIdOrSlug]'
     )
   }, [router.route])
   

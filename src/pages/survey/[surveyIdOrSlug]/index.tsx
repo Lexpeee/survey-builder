@@ -16,7 +16,7 @@ const SurveyPage = () => {
   } = useApi('getSurveysById')
   
   const router = useRouter()
-  const { surveyId, preview } = router.query
+  const { surveyIdOrSlug, preview } = router.query
   
   
   if (!selectedSurvey) {
@@ -29,7 +29,7 @@ const SurveyPage = () => {
     try {
       await getSurvey({
         params: {
-          surveyId: surveyId
+          surveyIdOrSlug: surveyIdOrSlug
         }
       })
     } catch (err) {
@@ -38,10 +38,10 @@ const SurveyPage = () => {
   }
 
   useEffect(()=>{
-    if (surveyId) {
+    if (surveyIdOrSlug) {
       getSelectedSurvey()
     }
-  }, [surveyId])
+  }, [surveyIdOrSlug])
   
   if (selectedSurvey) {
     return (
