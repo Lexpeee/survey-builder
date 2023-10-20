@@ -27,7 +27,8 @@ const useApi = (endpointName) => {
       params?: any,
       queries?: any,
       data?: any,
-      headers?: any
+      headers?: any,
+      isAsync?: boolean
     }
   ) => {
       setIsLoading(true)
@@ -77,6 +78,10 @@ const useApi = (endpointName) => {
         headers: options?.headers
       })
 
+      if (options?.isAsync) {
+        setStatus(status)
+        return requestData
+      }
       setData(requestData)
       setStatus(status)
       return
