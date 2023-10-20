@@ -251,8 +251,13 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     setIsLoading(true)
     if (selectedSurvey) {
       setSurveyName(selectedSurvey?.name)
-      getSurveyFields(selectedSurvey?.id)
       setSurveyOptions(selectedSurvey?.options)
+      if (selectedSurvey?.fields?.length === 0) {
+        getSurveyFields(selectedSurvey?.id)
+      } else { 
+        // TODO: remove legacy logic
+        setFields(selectedSurvey?.fields)
+      }
       setIsLoading(false)
       return
     }
