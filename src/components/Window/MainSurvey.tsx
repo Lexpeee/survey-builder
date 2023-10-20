@@ -1,4 +1,6 @@
+import { SAMPLE_USER_ID } from '@/helpers/constants'
 import { styled } from '@/stitches.config'
+import { Survey } from '@/types/survey'
 import {
   Container,
   Button,
@@ -28,8 +30,7 @@ import {
 import { useDebounce } from 'use-debounce'
 
 type MainSurveyProps = {
-  fields: any
-  options: any
+  survey: Survey
   isActual?: boolean
   isLoading?: boolean
 }
@@ -43,8 +44,8 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
     getValues
   } = useForm()
 
-  const [fields] = useDebounce(p?.fields, 1000)
-  const [options] = useDebounce(p?.options, 1000)
+  const [fields] = useDebounce(p?.survey?.fields, 1000)
+  const [options] = useDebounce(p?.survey?.options, 1000)
 
   const [currentStep, setCurrentStep] = useState(0)
 
@@ -63,6 +64,8 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
   const submit = (formData) => {
     try {
       let data = {
+        surveyId: p?.survey?.id,
+        userId: SAMPLE_USER_ID,
         answers: formData
       }
       

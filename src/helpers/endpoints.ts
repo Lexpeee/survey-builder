@@ -5,9 +5,9 @@ const SURVEY_ENDPOINTS = [
     url: '/surveys',
   },
   {
-    name: 'getSurveysById',
+    name: 'getSurveyById',
     request: 'GET',
-    url: '/surveys/:surveyId',
+    url: '/surveys/:surveyIdOrSlug',
   },
   {
     name: 'getSurveysByUser',

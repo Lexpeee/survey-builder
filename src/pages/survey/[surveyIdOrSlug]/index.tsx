@@ -13,7 +13,7 @@ const SurveyPage = () => {
   const {
     data: selectedSurvey,
     fetch: getSurvey,
-  } = useApi('getSurveysById')
+  } = useApi('getSurveyById')
   
   const router = useRouter()
   const { surveyIdOrSlug, preview } = router.query
@@ -74,8 +74,7 @@ const SurveyPage = () => {
       }
         <MainSurvey
           isActual
-          fields={selectedSurvey?.fields}
-          options={selectedSurvey?.options}
+          survey={selectedSurvey}
         />
       </>
     )
