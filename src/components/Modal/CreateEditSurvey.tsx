@@ -59,6 +59,11 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 }) => {
   
   const {
+    fetch: getFields, 
+    isLoading: isFieldsLoading
+  } = useApi('getSurveyFields')
+  
+  const {
     isLoading: isSurveyUpdating,
     fetch: updateSurvey,
     error: hasUpdateSurveyError
@@ -99,6 +104,21 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
    * for the errors, consider adding an overlay to the preview? 
    */
 
+  const getSurveyFields = async () => {
+    try {
+      const fields = await getFields({
+        params: {
+          surveyId: selectedSurvey?.id
+        },
+        isAsync: true
+      })
+      setFields(fields)
+
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
   const handleAddSurveyField = () => {
     setIsLoading(true)
     let defaultData:SurveyFields = {
@@ -231,7 +251,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     setIsLoading(true)
     if (selectedSurvey) {
       setSurveyName(selectedSurvey?.name)
-      setFields(selectedSurvey?.fields)
+      getSurveyFields(selectedSurvey?.id)
       setSurveyOptions(selectedSurvey?.options)
       setIsLoading(false)
       return
@@ -243,8 +263,8 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   const isSaveDisabled = useMemo(() => {
     const hasError = !surveyName || 
     isCreatingSurvey || 
-    fields.length < 1 || 
-    fieldErrors.length > 0 || isSurveyUpdating
+    fields?.length < 1 || 
+    fieldErrors?.length > 0 || isSurveyUpdating
     return hasError
   }, [fields, fieldErrors, surveyName])
 

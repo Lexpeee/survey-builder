@@ -31,11 +31,13 @@ const MyFormsPage = () => {
 
   const getUserSurveys = async (userId) => {
     try {
-      await fetchUserSurveys({
-        params: {
-          userId
-        }
-      })
+      if (userId) {
+        await fetchUserSurveys({
+          params: {
+            userId
+          }
+        })
+      }
     } catch (err) {
       console.error(err)
     }
@@ -74,8 +76,11 @@ const MyFormsPage = () => {
             spacing={2} 
           >
 
-            {surveys?.map((survey: Survey) => 
-              <Grid xs={3}
+            {/* @ts-ignore */}
+            {surveys?.map((survey: Survey, i: number) => 
+              <Grid 
+                key={i}
+                xs={3}
                 onClick={() => handleSelectSurvey(survey)}
               >
                 <SurveyCardDisplay
