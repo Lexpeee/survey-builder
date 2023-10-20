@@ -46,7 +46,12 @@ const SURVEY_FIELDS_ENDPOINTS = [
 
 const endpoints = [
   ...SURVEY_ENDPOINTS,
-  ...SURVEY_FIELDS_ENDPOINTS
+  ...SURVEY_FIELDS_ENDPOINTS,
+  {
+    name: 'submitSurveyForm',
+    request: 'POST',
+    url: '/surveys/answers',
+  }
 ]
 
 export default endpoints

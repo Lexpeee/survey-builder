@@ -39,5 +39,12 @@ export type Survey = {
   dateRemoved?: string
   displayImages: string[]
   isVisible: boolean
+}
 
+export type SurveyAnswers = {
+  id: string
+  surveyId: string
+  userId: string
+  answers: any
+  dateCreated: string
 }

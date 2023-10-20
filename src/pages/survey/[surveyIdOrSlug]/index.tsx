@@ -15,6 +15,10 @@ const SurveyPage = () => {
     fetch: getSurvey,
   } = useApi('getSurveyById')
   
+  const {
+    fetch: submitAnswers,
+  } = useApi('submitSurveyForm')
+  
   const router = useRouter()
   const { surveyIdOrSlug, preview } = router.query
   
@@ -23,6 +27,16 @@ const SurveyPage = () => {
     <>
       Error displaying survey
     </>
+  }
+
+  const handleSubmitSurveyAnswers = async (data) => {
+    try {
+      await submitAnswers({
+        data
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const getSelectedSurvey = async () => {
@@ -74,6 +88,7 @@ const SurveyPage = () => {
       }
         <MainSurvey
           isActual
+          onSubmit={handleSubmitSurveyAnswers}
           survey={selectedSurvey}
         />
       </>

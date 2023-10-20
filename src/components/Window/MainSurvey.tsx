@@ -1,6 +1,6 @@
 import { SAMPLE_USER_ID } from '@/helpers/constants'
 import { styled } from '@/stitches.config'
-import { Survey } from '@/types/survey'
+import { Survey, SurveyAnswers, SurveyFields } from '@/types/survey'
 import {
   Container,
   Button,
@@ -33,6 +33,7 @@ type MainSurveyProps = {
   survey: Survey
   isActual?: boolean
   isLoading?: boolean
+  onSubmit?: (data: Partial<SurveyAnswers>) => void
 }
 
 const MainSurvey:FC<MainSurveyProps> = (p) => {
@@ -49,7 +50,7 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
 
   const [currentStep, setCurrentStep] = useState(0)
 
-  const selectedField = useMemo(()=>{
+  const selectedField:Partial<SurveyFields> = useMemo(()=>{
     return fields?.[currentStep]
   }, [fields, currentStep])
   
@@ -69,8 +70,10 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
         answers: formData
       }
       
-      console.log(data)
       // TODO: add afterlogic for data submission
+      if (p?.onSubmit) {
+        p?.onSubmit(data)
+      }
       
     } catch (err) {
       console.error(err)
