@@ -2,7 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains:['ik.imagekit.io']
+    domains:[
+      'localhost:3000',
+      'ik.imagekit.io'
+    ]
   }
 }
 
