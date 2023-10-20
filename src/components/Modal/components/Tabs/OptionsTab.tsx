@@ -14,7 +14,7 @@ import { Survey, SurveyOptions } from '@/types/survey'
 import { styled } from '@/stitches.config'
 
 type OptionsTabProps = {
-  survey?: Survey
+  survey?: Survey | null
   options: SurveyOptions,
   onChangeOptions:  (data) => void
 }

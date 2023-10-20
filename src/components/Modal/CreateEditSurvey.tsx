@@ -77,6 +77,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 
   const initialSurveyOptions: SurveyOptions = {
     link: null, 
+    isLoginRequired: false,
     isPublished: true,
     finishButtonLabel: '',
     theme: {
@@ -104,11 +105,11 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
    * for the errors, consider adding an overlay to the preview? 
    */
 
-  const getSurveyFields = async () => {
+  const getSurveyFields = async (surveyId: string) => {
     try {
       const fields = await getFields({
         params: {
-          surveyId: selectedSurvey?.id
+          surveyId: surveyId
         },
         isAsync: true
       })
@@ -123,6 +124,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     setIsLoading(true)
     let defaultData:SurveyFields = {
       id: uuid(),
+      surveyId: "", 
       order: fields?.length + 1,
       question: '',
       name: "", 
@@ -419,11 +421,12 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   
             </Grid>
             <Grid md={6}>
-              <MainSurvey
-                isLoading={isLoading}
-                fields={fields}
-                options={surveyOptions}
-              />
+              {selectedSurvey && 
+                <MainSurvey
+                  isLoading={isLoading}
+                  survey={selectedSurvey}
+                />
+              }
             </Grid>
           </Grid>
         </ModalDialog>
