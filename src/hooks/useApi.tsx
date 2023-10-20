@@ -28,7 +28,8 @@ const useApi = (endpointName) => {
       queries?: any,
       data?: any,
       headers?: any
-    }) => {
+    }
+  ) => {
       setIsLoading(true)
     try {
       const endpoint = find(endpoints, (endpoint) => endpoint?.name === endpointName)

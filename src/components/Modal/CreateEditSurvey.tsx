@@ -59,7 +59,6 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 }) => {
   
   const {
-    data: updatedSurvey,
     isLoading: isSurveyUpdating,
     fetch: updateSurvey,
     error: hasUpdateSurveyError
