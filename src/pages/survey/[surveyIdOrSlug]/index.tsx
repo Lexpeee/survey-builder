@@ -44,6 +44,9 @@ const SurveyPage = () => {
       await getSurvey({
         params: {
           surveyIdOrSlug: surveyIdOrSlug
+        },
+        queries: {
+          isComplete: true
         }
       })
     } catch (err) {

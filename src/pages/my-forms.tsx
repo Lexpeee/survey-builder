@@ -96,7 +96,7 @@ const MyFormsPage = () => {
       {isModalOpen && 
         <FieldsContextProvider>
           <CreateEditSurveyModal
-            selectedSurvey={selectedSurvey}
+            surveyId={selectedSurvey?.id}
             isOpen={isModalOpen}
             onClose={() => {
               selectSurvey()

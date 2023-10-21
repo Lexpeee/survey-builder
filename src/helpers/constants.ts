@@ -360,6 +360,7 @@ export const SAMPLE_USER_ID = '5ea47d58-ff4f-44bb-874b-b7ad94d0a9bf'
 export const PRE_POPULATED_FIELDS = [
     {
         "id": "cd158975-e6f8-4c6e-b4f2-da34e4a4ccc4",
+				"surveyId": "none",
         "order": 1,
         "question": "Welcome to your Survey!",
         "name": "",
@@ -375,6 +376,7 @@ export const PRE_POPULATED_FIELDS = [
     },
     {
         "id": "fdd7f6be-29bd-4f14-85ea-7950cf77c7bc",
+				"surveyId": "none",
         "order": 2,
         "question": "Your first input",
         "name": "",
@@ -390,6 +392,7 @@ export const PRE_POPULATED_FIELDS = [
     },
     {
         "id": "12f3fa68-46a4-4224-a6d0-1ef099f4f4d5",
+				"surveyId": "none",
         "order": 3,
         "question": "Thank you for submitting your form!",
         "name": "",

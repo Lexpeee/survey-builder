@@ -43,7 +43,7 @@ import { SAMPLE_USER_ID, PRE_POPULATED_FIELDS } from '@/helpers/constants'
 import useApi from '@/hooks/useApi'
 
 type CreateEditSurveyProps = {
-  selectedSurvey?: Survey | null,
+  surveyId: string | null
   isOpen: boolean
   onClose: () => void
 }
@@ -53,7 +53,7 @@ type CreateEditSurveyProps = {
  * @component
  */
 const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
-  selectedSurvey = null, 
+  surveyId,
   isOpen, 
   onClose
 }) => {
@@ -64,6 +64,12 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   } = useApi('getSurveyFields')
   
   const {
+    isLoading: isFetchingSurvey,
+    fetch: fetchSurveyDetails,
+    error: hasSurveyError
+  } = useApi('getSurveyById')
+
+  const {
     isLoading: isSurveyUpdating,
     fetch: updateSurvey,
     error: hasUpdateSurveyError
@@ -73,6 +79,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   const fieldDispatch = useFieldDispatch()
   const { saveSurvey, isCreatingSurvey } = useSurvey()
   
+  const [selectedSurvey, setselectedSurvey] = useState<Survey | null>(null)
   const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
 
   const initialSurveyOptions: SurveyOptions = {
@@ -107,13 +114,24 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 
   const getSurveyFields = async (surveyId: string) => {
     try {
-      const fields = await getFields({
-        params: {
-          surveyId: surveyId
-        },
-        isAsync: true
-      })
-      setFields(fields)
+
+      if (!surveyId) {
+        setFields(PRE_POPULATED_FIELDS)
+        return
+      }
+
+      if (selectedSurvey?.fields?.length === 0) {
+        const fields = await getFields({
+          params: {
+            surveyId: surveyId
+          },
+          isAsync: true
+        })
+        setFields(fields)
+        return
+      }
+
+      setFields(selectedSurvey?.fields)
 
     } catch (error) {
       console.error(error)
@@ -208,10 +226,30 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     setFieldErrors(hasError ? fieldErrors.concat(index) : fieldErrors.filter(v => v !== index))
   }
 
+  /** Triggers upon clicking preview */
   const handlePreviewSurvey = () => {
     window.open(window.location.origin + `/survey/${selectedSurvey?.id}?preview=true`, '_blank')
   }
   
+  /** Fetches survey details along with fields, status and answers */
+  const getSurveyDetails = async (surveyId) => {
+    try {
+      const survey = await fetchSurveyDetails({
+        params: {
+          surveyIdOrSlug: surveyId
+        },
+        queries: {
+          showAnswers: true, 
+          isComplete: true
+        },
+        isAsync: true
+      })
+      setselectedSurvey(survey)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   /** Main submit method */
   const handleSubmitForm = async () => {
     try {
@@ -248,24 +286,26 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
       }
     }
   }  
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setIsLoading(true)
+
     if (selectedSurvey) {
+
       setSurveyName(selectedSurvey?.name)
       setSurveyOptions(selectedSurvey?.options)
-      if (selectedSurvey?.fields?.length === 0) {
-        getSurveyFields(selectedSurvey?.id)
-      } else { 
-        // TODO: remove legacy logic
-        setFields(selectedSurvey?.fields)
-      }
-      setIsLoading(false)
-      return
+
+      getSurveyFields(selectedSurvey?.id)
     }
-    setFields(PRE_POPULATED_FIELDS)
+
+    // TODO: add call to get answers
     setIsLoading(false)
   }, [selectedSurvey])
+  
+  
+  useEffect(()=>{
+    getSurveyDetails(surveyId)
+  }, [surveyId])
   
   const isSaveDisabled = useMemo(() => {
     const hasError = !surveyName || 

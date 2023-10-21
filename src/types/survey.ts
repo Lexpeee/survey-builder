@@ -32,13 +32,14 @@ export type Survey = {
   id: string
   userId: string
   name: string
-  fields: SurveyFields[],
+  fields?: SurveyFields[],
   options: SurveyOptions
   datePublished?: string
   dateCreated?: string
   dateRemoved?: string
   displayImages: string[]
-  isVisible: boolean
+  isVisible: boolean,
+  answers?: SurveyAnswers[]
 }
 
 export type SurveyAnswers = {
