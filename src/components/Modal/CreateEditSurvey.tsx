@@ -93,7 +93,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   const fieldDispatch = useFieldDispatch()
   const { saveSurvey, isCreatingSurvey } = useSurvey()
   
-  const [selectedSurvey, setselectedSurvey] = useState<Survey | null>(null)
+  const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null)
   const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
 
   const initialSurveyOptions: SurveyOptions = {
@@ -261,7 +261,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
         },
         isAsync: true
       })
-      setselectedSurvey(survey)
+      setSelectedSurvey(survey)
     } catch (error) {
       console.error(error)
     }
@@ -533,6 +533,8 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                     <MainSurvey
                       isLoading={isLoading}
                       survey={selectedSurvey}
+                      fields={fields}
+                      options={surveyOptions}
                     />
                   }
                 </Grid>
