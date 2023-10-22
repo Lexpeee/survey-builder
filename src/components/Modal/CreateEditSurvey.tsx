@@ -56,7 +56,7 @@ type CreateEditSurveyProps = {
 }
 
 /** 
- * Main modal to create survey
+ * Main modal to create and edit survey
  * @component
  */
 const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
@@ -389,7 +389,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                 direction="row"
                 justifyContent="space-between"
               >
-                <Typography level="h3">Create survey</Typography>
+                <Typography level="h3">{!isEdit ? "Created" : "Edit" } survey</Typography>
                 <Grid container spacing={1}>
                   {isEdit && 
                     <Grid>
