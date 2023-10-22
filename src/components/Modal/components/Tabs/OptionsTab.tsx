@@ -17,12 +17,14 @@ type OptionsTabProps = {
   survey?: Survey | null
   options: SurveyOptions,
   onChangeOptions:  (data) => void
+  onRemoveSurvey: () => void
 }
 
 const OptionsTab: FC<OptionsTabProps> = ({
   survey, 
   options, 
-  onChangeOptions
+  onChangeOptions,
+  onRemoveSurvey
 }) => {
 
   /**
@@ -65,6 +67,19 @@ const OptionsTab: FC<OptionsTabProps> = ({
           </FormControl>}
         >
           Publish Survey
+        </ListItem>
+        <ListItem
+          color='danger'
+          endAction={
+            <Button 
+              variant="solid" 
+              color="danger" 
+              size="sm"
+              onClick={onRemoveSurvey}
+            >Remove</Button> 
+          }
+        >
+          Remove this survey
         </ListItem>
       </List>
     </Wrapper>

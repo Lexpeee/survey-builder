@@ -26,7 +26,7 @@ const SURVEY_ENDPOINTS = [
   },
   {
     name: 'removeSurvey',
-    request: 'POST',
+    request: 'DELETE',
     url: '/surveys/:surveyId',
   }
 ]

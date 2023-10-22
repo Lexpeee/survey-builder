@@ -4,6 +4,9 @@ import { Survey, SurveyFields, SurveyOptions } from '@/types/survey'
 import {
   Button,
   CircularProgress,
+  DialogActions, 
+  DialogTitle, 
+  DialogContent, 
   FormControl,
   FormHelperText,
   FormLabel,
@@ -16,6 +19,7 @@ import {
   Tab,
   TabList,
   TabPanel,
+  Divider,
   Tabs,
   Tooltip, 
   Typography
@@ -78,7 +82,13 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     fetch: updateSurvey,
     error: hasUpdateSurveyError
   } = useApi('updateSurvey')
-  
+
+  const {
+    isLoading: isRemovingSurvey,
+    fetch: removeSurvey,
+    error: hasRemoveSurveyError
+  } = useApi('removeSurvey')
+
   const { view: fieldView } = useFieldState()
   const fieldDispatch = useFieldDispatch()
   const { saveSurvey, isCreatingSurvey } = useSurvey()
@@ -97,6 +107,9 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
       buttonColor: 'default',
     }
   }
+
+  // modal states
+  const [isRemoveSurveyModalOpen, setIsRemoveSurveyModalOpen] = useState(false)
 
   // form states
   const [isLoading, setIsLoading] = useState(true)
@@ -254,6 +267,22 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
     }
   }
 
+  const handleRemoveSurvey = async (surveyId) => {
+    try {
+      await removeSurvey({
+        params: {
+          surveyId: surveyId
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsRemoveSurveyModalOpen(false)
+      onSurveyLoad()
+      onClose()
+    }
+  }
+  
   /** Main submit method */
   const handleSubmitForm = async () => {
     try {
@@ -322,190 +351,223 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 
   if (isOpen) {
     return (
-      <Modal
-        keepMounted
-        open={isOpen}
-        onClose={onClose}
-      >
-        {isLoading ? 
-          <ModalDialog
-            size='md'
-            variant='outlined'
-            minWidth={'80vw'}
-          >
-            <div
-              style={{
-                height: '75vh',
-                margin: 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 20
-              }}
+      <>
+        <Modal
+          keepMounted
+          open={isOpen}
+          onClose={onClose}
+        >
+          {isLoading ? 
+            <ModalDialog
+              size='md'
+              variant='outlined'
+              minWidth={'80vw'}
             >
-              <CircularProgress/>
-              <Typography level="h3">Loading survey</Typography>
-            </div>
-          </ModalDialog>
-        : 
-          <ModalDialog
-            size={'md'}
-            variant={'outlined'}
-            minWidth={'80vw'}
-          >
-            <ModalClose/>
-            <Header
-              direction="row"
-              justifyContent="space-between"
+              <div
+                style={{
+                  height: '75vh',
+                  margin: 'auto',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 20
+                }}
+              >
+                <CircularProgress/>
+                <Typography level="h3">Loading survey</Typography>
+              </div>
+            </ModalDialog>
+          : 
+            <ModalDialog
+              size={'md'}
+              variant={'outlined'}
+              minWidth={'80vw'}
             >
-              <Typography level="h3">Create survey</Typography>
-              <Grid container spacing={1}>
-                {isEdit && 
+              <ModalClose/>
+              <Header
+                direction="row"
+                justifyContent="space-between"
+              >
+                <Typography level="h3">Create survey</Typography>
+                <Grid container spacing={1}>
+                  {isEdit && 
+                    <Grid>
+                      <Button
+                        startDecorator={<EyeIcon/>}
+                        variant="outlined"
+                        onClick={handlePreviewSurvey}
+                      >Preview</Button>
+                    </Grid>
+                  }
                   <Grid>
                     <Button
-                      startDecorator={<EyeIcon/>}
+                      loading={isCreatingSurvey}
+                      disabled={isSaveDisabled}
+                      startDecorator={<SaveIcon/>}
                       variant="outlined"
-                      onClick={handlePreviewSurvey}
-                    >Preview</Button>
+                      color="neutral"
+                      onClick={handleSubmitForm}
+                    >Save</Button>
                   </Grid>
-                }
-                <Grid>
-                  <Button
-                    loading={isCreatingSurvey}
-                    disabled={isSaveDisabled}
-                    startDecorator={<SaveIcon/>}
-                    variant="outlined"
-                    color="neutral"
-                    onClick={handleSubmitForm}
-                  >Save</Button>
+                  <Grid>
+                    <Button
+                      startDecorator={<PenSquareIcon/>}
+                      color="success"
+                    >Publish</Button>
+                  </Grid>
                 </Grid>
-                <Grid>
-                  <Button
-                    startDecorator={<PenSquareIcon/>}
-                    color="success"
-                  >Publish</Button>
+              </Header>
+              <Grid container spacing={2}>
+      
+                <Grid xs={12}>
+                  <FormControl error={!surveyName}>
+                    <FormLabel>Survey Name</FormLabel>
+                    <Input 
+                      value={surveyName}
+                      onChange={(e) => setSurveyName(e?.target?.value)}
+                    />
+                    {!surveyName && 
+                      <FormHelperText>Name is required</FormHelperText>
+                    }
+                  </FormControl>
                 </Grid>
-              </Grid>
-            </Header>
-            <Grid container spacing={2}>
-    
-              <Grid xs={12}>
-                <FormControl error={!surveyName}>
-                  <FormLabel>Survey Name</FormLabel>
-                  <Input 
-                    value={surveyName}
-                    onChange={(e) => setSurveyName(e?.target?.value)}
-                  />
-                  {!surveyName && 
-                    <FormHelperText>Name is required</FormHelperText>
-                  }
-                </FormControl>
-              </Grid>
-    
-              <Grid md={6}>
-    
-                <Tabs defaultValue={"fields"}>
-                  <TabList>
-                    {isEdit && <Tab value="overview">Overview</Tab>}
-                    <Tab value="fields">Fields ({fields?.length})</Tab>
-                    <Tab value="logic">Logic</Tab>
-                    <Tab value="theme">Theme</Tab>
-                    <Tab value="options">Options</Tab>
-                  </TabList>
-                  <TabWrapper>
-                    {isEdit && <StyledTabPanel value="overview">
-                        <OverviewTab 
-                          survey={selectedSurvey}
+      
+                <Grid md={6}>
+      
+                  <Tabs defaultValue={"fields"}>
+                    <TabList>
+                      {isEdit && <Tab value="overview">Overview</Tab>}
+                      <Tab value="fields">Fields ({fields?.length})</Tab>
+                      <Tab value="logic">Logic</Tab>
+                      <Tab value="theme">Theme</Tab>
+                      <Tab value="options">Options</Tab>
+                    </TabList>
+                    <TabWrapper>
+                      {selectedSurvey && isEdit && <StyledTabPanel value="overview">
+                          <OverviewTab 
+                            survey={selectedSurvey}
+                          />
+                        </StyledTabPanel>
+                      }
+                      <StyledTabPanel value="fields">
+                        <FieldsHeader>
+                          <Grid container>
+                            <Grid xs={6}>
+                              <Stack
+                                alignContent={'center'}
+                              >
+                                <Typography level="body-md">Select View</Typography>
+                              </Stack>
+                            </Grid>
+                            <Grid 
+                              xs={6}
+                              textAlign={'right'}
+                              spacing={2}
+                            >
+                              <Tooltip title="Default View" placement="top">
+                                <Button
+                                  disabled={fieldView === "default"}
+                                  onClick={() => {
+                                    fieldDispatch({
+                                      type: 'CHANGE_VIEW',
+                                      payload: 'default'
+                                    })
+                                  }}
+                                >
+                                  <RowsIcon size={16}/>
+                                </Button>
+                              </Tooltip>
+                              <Tooltip title="Mini View" placement="top">
+                                <Button
+                                  disabled={fieldView === "mini"}
+                                  onClick={() => {
+                                    fieldDispatch({
+                                      type: 'CHANGE_VIEW',
+                                      payload: 'mini'
+                                    })
+                                  }}
+                                >
+                                  <AlignJustifyIcon size={16}/>
+                                </Button>
+                              </Tooltip>
+                            </Grid>
+                          </Grid>
+                        </FieldsHeader>
+                        <FieldsTab
+                          fields={fields}
+                          isLoading={isFieldsLoading}
+                          onHandleChange={handleChangeField}
+                          onHandleRemove={handleRemoveSurveyField}
+                          onHandleAdd={handleAddSurveyField}
+                          onHandleSetFieldError={handleSetFieldErrors}
                         />
                       </StyledTabPanel>
-                    }
-                    <StyledTabPanel value="fields">
-                      <FieldsHeader>
-                        <Grid container>
-                          <Grid xs={6}>
-                            <Stack
-                              alignContent={'center'}
-                            >
-                              <Typography level="body-md">Select View</Typography>
-                            </Stack>
-                          </Grid>
-                          <Grid 
-                            xs={6}
-                            textAlign={'right'}
-                            spacing={2}
-                          >
-                            <Tooltip title="Default View" placement="top">
-                              <Button
-                                disabled={fieldView === "default"}
-                                onClick={() => {
-                                  fieldDispatch({
-                                    type: 'CHANGE_VIEW',
-                                    payload: 'default'
-                                  })
-                                }}
-                              >
-                                <RowsIcon size={16}/>
-                              </Button>
-                            </Tooltip>
-                            <Tooltip title="Mini View" placement="top">
-                              <Button
-                                disabled={fieldView === "mini"}
-                                onClick={() => {
-                                  fieldDispatch({
-                                    type: 'CHANGE_VIEW',
-                                    payload: 'mini'
-                                  })
-                                }}
-                              >
-                                <AlignJustifyIcon size={16}/>
-                              </Button>
-                            </Tooltip>
-                          </Grid>
-                        </Grid>
-                      </FieldsHeader>
-                      <FieldsTab
-                        fields={fields}
-                        isLoading={isFieldsLoading}
-                        onHandleChange={handleChangeField}
-                        onHandleRemove={handleRemoveSurveyField}
-                        onHandleAdd={handleAddSurveyField}
-                        onHandleSetFieldError={handleSetFieldErrors}
-                      />
-                    </StyledTabPanel>
-                    <StyledTabPanel value="logic">
-                      Coming soon
-                    </StyledTabPanel>
-                    <StyledTabPanel value="theme">
-                      <ThemesTab
-                        options={surveyOptions}
-                        onChangeOptions={handleChangeSurveyOptions}
-                      />
-                    </StyledTabPanel>
-                    <StyledTabPanel value="options">
-                      <OptionsTab
-                        survey={selectedSurvey}
-                        options={surveyOptions}
-                        onChangeOptions={handleChangeSurveyOptions}
-                      />
-                    </StyledTabPanel>
-                  </TabWrapper>
-                </Tabs>
-                
-    
+                      <StyledTabPanel value="logic">
+                        Coming soon
+                      </StyledTabPanel>
+                      <StyledTabPanel value="theme">
+                        <ThemesTab
+                          options={surveyOptions}
+                          onChangeOptions={handleChangeSurveyOptions}
+                        />
+                      </StyledTabPanel>
+                      <StyledTabPanel value="options">
+                        <OptionsTab
+                          survey={selectedSurvey}
+                          options={surveyOptions}
+                          onChangeOptions={handleChangeSurveyOptions}
+                          onRemoveSurvey={() => setIsRemoveSurveyModalOpen(true)}
+                        />
+                      </StyledTabPanel>
+                    </TabWrapper>
+                  </Tabs>
+                  
+      
+                </Grid>
+                <Grid md={6}>
+                  {selectedSurvey && 
+                    <MainSurvey
+                      isLoading={isLoading}
+                      survey={selectedSurvey}
+                    />
+                  }
+                </Grid>
               </Grid>
-              <Grid md={6}>
-                {selectedSurvey && 
-                  <MainSurvey
-                    isLoading={isLoading}
-                    survey={selectedSurvey}
-                  />
-                }
-              </Grid>
-            </Grid>
+            </ModalDialog>
+          }
+        </Modal>
+        <Modal
+          open={isRemoveSurveyModalOpen}
+          onClose={() => setIsRemoveSurveyModalOpen(false)}
+        >
+          <ModalDialog 
+            variant="outlined"
+            maxWidth="40vw"
+          >
+            <DialogTitle>Confirm Survey Deletion</DialogTitle>
+            <Divider/>
+            <DialogContent>
+              <Typography>
+                Are you sure you want to remove this survey (<strong>{selectedSurvey?.name}</strong>)? You won't be able to recover any answers and other statistics once this is deleted. 
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button 
+                loading={isRemovingSurvey}
+                variant="solid" 
+                color="danger"
+                onClick={() => handleRemoveSurvey(surveyId)}
+              >Yes, remove this survey!</Button>
+              <Button 
+                variant="solid" 
+                color="neutral"
+                onClick={() => setIsRemoveSurveyModalOpen(false)}
+              >Cancel</Button>
+            </DialogActions>
           </ModalDialog>
-        }
-      </Modal>
+        </Modal>
+      </>
     )
   }
 }
