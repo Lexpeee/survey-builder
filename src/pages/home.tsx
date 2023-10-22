@@ -9,6 +9,8 @@ import Image from 'next/image'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
+import { styled } from '@/stitches.config'
+
 const HomePage = () => {
   const router = useRouter()
   
@@ -36,7 +38,9 @@ const HomePage = () => {
             justifyContent="space-between"
             spacing={3}
           >
-            <Typography level="body-lg">Welcome!</Typography>
+            <CoverImage>
+              <img src="/assets/cartoon-landscape.jpg" alt="busy-city"/>
+            </CoverImage>
             <Stack
               direction="row"
               spacing={3}
@@ -66,3 +70,14 @@ const HomePage = () => {
 }
 
 export default HomePage
+
+const CoverImage = styled('div', {
+  display: 'block',
+  overflow: 'hidden',
+  width: '100%',
+  '&>img': {
+    width: '100%',
+    height: 250,
+    objectFit: 'cover'
+  }
+})
