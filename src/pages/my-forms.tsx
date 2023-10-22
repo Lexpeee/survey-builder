@@ -102,6 +102,7 @@ const MyFormsPage = () => {
               selectSurvey()
               setIsModalOpen(false)
             }}
+            onSurveyLoad={() => getUserSurveys(SAMPLE_USER_ID)}
           />
         </FieldsContextProvider>
       }

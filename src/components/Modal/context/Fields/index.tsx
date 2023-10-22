@@ -30,6 +30,9 @@ const reducer = (state, action) => {
   }
 }
 
+/** 
+ * A provider that is responsible for the setup of the fields
+ */
 export const FieldsContextProvider = ({children}) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   return (
