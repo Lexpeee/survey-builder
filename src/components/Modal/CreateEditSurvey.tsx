@@ -456,6 +456,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                             <Grid xs={6}>
                               <Stack
                                 alignContent={'center'}
+                                justifyContent={'center'}
                               >
                                 <Typography level="body-md">Select View</Typography>
                               </Stack>
@@ -467,6 +468,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                             >
                               <Tooltip title="Default View" placement="top">
                                 <Button
+                                  size="sm"
                                   disabled={fieldView === "default"}
                                   onClick={() => {
                                     fieldDispatch({
@@ -480,6 +482,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
                               </Tooltip>
                               <Tooltip title="Mini View" placement="top">
                                 <Button
+                                  size="sm"
                                   disabled={fieldView === "mini"}
                                   onClick={() => {
                                     fieldDispatch({
@@ -590,6 +593,7 @@ const TabWrapper = styled('div', {
 })
 
 const FieldsHeader = styled('div', {
+  background: '#ffffff',
   padding: 10,
   borderBottom: '1px solid #dddddd',
   width: '100%',
