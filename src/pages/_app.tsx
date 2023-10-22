@@ -4,13 +4,16 @@ import type { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
 
+const ABSOLUTE_PAGES = [
+  '/survey/[surveyIdOrSlug]', 
+  '/login',
+]
+
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   
   const isAbsolutePage = useMemo(() => {
-    return (
-      router.route === '/survey/[surveyIdOrSlug]'
-    )
+    return ABSOLUTE_PAGES.filter(page => page === router.route).includes(router.route)
   }, [router.route])
   
 
