@@ -29,7 +29,10 @@ const GlobalLayout: FC<any> = ({children}) => {
       <Grid container>
         <Grid xs={12} sm={2}>
           <Sidebar>
-            <SidebarContent>
+            <Stack
+              direction="column"
+              justifyContent={'space-evenly'}
+            >
               <div>
                 <Stack
                   direction="row"
@@ -74,20 +77,24 @@ const GlobalLayout: FC<any> = ({children}) => {
                       <ListItemContent>Settings</ListItemContent>
                     </ListItemButton>
                   </ListItem>
-                  <ListItem>
-                    <ListItemButton
-                      onClick={() => console.log("logout user")}
-                    >
-                      <ListItemDecorator>
-                        <LogOutIcon/>
-                      </ListItemDecorator>
-                      <ListItemContent>Logout</ListItemContent>
-                    </ListItemButton>
-                  </ListItem>
                 </List>
-                {/* <span>asdlaksjdfklsadjf</span> */}
               </div>
-            </SidebarContent>
+              <List>
+                <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      router.push('/login')
+                      console.log("logout user")
+                    }}
+                  >
+                    <ListItemDecorator>
+                      <LogOutIcon/>
+                    </ListItemDecorator>
+                    <ListItemContent>Logout</ListItemContent>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+            </Stack>
           </Sidebar>
         </Grid>
         <Grid xs={12} sm={10}>
@@ -100,13 +107,9 @@ const GlobalLayout: FC<any> = ({children}) => {
 
 export default GlobalLayout
 
-const Sidebar = styled(Card, {
-  height: '100vh'
-})
-
-const SidebarContent = styled(CardContent, {
-  display: 'flex',
-  justifyContent: 'space-between',
-  overflow: 'hidden',
-  overflowWrap: 'break-word'
+const Sidebar = styled('div', {
+  height: '100vh',
+  padding: 10,
+  display: 'block',
+  borderRight: '1px solid #ddd'
 })
