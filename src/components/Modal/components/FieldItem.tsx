@@ -205,6 +205,18 @@ const FieldItem:FC<FieldItemProps> = ({
               <Option value="end">End Message</Option>
               <Divider/>
               <Option value="text">Text Field</Option>
+              {/* TODO: add these new values */}
+              {/* <Option value="Photo">Photo</Option> */}
+              {/* <Option value="link">Link</Option> */}
+              {/* <Option value="Rating">Rating</Option> */}
+              {/* <Option value="Scale">Scale</Option> */}
+              {/* <Option value="boolean">Yes/No</Option> */}
+              {/* <Option value="fileUpload">Yes/No</Option> */}
+              {/* <Option value="text">Dropdown</Option> */}
+              {/* <Option value="address">Address</Option> */}
+              {/* <Option value="payment">Payment</Option> */}
+              {/* <Option value="date">Date</Option> */}
+              {/* <Option value="time">Time</Option> */}
               <Option value="email">Email</Option>
               <Option value="number">Number</Option>
               <Option value="checkbox">Checkbox</Option>

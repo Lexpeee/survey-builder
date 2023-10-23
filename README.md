@@ -13,8 +13,9 @@ When I got my first job as a Web developer during the pandemic (May 2020), one o
 - Workspaces
 - Separate modal for name of survey and survey type
 - Additional results details (ave. time, submissions, started forms, devices list)
-- sharable via link or open form
+- Sharable via link or open form
 - More input selections (address fields, email fields, date fields, dropdown, etc.)
 - font selections for forms
 - Question descriptions
-- variables
+- Value variables
+- Two or more input boxes in a single page
