@@ -8,3 +8,13 @@ When I got my first job as a Web developer during the pandemic (May 2020), one o
 - Sharpened more of my [react-hook-form](https://github.com/react-hook-form/react-hook-form) skills
 - Using MongoDB as my primary database to store all my surveys, fields, and user-generated answers. 
 - Storing user-configured themes to a survey, which is super-fun. 
+
+## Things I'm planning to add
+- Workspaces
+- Separate modal for name of survey and survey type
+- Additional results details (ave. time, submissions, started forms, devices list)
+- sharable via link or open form
+- More input selections (address fields, email fields, date fields, dropdown, etc.)
+- font selections for forms
+- Question descriptions
+- variables
