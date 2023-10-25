@@ -5,6 +5,9 @@ import {
 } from 'react'
 import { styled } from '@/stitches.config'
 import { 
+  Card,
+  CardContent,
+  Stack, 
   Modal,
   Table,
   Grid,
@@ -33,12 +36,68 @@ const OverviewTab:FC<OverviewTabProps> = ({
             <Typography level='body-sm'>Overview of the survey</Typography>
             <Divider/>
           </Grid>
-          <Grid>
+          <Grid xs={12} container spacing={1}>
+            
+            <Grid xs={3}>
+              <Card>
+                <CardContent>
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                  >
+                    <Typography level="body-sm">Views</Typography>
+                    <Typography level="h3">{survey?.answers?.length}</Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid xs={3}>
+              <Card>
+                <CardContent>
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                  >
+                    <Typography level="body-sm">Started</Typography>
+                    <Typography level="h3">{survey?.answers?.length}</Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid xs={3}>
+              <Card>
+                <CardContent>
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                  >
+                    <Typography level="body-sm">Completed</Typography>
+                    <Typography level="h3">{survey?.answers?.length}</Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid xs={3}>
+              <Card>
+                <CardContent>
+                  <Stack
+                    direction="column"
+                    alignItems="center"
+                  >
+                    <Typography level="body-sm">Avg. Time</Typography>
+                    <Typography level="h3">02:53</Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+
+
+          </Grid>
+          <Grid xs={12}>
             <Table>
-              <tr>
-                <td><strong>Number of people answered </strong></td>
-                <td align='right'>{survey?.answers?.length}</td>
-              </tr>
               <tr>
                 <td><strong>Date created</strong></td>
                 <td align='right'>{dateCreated}</td>
