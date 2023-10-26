@@ -235,7 +235,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
 
   /** Triggers upon clicking preview */
   const handlePreviewSurvey = () => {
-    window.open(window.location.origin + `/survey/${selectedSurvey?.id}?preview=true`, '_blank')
+    window.open(window.location.origin + `/survey/${selectedSurvey?.slug || selectedSurvey?.id}?preview=true`, '_blank')
   }
   
   /** Fetches survey details along with fields, status and answers */

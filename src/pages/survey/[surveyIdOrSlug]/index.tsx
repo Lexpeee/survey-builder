@@ -93,6 +93,8 @@ const SurveyPage = () => {
           isActual
           onSubmit={handleSubmitSurveyAnswers}
           survey={selectedSurvey}
+          options={selectedSurvey?.options}
+          fields={selectedSurvey?.fields}
         />
       </>
     )
