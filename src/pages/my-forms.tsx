@@ -1,6 +1,6 @@
 import SurveyCardDisplay from '@/components/Card/SurveyCardDisplay'
-import CreateEditSurveyModal from '@/components/Modal/CreateEditSurvey'
-import CreateSurvey from '@/components/Modal/CreateSurvey'
+import EditSurveyModal from '@/components/Modal/EditSurvey'
+import CreateSurveyModal from '@/components/Modal/CreateSurvey'
 import { FieldsContextProvider } from '@/components/Modal/context/Fields'
 import ContentHeader from '@/components/global/ContentHeader'
 import { SAMPLE_USER_ID } from '@/helpers/constants'
@@ -95,7 +95,7 @@ const MyFormsPage = () => {
         </Container>
       </Content>
 
-      <CreateSurvey
+      <CreateSurveyModal
         isOpen={isInitialModalOpen}
         onClose={() => setIsInitialModalOpen(false)}
         onSurveyLoad={() => getUserSurveys(SAMPLE_USER_ID)}
@@ -103,7 +103,7 @@ const MyFormsPage = () => {
 
       {isModalOpen && 
         <FieldsContextProvider>
-          <CreateEditSurveyModal
+          <EditSurveyModal
             surveyId={selectedSurvey?.id}
             isOpen={isModalOpen}
             onClose={() => {
