@@ -1,6 +1,8 @@
 # Proform - Survey Builder
 A custom survey form builder in which you can create your own with customizable themes and formats. 
 
+> Server repo can be found [here](https://github.com/Lexpeee/survey-builder-server)
+
 ## Motivation behind this project
 When I got my first job as a Web developer during the pandemic (May 2020), one of my first feature I've built was a custom survey builder form inspired by [Typeform](https://www.typeform.com/), where you can create amazing forms that are way different than the usual norms like Google Forms, and other related programs. I fell in love with how you can add custom themes and colors to your forms, adding logic to some questions when a specific answer, keyword is set. I have dream't of making an app similar to it in my own way
 
@@ -19,3 +21,9 @@ When I got my first job as a Web developer during the pandemic (May 2020), one o
 - Question descriptions
 - Value variables
 - Two or more input boxes in a single page
+
+## Installation 
+Feel free to test this repo on your local machine and see how I did this. 
+
+Assuming you have already downloaded the repo, do a fresh `npm install` (or `yarn` if you are not using `npm`).
+
