@@ -135,14 +135,25 @@ const MainSurvey:FC<MainSurveyProps> = (p) => {
 
             {
               selectedField?.type !== 'welcome' && 
-              <Typography 
-                level='title-md'
-                sx={{
-                  color: options?.theme?.foregroundColor
-                }}
-              >
-                {selectedField?.question || <>Question {currentStep + 1}</>}
-              </Typography>
+              <>
+                <Typography 
+                  level='title-md'
+                  sx={{
+                    color: options?.theme?.foregroundColor
+                  }}
+                >
+                  {selectedField?.question || <>Question {currentStep + 1}</>}
+                </Typography>
+                <Typography
+                  level="body-sm"
+                  sx={{
+                    color: options?.theme?.foregroundColor, 
+                    opacity: 0.8
+                  }}
+                >
+                  {selectedField?.description}
+                </Typography>
+              </>
 
             }
             <div>

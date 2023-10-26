@@ -271,6 +271,15 @@ const FieldItem:FC<FieldItemProps> = ({
             }
           </FormControl>
 
+          <FormControl>
+            <FormLabel>Description (Optional)</FormLabel>
+            <Textarea
+              minRows={3}
+              onChange={e => onHandleChange(index, { description: e?.target?.value})}
+              value={field?.description}
+            />
+          </FormControl>
+
           {selectedField?.isAnswerRequired && 
             <FormControl
               error={(selectedField?.isAnswerRequired && !selectedField?.answer)}

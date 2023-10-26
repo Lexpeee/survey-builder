@@ -15,6 +15,7 @@ export type SurveyFields = {
   surveyId: string
   order: number
   question: string // this can also contain a message for a survey if type is set to message
+  description?: string
   answer?: string
   name?: string
   placeholder?: string
@@ -26,12 +27,15 @@ export type SurveyFields = {
   isFullScreen?: boolean
   isRequired?: boolean
   isFieldLocked?: boolean
+  isAnswerReusable?: boolean
 }
 
 export type Survey = {
   id: string
+  workspaceIds?: string
   userId: string
   name: string
+  description?: string
   fields?: SurveyFields[],
   options: SurveyOptions
   datePublished?: string
