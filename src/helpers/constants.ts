@@ -407,3 +407,75 @@ export const PRE_POPULATED_FIELDS = [
         "isFieldLocked": true
     }
 ]
+
+export const SURVEY_TEMPLATES = {
+	"blank": {
+		name: "Blank",
+		fields: []
+	},
+	"first-three-fields": {
+		name: 'First Three Fields',
+		fields: [
+			{
+					"id": "cd158975-e6f8-4c6e-b4f2-da34e4a4ccc4",
+					"surveyId": "none",
+					"order": 1,
+					"question": "Welcome to your Survey!",
+					"name": "first",
+					"answer": "",
+					"placeholder": "",
+					"type": "welcome",
+					"defaultValue": "",
+					"options": [],
+					"isFullScreen": true,
+					"isRequired": false,
+					"isAnswerRequired": false,
+					"isFieldLocked": true
+			},
+			{
+					"id": "fdd7f6be-29bd-4f14-85ea-7950cf77c7bc",
+					"surveyId": "none",
+					"order": 2,
+					"question": "Your first input",
+					"name": "first-input",
+					"answer": "",
+					"placeholder": "",
+					"type": "text",
+					"defaultValue": "",
+					"options": [],
+					"isFullScreen": true,
+					"isRequired": false,
+					"isAnswerRequired": false,
+					"isFieldLocked": false
+			},
+			{
+					"id": "12f3fa68-46a4-4224-a6d0-1ef099f4f4d5",
+					"surveyId": "none",
+					"order": 3,
+					"question": "Thank you for submitting your form!",
+					"name": "",
+					"answer": "",
+					"placeholder": "",
+					"type": "end",
+					"defaultValue": "",
+					"options": [],
+					"isFullScreen": true,
+					"isRequired": false,
+					"isAnswerRequired": false,
+					"isFieldLocked": true
+			}
+		]
+	}
+}
+
+export const SURVEY_DEFAULT_OPTIONS = {
+	link: null, 
+	isLoginRequired: false,
+	isPublished: true,
+	finishButtonLabel: '',
+	theme: {
+		backgroundColor: 'default',
+		foregroundColor: 'default',
+		buttonColor: 'default',
+	}
+}

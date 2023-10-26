@@ -44,7 +44,7 @@ import OptionsTab from './components/Tabs/OptionsTab'
 import ThemesTab from './components/Tabs/ThemesTab'
 import { useFieldDispatch, useFieldState } from './context/Fields'
 
-import { SAMPLE_USER_ID, PRE_POPULATED_FIELDS } from '@/helpers/constants'
+import { SAMPLE_USER_ID, PRE_POPULATED_FIELDS, SURVEY_DEFAULT_OPTIONS } from '@/helpers/constants'
 import useApi from '@/hooks/useApi'
 import OverviewTab from './components/Tabs/OverviewTab'
 
@@ -96,17 +96,7 @@ const CreateEditSurvey: FC<CreateEditSurveyProps> = ({
   const [selectedSurvey, setSelectedSurvey] = useState<Survey | null>(null)
   const isEdit = useMemo(()=> !!selectedSurvey, [selectedSurvey])
 
-  const initialSurveyOptions: SurveyOptions = {
-    link: null, 
-    isLoginRequired: false,
-    isPublished: true,
-    finishButtonLabel: '',
-    theme: {
-      backgroundColor: 'default',
-      foregroundColor: 'default',
-      buttonColor: 'default',
-    }
-  }
+  const initialSurveyOptions = SURVEY_DEFAULT_OPTIONS
 
   // modal states
   const [isRemoveSurveyModalOpen, setIsRemoveSurveyModalOpen] = useState(false)
