@@ -10,6 +10,7 @@ import {
   FormLabel,
   Input, 
   Option,
+  Grid, 
   Select, 
   Stack,
   Switch, 
@@ -190,6 +191,7 @@ const FieldItem:FC<FieldItemProps> = ({
               }
             </Button>
           </FormControl>
+
           <FormControl error={false}>
             <Select 
               defaultValue="text"
@@ -301,44 +303,43 @@ const FieldItem:FC<FieldItemProps> = ({
         {!typeHasNoFields && 
           <>
             <CardContent orientation="horizontal">
-              <Stack
-                direction="row"
-                spacing={2}
-                divider={
-                  <Divider orientation="vertical"/>
-                }
-              >
-                <FormControl error={!typeHasNoFields && !selectedField?.name}>
-                  <FormLabel>
-                    Field name 
-                    <Tooltip
-                      title="Field name serves as a label for this field"
-                      arrow
-                      placement="top"
-                    >
-                      <InfoIcon size={14}/>
-                    </Tooltip>
-                  </FormLabel>
-                  <Input 
-                    onChange={(e) => onHandleChange(index, {
-                      name: e?.target?.value
-                    })}
-                    value={selectedField?.name}
-                  />
-                  {!typeHasNoFields && !selectedField?.name && 
-                    <FormHelperText>Name is required</FormHelperText>
-                  }
-                </FormControl>
-                <FormControl error={false}>
-                  <FormLabel>Form Placeholder</FormLabel>
-                  <Input 
-                    onChange={(e) => onHandleChange(index, {
-                      placeholder: e?.target?.value
-                    })}
-                    value={selectedField?.placeholder}
-                  />
-                </FormControl>
-              </Stack>
+              <Grid container spacing={2}> 
+                <Grid xs={12} lg={6}>
+                  
+                  <FormControl error={!typeHasNoFields && !selectedField?.name}>
+                    <FormLabel>
+                      Field name 
+                      <Tooltip
+                        title="Field name serves as a label for this field"
+                        arrow
+                        placement="top"
+                      >
+                        <InfoIcon size={14}/>
+                      </Tooltip>
+                    </FormLabel>
+                    <Input 
+                      onChange={(e) => onHandleChange(index, {
+                        name: e?.target?.value
+                      })}
+                      value={selectedField?.name}
+                    />
+                    {!typeHasNoFields && !selectedField?.name && 
+                      <FormHelperText>Name is required</FormHelperText>
+                    }
+                  </FormControl>
+                </Grid> 
+                <Grid xs={12} lg={6}>
+                  <FormControl error={false}>
+                    <FormLabel>Placeholder</FormLabel>
+                    <Input 
+                      onChange={(e) => onHandleChange(index, {
+                        placeholder: e?.target?.value
+                      })}
+                      value={selectedField?.placeholder}
+                    />
+                  </FormControl>
+                </Grid> 
+              </Grid>
             </CardContent>
           </>
         }
