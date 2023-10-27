@@ -3,6 +3,8 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useMemo } from 'react'
 import { useRouter } from 'next/router'
+import { GlobalContextProvider, useGlobalState } from '@/context/global'
+import { CssVarsProvider } from '@mui/joy/styles'
 
 const ABSOLUTE_PAGES = [
   '/survey/[surveyIdOrSlug]', 
@@ -20,8 +22,14 @@ export default function App({ Component, pageProps }: AppProps) {
   if (isAbsolutePage) {
     return <Component {...pageProps}/>
   }
-  
-  return <GlobalLayout>
-    <Component {...pageProps} />
-  </GlobalLayout>
+
+  return <CssVarsProvider 
+    defaultMode={'system'}
+  >
+    <GlobalContextProvider>
+      <GlobalLayout>
+        <Component {...pageProps} />
+      </GlobalLayout>
+    </GlobalContextProvider>
+  </CssVarsProvider>
 }

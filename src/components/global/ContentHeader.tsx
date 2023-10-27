@@ -5,6 +5,7 @@ import {
 } from '@mui/joy'
 import { styled } from '@/stitches.config'
 import { FC } from 'react'
+import { useGlobalDispatch } from '@/context/global'
 
 type ContentHeaderProps = {
   header: string,
@@ -22,10 +23,21 @@ const ContentHeader:FC<ContentHeaderProps> = ({
   header,
   actionButtons
 }) => {
+
+  const globalDispatch = useGlobalDispatch()
+  
   return (
     <StyledContent>
       <h3>{header}</h3>
       <div>
+        <Button
+          color="neutral"
+          onClick={() => {
+            globalDispatch({
+              type: 'TOGGLE_THEME'
+            })
+          }}
+        >Dark</Button>
         {actionButtons?.map(action => {
           return <Button
             variant={action?.variant}
